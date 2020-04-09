@@ -1,5 +1,6 @@
 package com.pamento.mareu;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -7,6 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.pamento.mareu.di.DI;
 import com.pamento.mareu.events.DeleteMeetingEvent;
@@ -42,6 +46,26 @@ public class ListMeetingActivity extends AppCompatActivity {
         mMeetings = mApiService.getMeetings();
 
         configureRecyclerView();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.filter_by_day:
+                Toast.makeText(this, "Filter by Day", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.filter_by_hall:
+                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 
     public void configureRecyclerView() {

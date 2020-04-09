@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<item
+    android:id="@+id/filter_title"
+    android:title="@string/filter_title"
+    android:icon="@drawable/ic_filter_list_black_24dp"/>
+
+    <item
+        android:title="@string/filter_by_day"
+        android:id="@+id/filter_by_day"/>
+    <item
+        android:title="@string/filter_by_hall"
+        android:id="@+id/filter_by_hall"/>
+
+</menu>

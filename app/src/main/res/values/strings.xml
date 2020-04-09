@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Ma réu</string>
     <string name="delete_button">Delete button for meetings list</string>
+    <string name="filter_title">Filtrer par :</string>
+    <string name="filter_by_day">choisir le jour</string>
+    <string name="filter_by_hall">choisir la salle</string>
 </resources>
