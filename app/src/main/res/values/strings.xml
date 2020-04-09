@@ -4,4 +4,10 @@
     <string name="filter_title">Filtrer par :</string>
     <string name="filter_by_day">choisir le jour</string>
     <string name="filter_by_hall">choisir la salle</string>
+    <!--dialog add meeting-->
+    <string name="hint_title">Sujet de la réunion</string>
+    <string name="hint_date">Date de la réunion</string>
+    <string name="hint_hour">L\'heur de la réunion</string>
+    <string name="hint_participants">Participants à la réunion</string>
+    <string name="save_btn">Enrégistrer</string>
 </resources>

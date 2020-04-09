@@ -16,6 +16,7 @@ import com.pamento.mareu.di.DI;
 import com.pamento.mareu.events.DeleteMeetingEvent;
 import com.pamento.mareu.model.Meeting;
 import com.pamento.mareu.service.ApiService;
+import com.pamento.mareu.ui.AddNewMeetingDialog;
 import com.pamento.mareu.utils.MeetingsRecyclerViewAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,6 +27,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ListMeetingActivity extends AppCompatActivity {
 
@@ -97,5 +99,11 @@ public class ListMeetingActivity extends AppCompatActivity {
     public void OnDeleteMeeting(DeleteMeetingEvent event) {
         mApiService.deleteMeeting(event.mMeeting);
         configureRecyclerView();
+    }
+
+    @OnClick(R.id.activity_list_meeting_fab)
+    void addMeeting() {
+        AddNewMeetingDialog dialogForm = new AddNewMeetingDialog();
+        dialogForm.show(getSupportFragmentManager(), "AddNewMeetingDialog");
     }
 }
