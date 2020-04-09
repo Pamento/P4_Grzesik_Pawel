@@ -1,8 +1,11 @@
 package com.pamento.mareu.model;
 
-import java.util.List;
+import androidx.annotation.Nullable;
 
-public class meeting {
+import java.util.List;
+import java.util.Objects;
+
+public class Meeting {
 
     /** Identifier */
     private long id;
@@ -19,7 +22,7 @@ public class meeting {
     /** List of participants */
     private List<String> participants;
 
-    public meeting(long id, String title, String date, String hall, List<String> participants) {
+    public Meeting(long id, String title, String date, String hall, List<String> participants) {
         this.id = id;
         this.title = title;
         this.date = date;
@@ -65,5 +68,18 @@ public class meeting {
 
     public void setParticipants(List<String> participants) {
         this.participants = participants;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Meeting meeting = (Meeting) o;
+        return Objects.equals(id, meeting.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
