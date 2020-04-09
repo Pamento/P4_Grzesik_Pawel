@@ -4,7 +4,7 @@ import com.pamento.mareu.model.Meeting;
 
 import java.util.List;
 
-public interface MeetingApiService {
+public interface ApiService {
 
     /**
      * Get all meetings
