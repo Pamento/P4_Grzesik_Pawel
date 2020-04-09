@@ -1,6 +1,7 @@
 package com.pamento.mareu;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,8 @@ public class ListMeetingActivity extends AppCompatActivity {
 
     @BindView(R.id.activity_main_meetings_recyclerView)
     RecyclerView mRecyclerView;
+    @BindView(R.id.activity_main_toolbar)
+    Toolbar mToolbar;
     private List<Meeting> mMeetings;
     private ApiService mApiService;
 
@@ -34,6 +37,7 @@ public class ListMeetingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        setSupportActionBar(mToolbar);
         mApiService = DI.getApiService();
         mMeetings = mApiService.getMeetings();
 
