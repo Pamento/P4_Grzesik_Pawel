@@ -2,6 +2,7 @@ package com.pamento.mareu.utils;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +21,19 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
     // For data
     private List<Meeting> mMeetings;
     private Context mContext;
+    private static final String TAG = "RecyclerViewAdapter";
 
     public MeetingsRecyclerViewAdapter(List<Meeting> meetings, Context context) {
+
         mMeetings = meetings;
         mContext = context;
+        System.out.println("TAG _____Adapter "+mMeetings.size());
     }
 
     @NonNull
     @Override
     public MeetingsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder: ");
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_list_meeting,parent,false);
         return new MeetingsViewHolder(view);
@@ -43,7 +48,8 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
         holder.mMeetingDate.setText(meeting.getDate());
         holder.mMeetingHall.setText(meeting.getHall());
         // TODO collapsing list of participants
-        holder.mMeetingParticipants.setText((CharSequence) meeting.getParticipants());// initially participants is the List array
+        String partis = meeting.getParticipants().toString();
+        holder.mMeetingParticipants.setText(partis);// initially participants is the List array
         holder.mItemListViewHolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
