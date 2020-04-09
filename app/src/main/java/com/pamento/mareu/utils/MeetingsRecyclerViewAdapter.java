@@ -1,0 +1,66 @@
+package com.pamento.mareu.utils;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.pamento.mareu.R;
+import com.pamento.mareu.model.Meeting;
+
+import java.util.List;
+
+public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsViewHolder> {
+
+    // For data
+    private List<Meeting> mMeetings;
+    private Context mContext;
+
+    public MeetingsRecyclerViewAdapter(List<Meeting> meetings, Context context) {
+        mMeetings = meetings;
+        mContext = context;
+    }
+
+    @NonNull
+    @Override
+    public MeetingsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_list_meeting,parent,false);
+        return new MeetingsViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MeetingsViewHolder holder, int position) {
+        final Meeting meeting = mMeetings.get(position);
+        // TODO avatar
+        holder.mMeetingAvatar.setBackgroundColor(Color.parseColor("#ce0a24"));
+        holder.mMeetingTitle.setText(meeting.getTitle());
+        holder.mMeetingDate.setText(meeting.getDate());
+        holder.mMeetingHall.setText(meeting.getHall());
+        // TODO collapsing list of participants
+        holder.mMeetingParticipants.setText((CharSequence) meeting.getParticipants());// initially participants is the List array
+        holder.mItemListViewHolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, meeting.getTitle(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        // OnClickListener set on button 'Delete'
+        holder.mDeleteMeetingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext,"Delete button fired.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return mMeetings.size();
+    }
+}
