@@ -13,6 +13,6 @@ public abstract class FakeApiServiceGenerator {
     private static List<Meeting> FAKE_MEETINGS = Arrays.asList(
             new Meeting(001,"Acceuil","14/04/2020 16h00", "Salle A", Arrays.asList("acceuil@entre.fr","pdg@entre.fr")),
             new Meeting(001,"Resourcee","07/04/2020 10h00", "Salle B", Arrays.asList("acceuil@entre.fr","pdg@entre.fr")),
-            new Meeting(001,"Management","21/04/2020 11300", "Salle C", Arrays.asList("acceuil@entre.fr","pdg@entre.fr"))
+            new Meeting(001,"Management","21/04/2020 11h30", "Salle C", Arrays.asList("acceuil@entre.fr","pdg@entre.fr"))
     );
 }

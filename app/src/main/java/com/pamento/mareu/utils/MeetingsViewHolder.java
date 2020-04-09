@@ -15,10 +15,11 @@ import com.pamento.mareu.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MeetingsViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.item_list_meeting_avatar) ImageView mMeetingAvatar;
+    @BindView(R.id.item_list_meeting_avatar) CircleImageView mMeetingAvatar;
     @BindView(R.id.item_list_meeting_title) TextView mMeetingTitle;
     @BindView(R.id.item_list_meeting_date) TextView mMeetingDate;
     @BindView(R.id.item_list_meeting_hall) TextView mMeetingHall;

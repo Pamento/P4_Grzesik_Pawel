@@ -6,13 +6,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.pamento.mareu.di.DI;
+import com.pamento.mareu.events.DeleteMeetingEvent;
 import com.pamento.mareu.model.Meeting;
 import com.pamento.mareu.service.ApiService;
-import com.pamento.mareu.service.FakeApiService;
 import com.pamento.mareu.utils.MeetingsRecyclerViewAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,9 +27,7 @@ public class ListMeetingActivity extends AppCompatActivity {
     @BindView(R.id.activity_main_meetings_recyclerView)
     RecyclerView mRecyclerView;
     private List<Meeting> mMeetings;
-    private MeetingsRecyclerViewAdapter mAdapter;
     private ApiService mApiService;
-    private static final String TAG = "RecyclerView Act";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +38,36 @@ public class ListMeetingActivity extends AppCompatActivity {
         mMeetings = mApiService.getMeetings();
 
         configureRecyclerView();
-        Log.d(TAG, "onCreate: mMeetings "+mMeetings.size());
     }
 
     public void configureRecyclerView() {
-        mAdapter = new MeetingsRecyclerViewAdapter(mMeetings,this);
+        MeetingsRecyclerViewAdapter adapter = new MeetingsRecyclerViewAdapter(mMeetings, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(this), DividerItemDecoration.VERTICAL));
-        mRecyclerView.setAdapter(mAdapter);
-        Log.d(TAG, "onCreate: adapter "+mAdapter.toString());
+        mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        configureRecyclerView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void OnDeleteMeeting(DeleteMeetingEvent event) {
+        mApiService.deleteMeeting(event.mMeeting);
+        configureRecyclerView();
     }
 }
