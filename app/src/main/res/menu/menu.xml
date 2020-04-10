@@ -2,14 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 <item
-    android:id="@+id/filter_title"
-    android:title="@string/filter_title"/>
+    android:id="@+id/filter_post_all"
+    android:title="@string/filter_title"
+    android:focusable="false"/>
 
     <item
         android:title="@string/filter_by_day"
-        android:id="@+id/filter_by_day"/>
+        android:id="@+id/filter_by_day"
+        android:focusable="false"/>
     <item
         android:title="@string/filter_by_hall"
-        android:id="@+id/filter_by_hall"/>
+        android:id="@+id/filter_by_hall"
+        android:focusable="false"/>
 
 </menu>

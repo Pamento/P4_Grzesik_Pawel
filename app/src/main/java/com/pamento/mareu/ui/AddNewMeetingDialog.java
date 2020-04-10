@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AddNewMeetingDialog extends DialogFragment {
 
@@ -25,6 +27,8 @@ public class AddNewMeetingDialog extends DialogFragment {
     EditText mAddTitle;
     @BindView(R.id.dialog_add_date)
     EditText mAddDate;
+    @BindView(R.id.dialog_add_create_btn)
+    Button mButton;
 
     // REQUIRED EMPTY CONSTRUCTOR
     public AddNewMeetingDialog() {
@@ -56,5 +60,10 @@ public class AddNewMeetingDialog extends DialogFragment {
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, height);
         }
+    }
+
+    @OnClick(R.id.dialog_add_create_btn)
+    public void createMeeting() {
+        System.out.println("new Meeting");
     }
 }

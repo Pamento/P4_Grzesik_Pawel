@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">Ma réu</string>
     <string name="delete_button">Delete button for meetings list</string>
-    <string name="filter_title">Filtrer par :</string>
-    <string name="filter_by_day">choisir le jour</string>
-    <string name="filter_by_hall">choisir la salle</string>
+
+    <!--Filters names-->
+    <string name="filter_title">Tout les réunions</string>
+    <string name="filter_by_day">Dans une journée</string>
+    <string name="filter_by_hall">Dans une salle</string>
+
     <!--dialog add meeting-->
     <string name="hint_title">Sujet de la réunion</string>
     <string name="hint_date">Date de la réunion</string>

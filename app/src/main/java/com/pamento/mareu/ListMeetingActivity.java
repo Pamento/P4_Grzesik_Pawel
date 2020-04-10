@@ -38,6 +38,7 @@ public class ListMeetingActivity extends AppCompatActivity {
     Toolbar mToolbar;
     private List<Meeting> mMeetings;
     private ApiService mApiService;
+    private ListMeetingActivity mThisActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,7 @@ public class ListMeetingActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         mApiService = DI.getApiService();
-        mMeetings = mApiService.getMeetings();
-
+        mThisActivity = this;
         configureRecyclerView();
     }
 
@@ -57,31 +57,78 @@ public class ListMeetingActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * To manage change in the menu
+     * https://developer.android.com/reference/android/app/Activity#onPrepareOptionsMenu(android.view.Menu)
+     *
+     * @param menu existing menu content
+     * @return boolean
+     */
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.filter_by_day:
-                Toast.makeText(this, "Filter by Day", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.filter_by_hall:
-                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
-                break;
-        }
-        return true;
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
+        // TODO for manage the actions inside menu after is created
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.filter_post_all:
+                initList(0);
+                Toast.makeText(this, "Filter Reset", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.filter_by_day:
+                Toast.makeText(this, "Filter by Day", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.filter_by_hall:
+                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /**
+     * Basic call for instantiate the RecyclerView
+     */
     public void configureRecyclerView() {
-        MeetingsRecyclerViewAdapter adapter = new MeetingsRecyclerViewAdapter(mMeetings, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(this), DividerItemDecoration.VERTICAL));
-        mRecyclerView.setAdapter(adapter);
+        initList(0);
+    }
+
+    /**
+     * Init and refresh RecyclerView ich time the change has been detected
+     * @param filter for RecyclerView content; The menu fired them for filter meetings by:
+     *               0: all meetings
+     *               1: day
+     *               2: hall
+     */
+    public void initList(int filter) {
+        switch (filter) {
+            case 0:
+                mMeetings = mApiService.getMeetings();
+                break;
+            case 1:
+                // TODO add day filter
+                // mMeetings = mApiService.getForOneDayMeetings();
+                break;
+            case 2:
+                // TODO add hall filter
+                // mMeetings = mApiService.getForOneHallMeetings();
+                break;
+            default:
+                System.out.println("Error: Unknown Filter!");
+                break;
+        }
+        mRecyclerView.setAdapter(new MeetingsRecyclerViewAdapter(mMeetings, mThisActivity));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        configureRecyclerView();
+        // TODO check how this works with filters
+        initList(0);
     }
 
     @Override
