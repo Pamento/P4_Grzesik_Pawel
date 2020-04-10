@@ -3,6 +3,7 @@ package com.pamento.mareu;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -103,7 +104,10 @@ public class ListMeetingActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_list_meeting_fab)
     void addMeeting() {
-        AddNewMeetingDialog dialogForm = new AddNewMeetingDialog();
-        dialogForm.show(getSupportFragmentManager(), "AddNewMeetingDialog");
+//        AddNewMeetingDialog dialogForm = new AddNewMeetingDialog();
+//        dialogForm.show(getSupportFragmentManager(), "AddNewMeetingDialog");
+        FragmentManager fm = getSupportFragmentManager();
+        AddNewMeetingDialog aMD = AddNewMeetingDialog.newInstance("Add meeting");
+        aMD.show(fm, "dialog_add_new_meeting");
     }
 }

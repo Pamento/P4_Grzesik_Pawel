@@ -1,5 +1,6 @@
 package com.pamento.mareu.ui;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,20 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     @BindView(R.id.dialog_add_title)
     EditText mAddTitle;
-    @BindView(R.id.dialog_add_date) EditText mAddDate;
+    @BindView(R.id.dialog_add_date)
+    EditText mAddDate;
+
+    // REQUIRED EMPTY CONSTRUCTOR
+    public AddNewMeetingDialog() {
+    }
+
+    public static AddNewMeetingDialog newInstance(String title) {
+        AddNewMeetingDialog frag = new AddNewMeetingDialog();
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        frag.setArguments(args);
+        return frag;
+    }
 
     @Nullable
     @Override
@@ -30,5 +44,17 @@ public class AddNewMeetingDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_add_new_meeting, container, false);
         ButterKnife.bind((ListMeetingActivity) Objects.requireNonNull(getActivity())); // ButterKnife bind only activity ?
         return view;
+    }
+
+    // To display full screen
+    @Override
+    public void onStart() {
+        super.onStart();
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            dialog.getWindow().setLayout(width, height);
+        }
     }
 }
