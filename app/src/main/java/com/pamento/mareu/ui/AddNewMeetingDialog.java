@@ -2,16 +2,21 @@ package com.pamento.mareu.ui;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.pamento.mareu.ListMeetingActivity;
 import com.pamento.mareu.R;
 
@@ -20,15 +25,18 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
 
 public class AddNewMeetingDialog extends DialogFragment {
+    private static final String TAG = "____date___newMeeting";
 
-    @BindView(R.id.dialog_add_title)
-    EditText mAddTitle;
-    @BindView(R.id.dialog_add_date)
-    EditText mAddDate;
-    @BindView(R.id.dialog_add_create_btn)
-    Button mButton;
+
+    @BindView(R.id.dialog_add_hall) ImageView mAddHall;
+    @BindView(R.id.dialog_add_title) TextInputEditText mAddTitle;
+    @BindView(R.id.dialog_add_date) TextInputEditText mAddDate;
+    @BindView(R.id.dialog_add_hour) TextInputEditText mAddHour;
+    @BindView(R.id.dialog_add_participants) EditText mAddParticipants;
+    @BindView(R.id.dialog_add_create_btn) MaterialButton mSaveMeeting;
 
     // REQUIRED EMPTY CONSTRUCTOR
     public AddNewMeetingDialog() {
@@ -62,8 +70,15 @@ public class AddNewMeetingDialog extends DialogFragment {
         }
     }
 
+    @OnFocusChange(R.id.dialog_add_date)
+    public void showDatePickerDialog(View view) {
+        Log.d(TAG, "neMeeting ");
+        DialogFragment newFragment = new AddNewMeetingDialog();
+        newFragment.show(getFragmentManager(), "newMeeting");
+    }
+
     @OnClick(R.id.dialog_add_create_btn)
-    public void createMeeting() {
+    void createMeeting() {
         System.out.println("new Meeting");
     }
 }

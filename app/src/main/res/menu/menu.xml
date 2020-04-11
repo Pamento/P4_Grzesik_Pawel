@@ -9,7 +9,8 @@
     <item
         android:title="@string/filter_by_day"
         android:id="@+id/filter_by_day"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:onClick="showDatePickerDialog"/>
     <item
         android:title="@string/filter_by_hall"
         android:id="@+id/filter_by_hall"

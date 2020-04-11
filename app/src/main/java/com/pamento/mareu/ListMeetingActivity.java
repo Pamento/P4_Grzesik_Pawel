@@ -3,14 +3,17 @@ package com.pamento.mareu;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.pamento.mareu.di.DI;
@@ -18,6 +21,7 @@ import com.pamento.mareu.events.DeleteMeetingEvent;
 import com.pamento.mareu.model.Meeting;
 import com.pamento.mareu.service.ApiService;
 import com.pamento.mareu.ui.AddNewMeetingDialog;
+import com.pamento.mareu.ui.DatePickerFragment;
 import com.pamento.mareu.utils.MeetingsRecyclerViewAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,14 +35,24 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ListMeetingActivity extends AppCompatActivity {
+    private static final String TAG = "______DATE_______";
 
-    @BindView(R.id.activity_main_meetings_recyclerView)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.activity_main_toolbar)
-    Toolbar mToolbar;
+    @BindView(R.id.activity_main_meetings_recyclerView) RecyclerView mRecyclerView;
+    @BindView(R.id.activity_main_toolbar) Toolbar mToolbar;
     private List<Meeting> mMeetings;
     private ApiService mApiService;
     private ListMeetingActivity mThisActivity;
+    // Current result of DataPickerDialog
+//    public static String mDate;
+//
+//    public static String getDate() {
+//        return mDate;
+//    }
+//
+//    public static void setDate(String mDate) {
+//        Log.d(TAG, "day FILTER _day_is: "+mDate);
+//        ListMeetingActivity.mDate = mDate;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +84,14 @@ public class ListMeetingActivity extends AppCompatActivity {
         // TODO for manage the actions inside menu after is created
     }
 
+    public void checkDateForNextAction(int action, String date) {
+        if (action == 0) {
+            Log.d(TAG, "_________Next_0 filter__Action: "+date);
+        } else {
+            Log.d(TAG, "_________Next_ 1 newMeeting__Action: "+date);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -99,10 +121,7 @@ public class ListMeetingActivity extends AppCompatActivity {
 
     /**
      * Init and refresh RecyclerView ich time the change has been detected
-     * @param filter for RecyclerView content; The menu fired them for filter meetings by:
-     *               0: all meetings
-     *               1: day
-     *               2: hall
+     * @param filter meetings by: 0 - all meetings   1 - day    2 - hall
      */
     public void initList(int filter) {
         switch (filter) {
@@ -156,5 +175,11 @@ public class ListMeetingActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         AddNewMeetingDialog aMD = AddNewMeetingDialog.newInstance("Add meeting");
         aMD.show(fm, "dialog_add_new_meeting");
+    }
+
+    public void showDatePickerDialog(MenuItem item) {
+        Log.d(TAG, "filter ");
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "filter");
     }
 }
