@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,13 +36,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ListMeetingActivity extends AppCompatActivity {
-    private static final String TAG = "______DATE_______";
+    private static final String TAG = "______DiALOG_______";
 
     @BindView(R.id.activity_main_meetings_recyclerView) RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_toolbar) Toolbar mToolbar;
     private List<Meeting> mMeetings;
     private ApiService mApiService;
     private ListMeetingActivity mThisActivity;
+    boolean isLargeLayout;
     // Current result of DataPickerDialog
 //    public static String mDate;
 //
@@ -62,6 +64,7 @@ public class ListMeetingActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         mApiService = DI.getApiService();
         mThisActivity = this;
+        isLargeLayout = getResources().getBoolean(R.bool.large_layout);
         configureRecyclerView();
     }
 
@@ -172,9 +175,8 @@ public class ListMeetingActivity extends AppCompatActivity {
     void addMeeting() {
 //        AddNewMeetingDialog dialogForm = new AddNewMeetingDialog();
 //        dialogForm.show(getSupportFragmentManager(), "AddNewMeetingDialog");
-        FragmentManager fm = getSupportFragmentManager();
-        AddNewMeetingDialog aMD = AddNewMeetingDialog.newInstance("Add meeting");
-        aMD.show(fm, "dialog_add_new_meeting");
+        AddNewMeetingDialog addMeeting = AddNewMeetingDialog.newInstance("Add meeting");
+        addMeeting.show(getSupportFragmentManager(),"newMeeting");
     }
 
     public void showDatePickerDialog(MenuItem item) {

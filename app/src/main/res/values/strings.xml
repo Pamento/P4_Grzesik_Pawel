@@ -7,7 +7,7 @@
     <string name="filter_by_day">Dans une journée</string>
     <string name="filter_by_hall">Dans une salle</string>
 
-    <!--dialog add meeting-->
+    <!--Full-Screen Dialog add new meeting-->
     <string name="hint_title">Sujet de la réunion</string>
     <string name="hint_date">Date de la réunion</string>
     <string name="hint_hour">L\'heur de la réunion</string>
