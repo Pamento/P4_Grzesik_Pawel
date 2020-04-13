@@ -2,6 +2,7 @@ package com.pamento.mareu.utils;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.pamento.mareu.R;
 import com.pamento.mareu.events.DeleteMeetingEvent;
 import com.pamento.mareu.model.Meeting;
@@ -19,6 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsViewHolder> {
+    private static final String TAG = "_____RECYCLER_____";
 
     // For data
     private List<Meeting> mMeetings;
@@ -36,11 +39,25 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
                 .inflate(R.layout.item_list_meeting,parent,false);
         return new MeetingsViewHolder(view);
     }
+    public int getImage(String imageName) {
+
+        int drawableResourceId = mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName());
+
+        return drawableResourceId;
+    }
 
     @Override
     public void onBindViewHolder(@NonNull MeetingsViewHolder holder, int position) {
         final Meeting meeting = mMeetings.get(position);
         // TODO avatar
+        String hallName = meeting.getHall();
+        String imgName = "";
+        if (hallName.equals("Salle A")) imgName = "hall_a";
+        else if (hallName.equals("Salle B")) imgName = "hall_b";
+        else imgName = "hall_c";
+
+        Glide.with(mContext).load(getImage(imgName)).into(holder.mMeetingAvatar);
+        Log.d(TAG, "onBindViewHolder: hallName: "+hallName);
         //holder.mMeetingAvatar.setBackgroundColor(Color.parseColor("#ce0a24"));
         holder.mMeetingTitle.setText(meeting.getTitle());
         holder.mMeetingDate.setText(meeting.getDate());
