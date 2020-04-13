@@ -14,18 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.pamento.mareu.ListMeetingActivity;
 import com.pamento.mareu.R;
+import com.pamento.mareu.utils.Constants;
 
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
 
 public class AddNewMeetingDialog extends DialogFragment {
     private static final String TAG = "____DiALOG___newMeeting";

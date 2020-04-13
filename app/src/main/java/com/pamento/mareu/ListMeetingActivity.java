@@ -24,6 +24,7 @@ import com.pamento.mareu.service.ApiService;
 import com.pamento.mareu.ui.AddNewMeetingDialog;
 import com.pamento.mareu.ui.DatePickerFragment;
 import com.pamento.mareu.utils.MeetingsRecyclerViewAdapter;
+import com.pamento.mareu.utils.Tools;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -95,59 +96,20 @@ public class ListMeetingActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Function intermediary between menu of main page (filters list the of meetings)
+     * and RecyclerView of meetings
+     * @param item is the clicked field in menu
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.filter_post_all:
-                initList(0);
-                Toast.makeText(this, "Filter Reset", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.filter_by_day:
-                //initList(1);
-                Toast.makeText(this, "Filter by Day", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.filter_h1:
-                initList(2);
-                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.filter_h2:
-                initList(3);
-                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.filter_h3:
-                initList(4);
-                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.filter_h4:
-                initList(5);
-                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.filter_h5:
-                initList(6);
-                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.filter_h6:
-                initList(7);
-                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.filter_h7:
-                initList(8);
-                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.filter_h8:
-                initList(9);
-                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.filter_h9:
-                initList(10);
-                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.filter_h10:
-                initList(11);
-                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        Log.d(TAG, "onOptionsItemSelected: ######__fired__###### "+item.getItemId());
+        if (Tools.switchMenuActions(item.getItemId()) >=0 ){
+            initList(Tools.switchMenuActions(item.getItemId()));
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -165,21 +127,14 @@ public class ListMeetingActivity extends AppCompatActivity {
      * @param filter meetings by: 0 - all meetings   1 - day    2-11 - hall
      */
     public void initList(int filter) {
-        switch (filter) {
-            case 0:
-                mMeetings = mApiService.getMeetings();
-                break;
-            case 1:
-                // TODO add day filter
-                // mMeetings = mApiService.getForOneDayMeetings();
-                break;
-            case 2:
-                // TODO add hall filter
-                // mMeetings = mApiService.getForOneHallMeetings();
-                break;
-            default:
-                System.out.println("Error: Unknown Filter!");
-                break;
+        Log.d(TAG, "initList: filter "+filter);
+        if (filter == 0) mMeetings = mApiService.getMeetings();
+        else if (filter == 1) {
+            // TODO add day filter
+            // mMeetings = mApiService.getForOneDayMeetings();
+        } else {
+            // TODO add hall filter
+            // mMeetings = mApiService.getForOneHallMeetings();
         }
         mRecyclerView.setAdapter(new MeetingsRecyclerViewAdapter(mMeetings, mThisActivity));
     }
@@ -188,6 +143,7 @@ public class ListMeetingActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // TODO check how this works with filters
+        // TODO check if here wy need reset mMeetings
         initList(0);
     }
 
