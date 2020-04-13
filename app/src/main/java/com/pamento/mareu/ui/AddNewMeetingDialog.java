@@ -1,14 +1,18 @@
 package com.pamento.mareu.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +22,11 @@ import androidx.fragment.app.Fragment;
 import com.pamento.mareu.ListMeetingActivity;
 import com.pamento.mareu.R;
 import com.pamento.mareu.utils.Constants;
+import com.pamento.mareu.utils.Tools;
+import com.pamento.mareu.utils.newMeetingHallSpinner.HallItem;
+import com.pamento.mareu.utils.newMeetingHallSpinner.HallSpinnerAdapter;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -37,6 +45,10 @@ public class AddNewMeetingDialog extends DialogFragment {
 //    @BindView(R.id.dialog_add_create_btn) MaterialButton mSaveMeeting;
     @BindView(R.id.dialog_add_cancel)
     ImageButton mCancelDialogBtn;
+
+    private ArrayList<HallItem> mHallList;
+    private HallSpinnerAdapter mAdapter;
+    private Context mContext;
 
     // REQUIRED EMPTY CONSTRUCTOR
     public AddNewMeetingDialog() {
@@ -76,6 +88,28 @@ public class AddNewMeetingDialog extends DialogFragment {
         Objects.requireNonNull(getDialog().getWindow()).setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         actionToDo(view);
+
+        // Hall Spinner ======= start
+        mContext = getContext();
+        mHallList = Tools.initHallSpinnerList();
+        Spinner spinnerHall = view.findViewById(R.id.dialog_add_hall);
+        mAdapter = new HallSpinnerAdapter(mContext, mHallList);
+        spinnerHall.setAdapter(mAdapter);
+        spinnerHall.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                HallItem clickedHall = (HallItem) parent.getItemAtPosition(position);
+                String clickedHallName = clickedHall.getHallName();
+                Toast.makeText(mContext
+                ,"Clicked: "+clickedHallName, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        // Hall Spinner ======= end
     }
 
     @Override
@@ -88,6 +122,11 @@ public class AddNewMeetingDialog extends DialogFragment {
         Objects.requireNonNull(getDialog().getWindow()).setAttributes(params);
         // Call super onResume after sizing
         super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     //@OnClick(R.id.dialog_add_cancel)

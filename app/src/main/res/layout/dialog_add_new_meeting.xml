@@ -22,7 +22,7 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:src="@mipmap/ic_launcher"
-                android:id="@+id/dialog_add_hall"
+                android:id="@+id/dialog_add_hall_"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
