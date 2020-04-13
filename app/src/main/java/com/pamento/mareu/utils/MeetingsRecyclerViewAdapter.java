@@ -50,14 +50,10 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
     public void onBindViewHolder(@NonNull MeetingsViewHolder holder, int position) {
         final Meeting meeting = mMeetings.get(position);
         // TODO avatar
-        String hallName = meeting.getHall();
-        String imgName = "";
-        if (hallName.equals("Salle A")) imgName = "hall_a";
-        else if (hallName.equals("Salle B")) imgName = "hall_b";
-        else imgName = "hall_c";
+        String imgName = meeting.getAvatar();
 
         Glide.with(mContext).load(getImage(imgName)).into(holder.mMeetingAvatar);
-        Log.d(TAG, "onBindViewHolder: hallName: "+hallName);
+        Log.d(TAG, "onBindViewHolder: hallName: "+imgName);
         //holder.mMeetingAvatar.setBackgroundColor(Color.parseColor("#ce0a24"));
         holder.mMeetingTitle.setText(meeting.getTitle());
         holder.mMeetingDate.setText(meeting.getDate());

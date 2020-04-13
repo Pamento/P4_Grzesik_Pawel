@@ -22,12 +22,24 @@ public class Meeting {
     /** List of participants */
     private List<String> participants;
 
-    public Meeting(long id, String title, String date, String hall, List<String> participants) {
+    /** Avatar of hall */
+    private String avatar;
+
+    public Meeting(long id, String title, String date, String hall, List<String> participants, String avatar) {
         this.id = id;
         this.title = title;
         this.date = date;
         this.hall = hall;
         this.participants = participants;
+        this.avatar = avatar;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public long getId() {
