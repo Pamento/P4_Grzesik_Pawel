@@ -41,7 +41,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     // REQUIRED EMPTY CONSTRUCTOR
     public AddNewMeetingDialog() {
     }
-
+    // AddNewMeetingDialog(DialogFragment) instance with arguments assignment
     public static AddNewMeetingDialog newInstance(String title) {
         AddNewMeetingDialog frag = new AddNewMeetingDialog();
         Bundle args = new Bundle();
@@ -66,25 +66,16 @@ public class AddNewMeetingDialog extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         // Get field from view
         EditText editText = (EditText) view.findViewById(R.id.dialog_add_title);
         // Fetch arguments from bundle and set title
         String title = getArguments() != null ? getArguments().getString("title", "Enter Name") : null;
         Objects.requireNonNull(getDialog()).setTitle(title);
-
-//        TextView addDate = (TextView) view.findViewById(R.id.event_add_new_meeting);
-        mAddDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: ____DatePicker");
-                showDatePickerDialog(Constants.F_NEW_MEETING);
-            }
-        });
         // Show soft keyboard automatically and request focus to field
         editText.requestFocus();
         Objects.requireNonNull(getDialog().getWindow()).setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        actionToDo(view);
     }
 
     @Override
@@ -99,13 +90,30 @@ public class AddNewMeetingDialog extends DialogFragment {
         super.onResume();
     }
 
-    @OnClick(R.id.dialog_add_cancel)
-    void dismissDialogNewMeeting() {
-        Fragment frgm = getFragmentManager() != null ? getFragmentManager().findFragmentByTag(Constants.F_NEW_MEETING) : null;
-        if (frgm != null) {
-            DialogFragment df = (DialogFragment) frgm;
-            df.dismiss();
-        }
+    //@OnClick(R.id.dialog_add_cancel)
+    private void actionToDo(View view) {
+        // Display DataPicker
+        TextView addDate = (TextView) view.findViewById(R.id.event_add_new_meeting);
+        addDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: ____DatePicker");
+                showDatePickerDialog(Constants.NEW_MEETING);
+            }
+        });
+        // Dismiss dialog
+        ImageButton dismissDialog = view.findViewById(R.id.dialog_add_cancel);
+        dismissDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "dismissDialogNewMeeting: fired");
+                Fragment frgm = getFragmentManager() != null ? getFragmentManager().findFragmentByTag(Constants.NEW_MEETING) : null;
+                if (frgm != null) {
+                    DialogFragment df = (DialogFragment) frgm;
+                    df.dismiss();
+                }
+            }
+        });
     }
 
     private void showDatePickerDialog(String title) {

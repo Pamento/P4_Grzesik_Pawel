@@ -38,12 +38,16 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
+        //TODO the month display 1 month before correct choice
+        // example: I chose 30/04/2020
+        // DatePicker show: 30/03/2020
+        // check if month+1 is enough of wy need add Date.format !
         view.cancelLongPress();
         Object tag = getTag();
         int action = 0;
 
         Log.d(TAG, "onDateSet: TAG "+tag.toString());
         if (tag.equals("newMeeting")) action = 1;
-        mListMeetingActivity.checkDateForNextAction(action,dayOfMonth+"/"+month+"/"+year);
+        mListMeetingActivity.checkDateForNextAction(action,dayOfMonth+"/"+month+1+"/"+year);
     }
 }

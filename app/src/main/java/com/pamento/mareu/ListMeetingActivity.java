@@ -23,6 +23,7 @@ import com.pamento.mareu.model.Meeting;
 import com.pamento.mareu.service.ApiService;
 import com.pamento.mareu.ui.AddNewMeetingDialog;
 import com.pamento.mareu.ui.DatePickerFragment;
+import com.pamento.mareu.utils.Constants;
 import com.pamento.mareu.utils.MeetingsRecyclerViewAdapter;
 import com.pamento.mareu.utils.Tools;
 
@@ -167,15 +168,17 @@ public class ListMeetingActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_list_meeting_fab)
     void addMeeting() {
-//        AddNewMeetingDialog dialogForm = new AddNewMeetingDialog();
-//        dialogForm.show(getSupportFragmentManager(), "AddNewMeetingDialog");
-        AddNewMeetingDialog addMeeting = AddNewMeetingDialog.newInstance("Add meeting");
-        addMeeting.show(getSupportFragmentManager(),"newMeeting");
+        AddNewMeetingDialog addMeeting = AddNewMeetingDialog.newInstance(Constants.ADD_MEETING);
+        addMeeting.show(getSupportFragmentManager(), Constants.NEW_MEETING);
     }
 
+    /**
+     * Display DatePickerDialog for filter the meeting RecyclerView
+     * @param item of main menu
+     */
     public void showDatePickerDialog(MenuItem item) {
         Log.d(TAG, "filter ");
         DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "filter");
+        newFragment.show(getSupportFragmentManager(), Constants.FILTER);
     }
 }
