@@ -1,19 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<item
-    android:id="@+id/filter_post_all"
-    android:title="@string/filter_title"
-    android:focusable="false"/>
+    <item
+        android:id="@+id/filter_post_all"
+        android:focusable="false"
+        android:title="@string/filter_title" />
 
     <item
-        android:title="@string/filter_by_day"
         android:id="@+id/filter_by_day"
         android:focusable="false"
-        android:onClick="showDatePickerDialog"/>
+        android:onClick="showDatePickerDialog"
+        android:title="@string/filter_by_day" />
     <item
-        android:title="@string/filter_by_hall"
         android:id="@+id/filter_by_hall"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:title="@string/filter_by_hall">
+        <menu>
+            <item
+                android:id="@+id/filter_h1"
+                android:title="@string/h1" />
+            <item
+                android:id="@+id/filter_h2"
+                android:title="@string/h2" />
+            <item
+                android:id="@+id/filter_h3"
+                android:title="@string/h3" />
+            <item
+                android:id="@+id/filter_h4"
+                android:title="@string/h4" />
+            <item
+                android:id="@+id/filter_h5"
+                android:title="@string/h5" />
+            <item
+                android:id="@+id/filter_h6"
+                android:title="@string/h6" />
+            <item
+                android:id="@+id/filter_h7"
+                android:title="@string/h7" />
+            <item
+                android:id="@+id/filter_h8"
+                android:title="@string/h8" />
+            <item
+                android:id="@+id/filter_h9"
+                android:title="@string/h9" />
+            <item
+                android:id="@+id/filter_h10"
+                android:title="@string/h10" />
+        </menu>
+    </item>
 
 </menu>

@@ -103,9 +103,47 @@ public class ListMeetingActivity extends AppCompatActivity {
                 Toast.makeText(this, "Filter Reset", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.filter_by_day:
+                //initList(1);
                 Toast.makeText(this, "Filter by Day", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.filter_by_hall:
+            case R.id.filter_h1:
+                initList(2);
+                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.filter_h2:
+                initList(3);
+                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.filter_h3:
+                initList(4);
+                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.filter_h4:
+                initList(5);
+                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.filter_h5:
+                initList(6);
+                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.filter_h6:
+                initList(7);
+                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.filter_h7:
+                initList(8);
+                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.filter_h8:
+                initList(9);
+                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.filter_h9:
+                initList(10);
+                Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.filter_h10:
+                initList(11);
                 Toast.makeText(this, "Filter by Hall", Toast.LENGTH_SHORT).show();
                 return true;
             default:
@@ -124,7 +162,7 @@ public class ListMeetingActivity extends AppCompatActivity {
 
     /**
      * Init and refresh RecyclerView ich time the change has been detected
-     * @param filter meetings by: 0 - all meetings   1 - day    2 - hall
+     * @param filter meetings by: 0 - all meetings   1 - day    2-11 - hall
      */
     public void initList(int filter) {
         switch (filter) {

@@ -6,6 +6,17 @@
     <string name="filter_title">Tout les réunions</string>
     <string name="filter_by_day">Dans une journée</string>
     <string name="filter_by_hall">Dans une salle</string>
+    <!--Filters halls-->
+    <string name="h1">Hall A_1</string>
+    <string name="h2">Hall B_2</string>
+    <string name="h3">Hall C_3</string>
+    <string name="h4">Hall D_4</string>
+    <string name="h5">Hall E_5</string>
+    <string name="h6">Hall F_6</string>
+    <string name="h7">Hall G_7</string>
+    <string name="h8">Hall H_8</string>
+    <string name="h9">Hall I_9</string>
+    <string name="h10">Hall J_10</string>
 
     <!--Full-Screen Dialog add new meeting-->
     <string name="hint_title">Sujet de la réunion</string>
