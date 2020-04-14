@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.pamento.mareu.R;
 
@@ -38,14 +40,16 @@ public class HallSpinnerAdapter extends ArrayAdapter<HallItem> {
                     R.layout.item_spinner_hall, parent, false
             );
         }
+        CardView cv = convertView.findViewById(R.id.spinner_cv_hall);
+        cv.setRadius(10.9f);
         ImageView mImageHall = convertView.findViewById(R.id.spinner_image_hall);
-        TextView mTextHallName = convertView.findViewById(R.id.text_view_name);
+        //TextView mTextHallName = convertView.findViewById(R.id.text_view_name);
 
         HallItem currentHall = getItem(position);
 
         if (currentHall != null) {
             mImageHall.setImageResource(currentHall.getHallImage());
-            mTextHallName.setText(currentHall.getHallName());
+            //mTextHallName.setText(currentHall.getHallName());
         }
         return convertView;
     }

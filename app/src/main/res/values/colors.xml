@@ -3,4 +3,6 @@
     <color name="colorPrimary">#4e92df</color>
     <color name="colorPrimaryDark">#3f7abd</color>
     <color name="colorAccent">#ce0a24</color>
+    <color name="carbonGray">#273139</color>
+    <color name="dialog_bgr">#F4F4EF</color>
 </resources>

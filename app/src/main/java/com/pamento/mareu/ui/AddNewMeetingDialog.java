@@ -1,6 +1,8 @@
 package com.pamento.mareu.ui;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -89,6 +91,11 @@ public class AddNewMeetingDialog extends DialogFragment {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         actionToDo(view);
 
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getDialog().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            getDialog().getWindow().setStatusBarColor(Color.parseColor("#F4F4EF"));
+//        }
+
         // Hall Spinner ======= start
         mContext = getContext();
         mHallList = Tools.initHallSpinnerList();
@@ -122,11 +129,6 @@ public class AddNewMeetingDialog extends DialogFragment {
         Objects.requireNonNull(getDialog().getWindow()).setAttributes(params);
         // Call super onResume after sizing
         super.onResume();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     //@OnClick(R.id.dialog_add_cancel)

@@ -7,21 +7,28 @@
     <string name="filter_by_day">Dans une journée</string>
     <string name="filter_by_hall">Dans une salle</string>
     <!--Filters halls-->
-    <string name="h1">Hall A_1</string>
-    <string name="h2">Hall B_2</string>
-    <string name="h3">Hall C_3</string>
-    <string name="h4">Hall D_4</string>
-    <string name="h5">Hall E_5</string>
-    <string name="h6">Hall F_6</string>
-    <string name="h7">Hall G_7</string>
-    <string name="h8">Hall H_8</string>
-    <string name="h9">Hall I_9</string>
-    <string name="h10">Hall J_10</string>
+    <string name="h1">Salle A</string>
+    <string name="h2">Salle B</string>
+    <string name="h3">Salle C</string>
+    <string name="h4">Salle D</string>
+    <string name="h5">Salle E</string>
+    <string name="h6">Salle F</string>
+    <string name="h7">Salle G</string>
+    <string name="h8">Salle H</string>
+    <string name="h9">Salle I</string>
+    <string name="h10">Salle J</string>
 
     <!--Full-Screen Dialog add new meeting-->
-    <string name="hint_title">Sujet de la réunion</string>
-    <string name="hint_date">Date de la réunion</string>
-    <string name="hint_hour">L\'heur de la réunion</string>
-    <string name="hint_participants">Participants à la réunion</string>
-    <string name="save_btn">Enrégistrer</string>
+    <string name="meeting_card_title">Planifier la réunion</string>
+    <string name="meeting_title">Sujet</string>
+    <string name="meeting_hint_title">Sujet de la réunion</string>
+    <string name="meeting_date">Date</string>
+    <string name="meeting_hint_date">Date</string>
+    <string name="meeting_hour">L\'heur</string>
+    <string name="meeting_hour_from">De</string>
+    <string name="meeting_hint_hour_from">9h30</string>
+    <string name="meeting_hour_to">A</string>
+    <string name="meeting_hint_hour_to">10h30</string>
+    <string name="meeting_participants">Participants</string>
+    <string name="meeting_hint_participants">ils.participent@ma.réunion</string>
 </resources>
