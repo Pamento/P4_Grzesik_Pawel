@@ -1,26 +1,23 @@
-package com.pamento.mareu.utils.newMeetingHallSpinner;
+package com.pamento.mareu.utils.newMeetingHourSpinner;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 
 import com.pamento.mareu.R;
 
 import java.util.ArrayList;
 
-public class HallSpinnerAdapter extends ArrayAdapter<HallItem> {
+public class HourSpinnerAdapter extends ArrayAdapter<Hour> {
 
-    public HallSpinnerAdapter(Context context, ArrayList<HallItem> HallList) {
-        super(context,0,HallList);
+    public HourSpinnerAdapter(Context context, ArrayList<Hour> HourList) {
+        super(context,0,HourList);
     }
 
     @NonNull
@@ -40,14 +37,12 @@ public class HallSpinnerAdapter extends ArrayAdapter<HallItem> {
                     R.layout.item_spinner_hall, parent, false
             );
         }
-        CardView cv = convertView.findViewById(R.id.spinner_cv_hall);
-        cv.setRadius(10.9f);
-        ImageView mImageHall = convertView.findViewById(R.id.spinner_image_hall);
+        TextView mHourTestView = convertView.findViewById(R.id.spinner_image_hall);
 
-        HallItem currentHall = getItem(position);
+        Hour currentHour = getItem(position);
 
-        if (currentHall != null) {
-            mImageHall.setImageResource(currentHall.getHallImage());
+        if (currentHour != null) {
+            mHourTestView.setText(currentHour.getHour());
         }
         return convertView;
     }
