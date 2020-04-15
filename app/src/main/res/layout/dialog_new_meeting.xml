@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardView_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="@color/colorPrimary"
@@ -22,7 +22,7 @@
             android:layout_height="match_parent">
 
             <ImageButton
-                android:id="@+id/dialog_add_cancel"
+                android:id="@+id/meeting_add_cancel_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -41,15 +41,15 @@
                 android:layout_marginTop="14dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="15dp"
-                android:layout_toStartOf="@+id/dialog_add_create_btn"
-                android:layout_toEndOf="@id/dialog_add_cancel"
+                android:layout_toStartOf="@+id/meeting_add_create_btn"
+                android:layout_toEndOf="@id/meeting_add_cancel_btn"
                 android:gravity="center"
                 android:text="@string/app_name"
                 android:textColor="@android:color/white"
                 android:textSize="21sp" />
 
             <ImageButton
-                android:id="@+id/dialog_add_create_btn"
+                android:id="@+id/meeting_add_create_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -72,7 +72,10 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="10dp">
 
@@ -84,15 +87,15 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/meeting_card_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="@string/meeting_card_title"
-                    android:textColor="@android:color/black"
-                    android:textSize="28sp"
-                    android:textStyle="italic"
+                    android:textColor="@color/carbonGray"
+                    android:textSize="22sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -102,11 +105,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="8dp"
-                    android:background="@android:color/darker_gray"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+                    android:background="@color/colorPrimaryDark"
+                    app:layout_constraintTop_toBottomOf="@+id/meeting_card_title" />
 
                 <EditText
-                    android:id="@+id/dialog_add_title"
+                    android:id="@+id/meeting_add_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -120,117 +123,174 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view" />
 
-                <EditText
-                    android:id="@+id/editText2"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_date_hour_hall"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
-                    android:hint="Participants"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dialog_add_title" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="20dp"
-                    android:layout_height="9dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="From"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editText2" />
-
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="3"
                     android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    app:layout_constraintHeight_percent=".36"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2">
+                    app:layout_constraintTop_toBottomOf="@+id/meeting_add_title">
 
                     <TextView
-                        android:id="@+id/event_add_new_meeting"
-                        style="@style/Widget.AppCompat.Spinner"
-                        android:layout_width="0dp"
+                        android:id="@+id/text_date"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_weight="2"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="Thu, September 13 2018"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp" />
+                        android:text="@string/meeting_date"
+                        android:textColor="@color/carbonGray"
+                        app:layout_constraintBottom_toTopOf="@+id/meeting_add_date"
+                        app:layout_constraintStart_toStartOf="@+id/meeting_add_date"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        style="@style/Widget.AppCompat.Spinner"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="Time"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="To"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-                <LinearLayout
-                    android:id="@+id/linearLayout2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="3"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3">
-
-                    <Spinner
-                        android:id="@+id/dialog_add_hall"
+                        android:id="@+id/meeting_add_date"
                         style="@style/Widget.AppCompat.Spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
+                        android:hint="@string/meeting_hint_date"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:text="End date"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="14sp" />
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_date" />
 
                     <TextView
-                        style="@style/Widget.AppCompat.Spinner"
-                        android:layout_width="0dp"
+                        android:id="@+id/text_hour_from"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/meeting_hour_from"
+                        android:textColor="@color/carbonGray"
+                        app:layout_constraintBottom_toTopOf="@+id/meeting_add_hour_start"
+                        app:layout_constraintStart_toStartOf="@+id/meeting_add_hour_start" />
+
+                    <EditText
+                        android:id="@+id/meeting_add_hour_start"
+                        style="@style/Widget.AppCompat.Spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/meeting_hint_hour_from"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:text="Time"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/meeting_add_hour_end"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/text_hour_to"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/meeting_hour_to"
+                        android:textColor="@color/carbonGray"
+                        app:layout_constraintBottom_toTopOf="@+id/meeting_add_hour_end"
+                        app:layout_constraintStart_toStartOf="@+id/meeting_add_hour_end" />
+
+                    <EditText
+                        android:id="@+id/meeting_add_hour_end"
+                        style="@style/Widget.AppCompat.Spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:hint="@string/meeting_hint_hour_to"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/meeting_add_hour_start"
+                        app:layout_constraintStart_toEndOf="@+id/meeting_add_hour_start" />
+
+
+                    <TextView
+                        android:id="@+id/text_hall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/meeting_hall"
+                        android:textColor="@color/carbonGray"
+                        app:layout_constraintStart_toStartOf="@+id/meeting_add_hall"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Spinner
+                        android:id="@+id/meeting_add_hall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
                         android:textColor="@android:color/darker_gray"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/meeting_add_participants"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="28dp"
+                    android:hint="@string/meeting_participants"
+                    android:textSize="16sp"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toStartOf="@+id/meeting_participants_btn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_date_hour_hall" />
+
+                <ImageButton
+                    android:id="@+id/meeting_participants_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/white"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_group_add_black_36dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/meeting_add_participants"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/meeting_add_participants" />
+
+                <LinearLayout
+                    android:id="@+id/meeting_participants_L"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/meeting_add_participants">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="16dp"
+                        android:paddingStart="4dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/editText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="start|top"
+                                android:text="@string/meeting_participants_test" />
+
+                        </LinearLayout>
+                    </ScrollView>
 
                 </LinearLayout>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

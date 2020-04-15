@@ -38,14 +38,7 @@ import butterknife.OnClick;
 public class AddNewMeetingDialog extends DialogFragment {
     private static final String TAG = "____DiALOG___newMeeting";
 
-    //    @BindView(R.id.dialog_add_hall) ImageView mAddHall;
-//    @BindView(R.id.dialog_add_title) EditText mAddTitle;
-    @BindView(R.id.event_add_new_meeting)
-    TextView mAddDate;
-    //    @BindView(R.id.dialog_add_hour) TextInputEditText mAddHour;
-//    @BindView(R.id.dialog_add_participants) EditText mAddParticipants;
-//    @BindView(R.id.dialog_add_create_btn) MaterialButton mSaveMeeting;
-    @BindView(R.id.dialog_add_cancel)
+    @BindView(R.id.meeting_add_cancel_btn)
     ImageButton mCancelDialogBtn;
 
     private ArrayList<HallItem> mHallList;
@@ -81,7 +74,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Get field from view
-        EditText editText = (EditText) view.findViewById(R.id.dialog_add_title);
+        EditText editText = (EditText) view.findViewById(R.id.meeting_add_title);
         // Fetch arguments from bundle and set title
         String title = getArguments() != null ? getArguments().getString("title", "Enter Name") : null;
         Objects.requireNonNull(getDialog()).setTitle(title);
@@ -91,15 +84,10 @@ public class AddNewMeetingDialog extends DialogFragment {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         actionToDo(view);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getDialog().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            getDialog().getWindow().setStatusBarColor(Color.parseColor("#F4F4EF"));
-//        }
-
         // Hall Spinner ======= start
         mContext = getContext();
         mHallList = Tools.initHallSpinnerList();
-        Spinner spinnerHall = view.findViewById(R.id.dialog_add_hall);
+        Spinner spinnerHall = view.findViewById(R.id.meeting_add_hall);
         mAdapter = new HallSpinnerAdapter(mContext, mHallList);
         spinnerHall.setAdapter(mAdapter);
         spinnerHall.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
@@ -107,6 +95,7 @@ public class AddNewMeetingDialog extends DialogFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 HallItem clickedHall = (HallItem) parent.getItemAtPosition(position);
                 String clickedHallName = clickedHall.getHallName();
+                // TODO change toast to get data for created a new meeting (hall-choice)
                 Toast.makeText(mContext
                 ,"Clicked: "+clickedHallName, Toast.LENGTH_SHORT).show();
             }
@@ -131,10 +120,10 @@ public class AddNewMeetingDialog extends DialogFragment {
         super.onResume();
     }
 
-    //@OnClick(R.id.dialog_add_cancel)
+    //@OnClick(R.id.meeting_add_cancel_btn)
     private void actionToDo(View view) {
         // Display DataPicker
-        TextView addDate = (TextView) view.findViewById(R.id.event_add_new_meeting);
+        TextView addDate = view.findViewById(R.id.meeting_add_date);
         addDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,7 +132,7 @@ public class AddNewMeetingDialog extends DialogFragment {
             }
         });
         // Dismiss dialog
-        ImageButton dismissDialog = view.findViewById(R.id.dialog_add_cancel);
+        ImageButton dismissDialog = view.findViewById(R.id.meeting_add_cancel_btn);
         dismissDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,14 +147,13 @@ public class AddNewMeetingDialog extends DialogFragment {
     }
 
     private void showDatePickerDialog(String title) {
-        Log.d(TAG, "showDatePickerDialog __fired ");
         DatePickerFragment newFragment = new DatePickerFragment();
         if (getFragmentManager() != null) {
             newFragment.show(getFragmentManager(), title);
         }
     }
 
-    @OnClick(R.id.dialog_add_create_btn)
+    @OnClick(R.id.meeting_add_create_btn)
     void createMeeting() {
         System.out.println("new Meeting");
     }

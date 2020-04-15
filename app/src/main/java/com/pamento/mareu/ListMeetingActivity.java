@@ -160,6 +160,12 @@ public class ListMeetingActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: FIRED");
+    }
+
     @Subscribe
     public void OnDeleteMeeting(DeleteMeetingEvent event) {
         mApiService.deleteMeeting(event.mMeeting);
