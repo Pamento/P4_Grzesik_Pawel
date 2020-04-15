@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.pamento.mareu.R;
 import com.pamento.mareu.utils.newMeetingHallSpinner.HallItem;
+import com.pamento.mareu.utils.newMeetingHourSpinner.Hour;
 
 import java.util.ArrayList;
 
@@ -60,18 +61,81 @@ public abstract class Tools {
 
     public static ArrayList<HallItem> initHallSpinnerList() {
         ArrayList<HallItem> hallItems = new ArrayList<>();
-        hallItems.add(new HallItem("une Salle", R.drawable.hall_0));
-        hallItems.add(new HallItem("une hall_a", R.drawable.hall_a));
-        hallItems.add(new HallItem("une hall_b", R.drawable.hall_b));
-        hallItems.add(new HallItem("une hall_c", R.drawable.hall_c));
-        hallItems.add(new HallItem("une hall_d", R.drawable.hall_d));
-        hallItems.add(new HallItem("une hall_e", R.drawable.hall_e));
-        hallItems.add(new HallItem("une hall_f", R.drawable.hall_f));
-        hallItems.add(new HallItem("une hall_g", R.drawable.hall_g));
-        hallItems.add(new HallItem("une hall_h", R.drawable.hall_h));
-        hallItems.add(new HallItem("une hall_i", R.drawable.hall_i));
-        hallItems.add(new HallItem("une hall_j", R.drawable.hall_j));
+        hallItems.add(new HallItem("hall_0", R.drawable.hall_0));
+        hallItems.add(new HallItem("hall_a", R.drawable.hall_a));
+        hallItems.add(new HallItem("hall_b", R.drawable.hall_b));
+        hallItems.add(new HallItem("hall_c", R.drawable.hall_c));
+        hallItems.add(new HallItem("hall_d", R.drawable.hall_d));
+        hallItems.add(new HallItem("hall_e", R.drawable.hall_e));
+        hallItems.add(new HallItem("hall_f", R.drawable.hall_f));
+        hallItems.add(new HallItem("hall_g", R.drawable.hall_g));
+        hallItems.add(new HallItem("hall_h", R.drawable.hall_h));
+        hallItems.add(new HallItem("hall_i", R.drawable.hall_i));
+        hallItems.add(new HallItem("hall_j", R.drawable.hall_j));
 
         return hallItems;
+    }
+
+    public static ArrayList<Hour> initHourSpinnerList() {
+        ArrayList<Hour> hours = new ArrayList<>();
+        hours.add(new Hour("08:00"));
+        hours.add(new Hour("08:15"));
+        hours.add(new Hour("08:30"));
+        hours.add(new Hour("08:45"));
+        hours.add(new Hour("09:00"));
+        hours.add(new Hour("09:15"));
+        hours.add(new Hour("09:30"));
+        hours.add(new Hour("09:45"));
+        hours.add(new Hour("10:00"));
+        hours.add(new Hour("10:15"));
+        hours.add(new Hour("10:30"));
+        hours.add(new Hour("10:45"));
+        hours.add(new Hour("11:00"));
+        hours.add(new Hour("11:15"));
+        hours.add(new Hour("11:30"));
+        hours.add(new Hour("11:45"));
+        hours.add(new Hour("12:00"));
+        hours.add(new Hour("12:15"));
+        hours.add(new Hour("12:30"));
+        hours.add(new Hour("12:45"));
+        hours.add(new Hour("13:00"));
+        hours.add(new Hour("13:15"));
+        hours.add(new Hour("13:30"));
+        hours.add(new Hour("13:45"));
+        hours.add(new Hour("14:00"));
+        hours.add(new Hour("14:15"));
+        hours.add(new Hour("14:30"));
+        hours.add(new Hour("14:45"));
+        hours.add(new Hour("15:00"));
+        hours.add(new Hour("15:15"));
+        hours.add(new Hour("15:30"));
+        hours.add(new Hour("15:45"));
+        hours.add(new Hour("16:00"));
+        hours.add(new Hour("16:15"));
+        hours.add(new Hour("16:30"));
+        hours.add(new Hour("16:45"));
+        hours.add(new Hour("17:00"));
+        hours.add(new Hour("17:15"));
+        hours.add(new Hour("17:30"));
+        hours.add(new Hour("17:45"));
+        hours.add(new Hour("18:00"));
+        hours.add(new Hour("18:15"));
+        hours.add(new Hour("18:30"));
+        hours.add(new Hour("18:45"));
+        hours.add(new Hour("19:00"));
+        hours.add(new Hour("19:15"));
+        hours.add(new Hour("19:30"));
+        hours.add(new Hour("19:45"));
+        hours.add(new Hour("20:00"));
+        hours.add(new Hour("20:15"));
+        hours.add(new Hour("20:30"));
+        hours.add(new Hour("20:45"));
+        hours.add(new Hour("21:00"));
+        hours.add(new Hour("21:15"));
+        hours.add(new Hour("21:30"));
+        hours.add(new Hour("21:45"));
+        hours.add(new Hour("22:00"));
+
+        return hours;
     }
 }
