@@ -131,7 +131,6 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
                     android:orientation="horizontal"
-                    android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/meeting_add_title">
@@ -152,6 +151,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp"
                         android:hint="@string/meeting_hint_date"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
@@ -165,20 +165,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
+                        android:layout_marginStart="16dp"
                         android:text="@string/meeting_hour_from"
                         android:textColor="@color/carbonGray"
                         app:layout_constraintBottom_toTopOf="@+id/meeting_add_hour_start"
-                        app:layout_constraintStart_toStartOf="@+id/meeting_add_hour_start"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/meeting_add_date" />
 
-                    <EditText
+                    <Spinner
                         android:id="@+id/meeting_add_hour_start"
                         style="@style/Widget.AppCompat.Spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="@string/meeting_hint_hour_from"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/meeting_add_hour_end"

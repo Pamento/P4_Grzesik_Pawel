@@ -3,6 +3,7 @@ package com.pamento.mareu.ui;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -14,16 +15,19 @@ import android.widget.DatePicker;
 import com.pamento.mareu.ListMeetingActivity;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private static final String TAG = "______Date____Dialog___";
 
     private ListMeetingActivity mListMeetingActivity;
+    private List<Fragment> mAddNewMeetingDialog;
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mListMeetingActivity = (ListMeetingActivity) getActivity();
+        mAddNewMeetingDialog = getFragmentManager().getFragments();
         // Use the current date as the default date in the picker
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -49,5 +53,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         Log.d(TAG, "onDateSet: TAG "+tag.toString());
         if (tag.equals("newMeeting")) action = 1;
         mListMeetingActivity.checkDateForNextAction(action,dayOfMonth+"/"+month+1+"/"+year);
+
     }
 }

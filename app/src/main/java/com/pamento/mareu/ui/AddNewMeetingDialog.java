@@ -27,6 +27,8 @@ import com.pamento.mareu.utils.Constants;
 import com.pamento.mareu.utils.Tools;
 import com.pamento.mareu.utils.newMeetingHallSpinner.HallItem;
 import com.pamento.mareu.utils.newMeetingHallSpinner.HallSpinnerAdapter;
+import com.pamento.mareu.utils.newMeetingHourSpinner.Hour;
+import com.pamento.mareu.utils.newMeetingHourSpinner.HourSpinnerAdapter;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -41,8 +43,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     @BindView(R.id.meeting_add_cancel_btn)
     ImageButton mCancelDialogBtn;
 
-    private ArrayList<HallItem> mHallList;
-    private HallSpinnerAdapter mAdapter;
+    private View mView;
     private Context mContext;
 
     // REQUIRED EMPTY CONSTRUCTOR
@@ -73,6 +74,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mView = view;
         // Get field from view
         EditText editText = (EditText) view.findViewById(R.id.meeting_add_title);
         // Fetch arguments from bundle and set title
@@ -84,28 +86,11 @@ public class AddNewMeetingDialog extends DialogFragment {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         actionToDo(view);
 
-        // Hall Spinner ======= start
         mContext = getContext();
-        mHallList = Tools.initHallSpinnerList();
-        Spinner spinnerHall = view.findViewById(R.id.meeting_add_hall);
-        mAdapter = new HallSpinnerAdapter(mContext, mHallList);
-        spinnerHall.setAdapter(mAdapter);
-        spinnerHall.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                HallItem clickedHall = (HallItem) parent.getItemAtPosition(position);
-                String clickedHallName = clickedHall.getHallName();
-                // TODO change toast to get data for created a new meeting (hall-choice)
-                Toast.makeText(mContext
-                ,"Clicked: "+clickedHallName, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        // Hall Spinner ======= end
+        // Hall Spinner =========================
+        configureHallPikerSpinner(mContext,view);
+        // Hour Spinner =========================
+        configureHourPickerSpinner(mContext,view);
     }
 
     @Override
@@ -146,6 +131,10 @@ public class AddNewMeetingDialog extends DialogFragment {
         });
     }
 
+    /**
+     * Display and pick user choice for date of meeting.
+     * @param title of the Dialog
+     */
     private void showDatePickerDialog(String title) {
         DatePickerFragment newFragment = new DatePickerFragment();
         if (getFragmentManager() != null) {
@@ -153,6 +142,55 @@ public class AddNewMeetingDialog extends DialogFragment {
         }
     }
 
+    private void configureHallPikerSpinner(Context context, View view) {
+        ArrayList<HallItem> hallList = Tools.initHallSpinnerList();
+        Spinner spinnerHall = view.findViewById(R.id.meeting_add_hall);
+        HallSpinnerAdapter adapter = new HallSpinnerAdapter(mContext, hallList);
+        spinnerHall.setAdapter(adapter);
+        spinnerHall.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                HallItem clickedHall = (HallItem) parent.getItemAtPosition(position);
+                String clickedHallName = clickedHall.getHallName();
+                // TODO change toast to get data for created a new meeting (hall-choice)
+                Toast.makeText(mContext
+                        ,"Clicked: "+clickedHallName, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+    private void configureHourPickerSpinner(Context context, View view) {
+        // TODO change to DI with filters accordingly to possibility of reservation of hall
+        ArrayList<Hour> hoursList = Tools.initHourSpinnerList();
+        Spinner spinnerHour = view.findViewById(R.id.meeting_add_hour_start);
+        HourSpinnerAdapter hoursAdapter = new HourSpinnerAdapter(mContext, hoursList);
+        spinnerHour.setAdapter(hoursAdapter);
+        spinnerHour.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Hour clickedHoursRow = (Hour) parent.getItemAtPosition(position);
+                String clickedHour = clickedHoursRow.getHour();
+                // TODO change toast to get data for created a new meeting (hall-choice)
+                Toast.makeText(mContext
+                        ,"Clicked: "+clickedHour, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+//    public void updateDateView(date) {
+//        TextView mAddDate = mView.findViewById(R.id.meeting_add_date);
+//        if (mAddDate != null)
+//            mAddDate.setText(date);
+//    }
     @OnClick(R.id.meeting_add_create_btn)
     void createMeeting() {
         System.out.println("new Meeting");

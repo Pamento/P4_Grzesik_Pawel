@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pamento.mareu.di.DI;
@@ -94,6 +95,7 @@ public class ListMeetingActivity extends AppCompatActivity {
             Log.d(TAG, "_________Next_0 filter__Action: "+date);
         } else {
             Log.d(TAG, "_________Next_ 1 newMeeting__Action: "+date);
+            Toast.makeText(this,"Chosen date is: "+date, Toast.LENGTH_SHORT).show();
         }
     }
 

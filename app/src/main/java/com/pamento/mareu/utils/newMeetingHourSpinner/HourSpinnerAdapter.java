@@ -34,10 +34,10 @@ public class HourSpinnerAdapter extends ArrayAdapter<Hour> {
     private View viewInit(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.item_spinner_hall, parent, false
+                    R.layout.item_spinner_hour, parent, false
             );
         }
-        TextView mHourTestView = convertView.findViewById(R.id.spinner_image_hall);
+        TextView mHourTestView = convertView.findViewById(R.id.spinner_display_hour);
 
         Hour currentHour = getItem(position);
 
