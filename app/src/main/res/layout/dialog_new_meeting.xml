@@ -126,14 +126,13 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_date_hour_hall"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
                     android:orientation="horizontal"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    app:layout_constraintHeight_percent=".36"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/meeting_add_title">
 
@@ -165,11 +164,12 @@
                         android:id="@+id/text_hour_from"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="24dp"
                         android:text="@string/meeting_hour_from"
                         android:textColor="@color/carbonGray"
                         app:layout_constraintBottom_toTopOf="@+id/meeting_add_hour_start"
-                        app:layout_constraintStart_toStartOf="@+id/meeting_add_hour_start" />
+                        app:layout_constraintStart_toStartOf="@+id/meeting_add_hour_start"
+                        app:layout_constraintTop_toBottomOf="@+id/meeting_add_date" />
 
                     <EditText
                         android:id="@+id/meeting_add_hour_start"
@@ -189,11 +189,12 @@
                         android:id="@+id/text_hour_to"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="24dp"
                         android:text="@string/meeting_hour_to"
                         android:textColor="@color/carbonGray"
                         app:layout_constraintBottom_toTopOf="@+id/meeting_add_hour_end"
-                        app:layout_constraintStart_toStartOf="@+id/meeting_add_hour_end" />
+                        app:layout_constraintStart_toStartOf="@+id/meeting_add_hour_end"
+                        app:layout_constraintTop_toBottomOf="@+id/meeting_add_date" />
 
                     <EditText
                         android:id="@+id/meeting_add_hour_end"
@@ -268,26 +269,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/meeting_add_participants">
 
-                    <ScrollView
+                    <androidx.core.widget.NestedScrollView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="16dp"
-                        android:paddingStart="4dp">
+                        android:paddingStart="8dp">
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/editText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/editText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="start|top"
-                                android:text="@string/meeting_participants_test" />
-
-                        </LinearLayout>
-                    </ScrollView>
+                            android:gravity="start|top"
+                            android:text="@string/meeting_participants_test1" />
+                    </androidx.core.widget.NestedScrollView>
 
                 </LinearLayout>
 

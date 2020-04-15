@@ -32,5 +32,9 @@
     <string name="meeting_hall">Salle</string>
     <string name="meeting_participants">Participants</string>
     <string name="meeting_hint_participants">ils.participent@ma.réunion</string>
-    <string name="meeting_participants_test">Participants\nParticipants\nParticipants</string>
+    <string name="meeting_participants_test1">
+        Participants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants
+        \nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants
+    </string>
+    <string name="meeting_participants_test2">Participants@Participants Particip@ants Parti@cipan.ts Participants@Participants Participants.Participants@Participants Participants@com.fr</string>
 </resources>
