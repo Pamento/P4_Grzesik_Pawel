@@ -22,6 +22,9 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.pamento.mareu.R;
+import com.pamento.mareu.di.DI;
+import com.pamento.mareu.model.Meeting;
+import com.pamento.mareu.service.ApiService;
 import com.pamento.mareu.utils.Constants;
 import com.pamento.mareu.utils.Tools;
 import com.pamento.mareu.utils.newMeetingHallSpinner.HallItem;
@@ -39,16 +42,32 @@ import butterknife.OnClick;
 public class AddNewMeetingDialog extends DialogFragment {
     private static final String TAG = "____DiALOG___newMeeting";
 
+    // Action Button
     @BindView(R.id.meeting_add_cancel_btn)
-    ImageButton mCancelDialogBtn;
-    @BindView(R.id.meeting_add_date) TextView mAddMeetingDate;
-    @BindView(R.id.meeting_add_title) EditText mAddMeetingTitle;
+    ImageButton mCancel;
+    @BindView(R.id.meeting_add_create_btn)
+    ImageButton mSave;
+    // View
+    @BindView(R.id.meeting_add_title)
+    EditText mAddMeetingTitle;
+    @BindView(R.id.meeting_add_date)
+    TextView mAddMeetingDate;
+    @BindView(R.id.meeting_add_hour_start)
+    Spinner mAddMeetingHourStart;
+    @BindView(R.id.meeting_add_hour_end)
+    Spinner mAddMeetingHourEnd;
+    @BindView(R.id.meeting_add_hall)
+    Spinner mAddMeetingHall;
+    @BindView(R.id.meeting_add_participants)
+    EditText mAddMeetingParticipants;
 
+    private ApiService mApiService;
     private Context mContext;
 
     // REQUIRED EMPTY CONSTRUCTOR
     public AddNewMeetingDialog() {
     }
+
     // AddNewMeetingDialog(DialogFragment) instance with arguments assignment
     public static AddNewMeetingDialog newInstance(String title) {
         AddNewMeetingDialog frag = new AddNewMeetingDialog();
@@ -61,6 +80,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApiService = DI.getApiService();
         setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
     }
 
@@ -68,7 +88,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_new_meeting, container);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -83,15 +103,16 @@ public class AddNewMeetingDialog extends DialogFragment {
         mAddMeetingTitle.requestFocus();
         Objects.requireNonNull(getDialog().getWindow()).setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        actionToDo(view);
 
         mContext = getContext();
+        // Date picker DialogFragment
+        configureDatePickerDialog(view);
         // Hall Spinner =========================
-        configureHallPikerSpinner(mContext,view);
+        configureHallPikerSpinner(mContext, view);
         // START Hour Spinner =========================
-        configureHourPickerSpinner(mContext,view);
+        configureHourPickerSpinner(mContext, view);
         // END Hour Spinner ===========================
-        configureHourEndPickerSpinner(mContext,view);
+        configureHourEndPickerSpinner(mContext, view);
     }
 
     @Override
@@ -106,8 +127,18 @@ public class AddNewMeetingDialog extends DialogFragment {
         super.onResume();
     }
 
-    //@OnClick(R.id.meeting_add_cancel_btn)
-    private void actionToDo(View view) {
+    // Dismiss dialog
+    @OnClick(R.id.meeting_add_cancel_btn)
+    void cancelDialog() {
+        Log.d(TAG, "dismissDialogNewMeeting: fired");
+        Fragment frgm = getFragmentManager() != null ? getFragmentManager().findFragmentByTag(Constants.NEW_MEETING) : null;
+        if (frgm != null) {
+            DialogFragment df = (DialogFragment) frgm;
+            df.dismiss();
+        }
+    }
+
+    private void configureDatePickerDialog(View view) {
         // Display DataPicker
         TextView addDate = view.findViewById(R.id.meeting_add_date);
         addDate.setOnClickListener(new View.OnClickListener() {
@@ -117,29 +148,17 @@ public class AddNewMeetingDialog extends DialogFragment {
                 showDatePickerDialog(Constants.NEW_MEETING);
             }
         });
-        // Dismiss dialog
-        ImageButton dismissDialog = view.findViewById(R.id.meeting_add_cancel_btn);
-        dismissDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "dismissDialogNewMeeting: fired");
-                Fragment frgm = getFragmentManager() != null ? getFragmentManager().findFragmentByTag(Constants.NEW_MEETING) : null;
-                if (frgm != null) {
-                    DialogFragment df = (DialogFragment) frgm;
-                    df.dismiss();
-                }
-            }
-        });
     }
 
     /**
      * Display and pick user choice for date of meeting.
+     *
      * @param title of the Dialog
      */
     private void showDatePickerDialog(String title) {
-        Log.d(TAG, "showDatePickerDialog: "+title);
+        Log.d(TAG, "showDatePickerDialog: " + title);
         DatePickerFragment newDatePickerFragment = new DatePickerFragment();
-        newDatePickerFragment.setTargetFragment(AddNewMeetingDialog.this,Constants.TARGET_FRAGMENT_REQUEST_CODE);
+        newDatePickerFragment.setTargetFragment(AddNewMeetingDialog.this, Constants.TARGET_FRAGMENT_REQUEST_CODE);
 
         if (getFragmentManager() != null) {
             newDatePickerFragment.show(getFragmentManager(), title);
@@ -151,19 +170,22 @@ public class AddNewMeetingDialog extends DialogFragment {
         Spinner spinnerHall = view.findViewById(R.id.meeting_add_hall);
         HallSpinnerAdapter adapter = new HallSpinnerAdapter(mContext, hallList);
         spinnerHall.setAdapter(adapter);
-        spinnerHall.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        spinnerHall.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 HallItem clickedHall = (HallItem) parent.getItemAtPosition(position);
                 String clickedHallName = clickedHall.getHallName();
                 // TODO change toast to get data for created a new meeting (hall-choice)
                 Toast.makeText(mContext
-                        ,"Hall/Salle: "+clickedHallName, Toast.LENGTH_SHORT).show();
+                        , "Hall/Salle: " + clickedHallName, Toast.LENGTH_SHORT).show();
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
+
     private void configureHourPickerSpinner(Context context, View view) {
         // TODO change to DI with filters accordingly to possibility of reservation of hall
         ArrayList<Hour> hoursList = Tools.initHourSpinnerList();
@@ -178,10 +200,12 @@ public class AddNewMeetingDialog extends DialogFragment {
                 String clickedHour = clickedHoursRow.getHour();
                 // TODO change toast to get data for created a new meeting (hall-choice)
                 Toast.makeText(mContext
-                        ,"Start hour: "+clickedHour, Toast.LENGTH_SHORT).show();
+                        , "Start hour: " + clickedHour, Toast.LENGTH_SHORT).show();
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -199,31 +223,35 @@ public class AddNewMeetingDialog extends DialogFragment {
                 String clickedHour = clickedHoursRow.getHour();
                 // TODO change toast to get data for created a new meeting (hall-choice)
                 Toast.makeText(mContext
-                        ,"End hour: "+clickedHour, Toast.LENGTH_SHORT).show();
+                        , "End hour: " + clickedHour, Toast.LENGTH_SHORT).show();
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
     /**
      * Method to retrieve the date from {@link DatePickerFragment}
+     * with use of newIntent method.
      * @param requestCode requestCode
-     * @param resultCode resultCode
-     * @param data object with data(the date)
+     * @param resultCode  resultCode
+     * @param data        object with data(the date)
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if( resultCode != Activity.RESULT_OK ) {
+        if (resultCode != Activity.RESULT_OK) {
             return;
         }
-        if( requestCode == Constants.TARGET_FRAGMENT_REQUEST_CODE ) {
+        if (requestCode == Constants.TARGET_FRAGMENT_REQUEST_CODE) {
             // TODO in place of null if condition is false: make an static class showMessage with SnackBar+message
             // ex.: snackBarMessage(int typeMessage:[error,info],String message)
             String date = data != null ? data.getStringExtra(Constants.EXTRA_DATE_PICKER_DIALOG) : null;
             mAddMeetingDate.setText(date);
         }
     }
+
     static Intent newIntent(String message) {
         Intent intent = new Intent();
         intent.putExtra(Constants.EXTRA_DATE_PICKER_DIALOG, message);
@@ -254,6 +282,19 @@ public class AddNewMeetingDialog extends DialogFragment {
      */
     @OnClick(R.id.meeting_add_create_btn)
     void createMeeting() {
-        System.out.println("new Meeting");
+        Meeting meeting = new Meeting(
+                System.currentTimeMillis(),
+                mAddMeetingTitle.getText().toString(),
+                mAddMeetingDate.getText().toString(),
+                mAddMeetingHourStart.getSelectedItem().toString(),
+                mAddMeetingHourEnd.getSelectedItem().toString(),
+                mAddMeetingHall.getSelectedItem().toString(),
+                mAddMeetingParticipants.getText().toString()
+        );
+        mApiService.createMeeting(meeting);
+        Log.d(TAG, "createMeeting: " + meeting);
+        cancelDialog();
     }
+
+
 }

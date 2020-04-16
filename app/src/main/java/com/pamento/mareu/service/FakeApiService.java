@@ -21,7 +21,5 @@ public class FakeApiService implements ApiService {
     }
 
     @Override
-    public void createMeeting(Meeting meeting) {
-
-    }
+    public void createMeeting(Meeting meeting) { mMeetings.add(meeting); }
 }

@@ -11,11 +11,11 @@ public abstract class FakeApiServiceGenerator {
     static List<Meeting> generateMeetings() { return new ArrayList<>(FAKE_MEETINGS); }
 
     private static List<Meeting> FAKE_MEETINGS = Arrays.asList(
-            new Meeting(001,"Acceuil","14/04/2020 16h00", "Salle A", Arrays.asList("acceuil@entre.fr","pdg@entre.fr"), "hall_a"),
-            new Meeting(002,"Acceuil","14/04/2020 16h00", "Salle A", Arrays.asList("acceuil@entre.fr","pdg@entre.fr"), "hall_a"),
-            new Meeting(003,"Resourcee","07/04/2020 10h00", "Salle B", Arrays.asList("acceuil@entre.fr","pdg@entre.fr"), "hall_b"),
-            new Meeting(004,"Resourcee","07/04/2020 10h00", "Salle B", Arrays.asList("acceuil@entre.fr","pdg@entre.fr"), "hall_b"),
-            new Meeting(005,"Management","21/04/2020 11h30", "Salle C", Arrays.asList("acceuil@entre.fr","pdg@entre.fr"), "hall_c"),
-            new Meeting(006,"Management","21/04/2020 11h30", "Salle C", Arrays.asList("acceuil@entre.fr","pdg@entre.fr"), "hall_c")
+            new Meeting(100,"Acceuil","14/04/2020", "16h00", "17:00","hall_a", "acceuil@entre.fr"),
+            new Meeting(200,"Messages","14/04/2020", "16h00", "17:00","hall_f", "acceuil@entre.fr"),
+            new Meeting(300,"Management","14/04/2020", "16h00", "17:00","hall_g", "acceuil@entre.fr"),
+            new Meeting(400,"Cleaning","14/04/2020", "16h00", "17:00","hall_c", "acceuil@entre.fr"),
+            new Meeting(500,"Resource","14/04/2020", "16h00", "17:00","hall_j", "acceuil@entre.fr"),
+            new Meeting(600,"Human Resource","14/04/2020", "16h00", "17:00","hall_i", "acceuil@entre.fr")
     );
 }

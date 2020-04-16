@@ -48,7 +48,7 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
     public void onBindViewHolder(@NonNull MeetingsViewHolder holder, int position) {
         final Meeting meeting = mMeetings.get(position);
         // TODO avatar
-        String imgName = meeting.getAvatar();
+        String imgName = meeting.getHall();
 
         Glide.with(mContext).load(getImage(imgName)).into(holder.mMeetingAvatar);
         holder.mMeetingTitle.setText(meeting.getTitle());

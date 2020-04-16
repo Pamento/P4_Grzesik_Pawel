@@ -16,30 +16,26 @@ public class Meeting {
     /** Date */
     private String date;
 
+    /** Hour Start */
+    private String hourStart;
+
+    /** Hour End */
+    private String hourEnd;
+
     /** Hall */
     private String hall;
 
     /** List of participants */
-    private List<String> participants;
+    private String participants;
 
-    /** Avatar of hall */
-    private String avatar;
-
-    public Meeting(long id, String title, String date, String hall, List<String> participants, String avatar) {
+    public Meeting(long id, String title, String date, String hourStart, String hourEnd, String hall, String participants) {
         this.id = id;
         this.title = title;
         this.date = date;
+        this.hourStart = hourStart;
+        this.hourEnd = hourEnd;
         this.hall = hall;
         this.participants = participants;
-        this.avatar = avatar;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     public long getId() {
@@ -66,6 +62,22 @@ public class Meeting {
         this.date = date;
     }
 
+    public String getHourStart() {
+        return hourStart;
+    }
+
+    public void setHourStart(String hourStart) {
+        this.hourStart = hourStart;
+    }
+
+    public String getHourEnd() {
+        return hourEnd;
+    }
+
+    public void setHourEnd(String hourEnd) {
+        this.hourEnd = hourEnd;
+    }
+
     public String getHall() {
         return hall;
     }
@@ -74,11 +86,11 @@ public class Meeting {
         this.hall = hall;
     }
 
-    public List<String> getParticipants() {
+    public String getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<String> participants) {
+    public void setParticipants(String participants) {
         this.participants = participants;
     }
 
