@@ -88,8 +88,10 @@ public class AddNewMeetingDialog extends DialogFragment {
         mContext = getContext();
         // Hall Spinner =========================
         configureHallPikerSpinner(mContext,view);
-        // Hour Spinner =========================
+        // START Hour Spinner =========================
         configureHourPickerSpinner(mContext,view);
+        // END Hour Spinner ===========================
+        configureHourEndPickerSpinner(mContext,view);
     }
 
     @Override
@@ -156,7 +158,7 @@ public class AddNewMeetingDialog extends DialogFragment {
                 String clickedHallName = clickedHall.getHallName();
                 // TODO change toast to get data for created a new meeting (hall-choice)
                 Toast.makeText(mContext
-                        ,"Clicked: "+clickedHallName, Toast.LENGTH_SHORT).show();
+                        ,"Hall/Salle: "+clickedHallName, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
@@ -165,6 +167,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     private void configureHourPickerSpinner(Context context, View view) {
         // TODO change to DI with filters accordingly to possibility of reservation of hall
         ArrayList<Hour> hoursList = Tools.initHourSpinnerList();
+
         Spinner spinnerHour = view.findViewById(R.id.meeting_add_hour_start);
         HourSpinnerAdapter hoursAdapter = new HourSpinnerAdapter(mContext, hoursList);
         spinnerHour.setAdapter(hoursAdapter);
@@ -175,7 +178,28 @@ public class AddNewMeetingDialog extends DialogFragment {
                 String clickedHour = clickedHoursRow.getHour();
                 // TODO change toast to get data for created a new meeting (hall-choice)
                 Toast.makeText(mContext
-                        ,"Clicked: "+clickedHour, Toast.LENGTH_SHORT).show();
+                        ,"Start hour: "+clickedHour, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+    }
+
+    private void configureHourEndPickerSpinner(Context context, View view) {
+        // TODO change to DI with filters accordingly to possibility of reservation of hall
+        ArrayList<Hour> hoursList = Tools.initHourSpinnerList();
+
+        Spinner spinnerHour = view.findViewById(R.id.meeting_add_hour_end);
+        HourSpinnerAdapter hoursAdapter = new HourSpinnerAdapter(mContext, hoursList);
+        spinnerHour.setAdapter(hoursAdapter);
+        spinnerHour.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Hour clickedHoursRow = (Hour) parent.getItemAtPosition(position);
+                String clickedHour = clickedHoursRow.getHour();
+                // TODO change toast to get data for created a new meeting (hall-choice)
+                Toast.makeText(mContext
+                        ,"End hour: "+clickedHour, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
@@ -206,6 +230,28 @@ public class AddNewMeetingDialog extends DialogFragment {
         return intent;
     }
 
+    /**
+     * TODO
+     * before save hew meeting:
+     * example to set 'save' button disable:
+     *     private void init() {
+     *         mNeighbourImage = randomImage();
+     *         Glide.with(this).load(mNeighbourImage).placeholder(R.drawable.ic_account)
+     *                 .apply(RequestOptions.circleCropTransform()).into(avatar);
+     *         Objects.requireNonNull(nameInput.getEditText()).addTextChangedListener(new TextWatcher() {
+     *             @Override
+     *             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+     *             @Override
+     *             public void onTextChanged(CharSequence s, int start, int before, int count) { }
+     *             @Override
+     *             public void afterTextChanged(Editable s) {
+     *                 addButton.setEnabled(s.length() > 0);
+     *             }
+     *         });
+     *
+     *     }
+     * Or check if whole form is valid (?)
+     */
     @OnClick(R.id.meeting_add_create_btn)
     void createMeeting() {
         System.out.println("new Meeting");
