@@ -1,8 +1,8 @@
 package com.pamento.mareu.ui;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import com.pamento.mareu.ListMeetingActivity;
 import com.pamento.mareu.R;
 import com.pamento.mareu.utils.Constants;
 import com.pamento.mareu.utils.Tools;
@@ -42,8 +41,9 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     @BindView(R.id.meeting_add_cancel_btn)
     ImageButton mCancelDialogBtn;
+    @BindView(R.id.meeting_add_date) TextView mAddMeetingDate;
+    @BindView(R.id.meeting_add_title) EditText mAddMeetingTitle;
 
-    private View mView;
     private Context mContext;
 
     // REQUIRED EMPTY CONSTRUCTOR
@@ -67,21 +67,20 @@ public class AddNewMeetingDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ButterKnife.bind((ListMeetingActivity) Objects.requireNonNull(getActivity()));
-        return inflater.inflate(R.layout.dialog_new_meeting, container);
+        View view = inflater.inflate(R.layout.dialog_new_meeting, container);
+        ButterKnife.bind(this,view);
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mView = view;
-        // Get field from view
-        EditText editText = (EditText) view.findViewById(R.id.meeting_add_title);
         // Fetch arguments from bundle and set title
-        String title = getArguments() != null ? getArguments().getString("title", "Enter Name") : null;
-        Objects.requireNonNull(getDialog()).setTitle(title);
+//        String title = getArguments() != null ? getArguments().getString("title", "Enter Name") : null;
+//        Objects.requireNonNull(getDialog()).setTitle(title);
+
         // Show soft keyboard automatically and request focus to field
-        editText.requestFocus();
+        mAddMeetingTitle.requestFocus();
         Objects.requireNonNull(getDialog().getWindow()).setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         actionToDo(view);
@@ -136,9 +135,12 @@ public class AddNewMeetingDialog extends DialogFragment {
      * @param title of the Dialog
      */
     private void showDatePickerDialog(String title) {
-        DatePickerFragment newFragment = new DatePickerFragment();
+        Log.d(TAG, "showDatePickerDialog: "+title);
+        DatePickerFragment newDatePickerFragment = new DatePickerFragment();
+        newDatePickerFragment.setTargetFragment(AddNewMeetingDialog.this,Constants.TARGET_FRAGMENT_REQUEST_CODE);
+
         if (getFragmentManager() != null) {
-            newFragment.show(getFragmentManager(), title);
+            newDatePickerFragment.show(getFragmentManager(), title);
         }
     }
 
@@ -156,11 +158,8 @@ public class AddNewMeetingDialog extends DialogFragment {
                 Toast.makeText(mContext
                         ,"Clicked: "+clickedHallName, Toast.LENGTH_SHORT).show();
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
     }
     private void configureHourPickerSpinner(Context context, View view) {
@@ -178,19 +177,35 @@ public class AddNewMeetingDialog extends DialogFragment {
                 Toast.makeText(mContext
                         ,"Clicked: "+clickedHour, Toast.LENGTH_SHORT).show();
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
     }
 
-//    public void updateDateView(date) {
-//        TextView mAddDate = mView.findViewById(R.id.meeting_add_date);
-//        if (mAddDate != null)
-//            mAddDate.setText(date);
-//    }
+    /**
+     * Method to retrieve the date from {@link DatePickerFragment}
+     * @param requestCode requestCode
+     * @param resultCode resultCode
+     * @param data object with data(the date)
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if( resultCode != Activity.RESULT_OK ) {
+            return;
+        }
+        if( requestCode == Constants.TARGET_FRAGMENT_REQUEST_CODE ) {
+            // TODO in place of null if condition is false: make an static class showMessage with SnackBar+message
+            // ex.: snackBarMessage(int typeMessage:[error,info],String message)
+            String date = data != null ? data.getStringExtra(Constants.EXTRA_DATE_PICKER_DIALOG) : null;
+            mAddMeetingDate.setText(date);
+        }
+    }
+    static Intent newIntent(String message) {
+        Intent intent = new Intent();
+        intent.putExtra(Constants.EXTRA_DATE_PICKER_DIALOG, message);
+        return intent;
+    }
+
     @OnClick(R.id.meeting_add_create_btn)
     void createMeeting() {
         System.out.println("new Meeting");
