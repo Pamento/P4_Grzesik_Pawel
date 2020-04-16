@@ -63,6 +63,12 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     private ApiService mApiService;
     private Context mContext;
+    // Variable to submit
+    String mHall;
+    private String mFromHour;
+    private String mToHour;
+    private String mDate;
+
 
     // REQUIRED EMPTY CONSTRUCTOR
     public AddNewMeetingDialog() {
@@ -178,6 +184,7 @@ public class AddNewMeetingDialog extends DialogFragment {
                 // TODO change toast to get data for created a new meeting (hall-choice)
                 Toast.makeText(mContext
                         , "Hall/Salle: " + clickedHallName, Toast.LENGTH_SHORT).show();
+                mHall = clickedHallName;
             }
 
             @Override
@@ -201,6 +208,7 @@ public class AddNewMeetingDialog extends DialogFragment {
                 // TODO change toast to get data for created a new meeting (hall-choice)
                 Toast.makeText(mContext
                         , "Start hour: " + clickedHour, Toast.LENGTH_SHORT).show();
+                mFromHour = clickedHour;
             }
 
             @Override
@@ -224,6 +232,7 @@ public class AddNewMeetingDialog extends DialogFragment {
                 // TODO change toast to get data for created a new meeting (hall-choice)
                 Toast.makeText(mContext
                         , "End hour: " + clickedHour, Toast.LENGTH_SHORT).show();
+                mToHour = clickedHour;
             }
 
             @Override
@@ -249,6 +258,7 @@ public class AddNewMeetingDialog extends DialogFragment {
             // ex.: snackBarMessage(int typeMessage:[error,info],String message)
             String date = data != null ? data.getStringExtra(Constants.EXTRA_DATE_PICKER_DIALOG) : null;
             mAddMeetingDate.setText(date);
+            mDate = date;
         }
     }
 
@@ -282,17 +292,24 @@ public class AddNewMeetingDialog extends DialogFragment {
      */
     @OnClick(R.id.meeting_add_create_btn)
     void createMeeting() {
+        Log.d(TAG, "createMeeting: ");
         Meeting meeting = new Meeting(
                 System.currentTimeMillis(),
                 mAddMeetingTitle.getText().toString(),
-                mAddMeetingDate.getText().toString(),
-                mAddMeetingHourStart.getSelectedItem().toString(),
-                mAddMeetingHourEnd.getSelectedItem().toString(),
-                mAddMeetingHall.getSelectedItem().toString(),
+                mDate,
+                mFromHour,
+                mToHour,
+                mHall,
                 mAddMeetingParticipants.getText().toString()
         );
         mApiService.createMeeting(meeting);
-        Log.d(TAG, "createMeeting: " + meeting);
+        Log.d(TAG, "createMeeting:_id " + System.currentTimeMillis());
+        Log.d(TAG, "createMeeting:_t " + mAddMeetingTitle.getText().toString());
+        Log.d(TAG, "createMeeting:_d " + mDate);
+        Log.d(TAG, "createMeeting:_s " + mFromHour);
+        Log.d(TAG, "createMeeting:_e " + mToHour);
+        Log.d(TAG, "createMeeting:_hall " + mHall);
+        Log.d(TAG, "createMeeting:_p " + mAddMeetingParticipants.getText().toString());
         cancelDialog();
     }
 

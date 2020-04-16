@@ -138,4 +138,43 @@ public abstract class Tools {
 
         return hours;
     }
+
+    public static String hallName(String hall) {
+        String name;
+        switch (hall) {
+            case "hall_a":
+                name = "Salle A";
+                break;
+            case "hall_b":
+                name = "Salle B";
+                break;
+            case "hall_c":
+                name = "Salle C";
+                break;
+            case "hall_d":
+                name = "Salle D";
+                break;
+            case "hall_e":
+                name = "Salle E";
+                break;
+            case "hall_f":
+                name = "Salle F";
+                break;
+            case "hall_g":
+                name = "Salle G";
+                break;
+            case "hall_h":
+                name = "Salle H";
+                break;
+            case "hall_i":
+                name = "Salle I";
+                break;
+            case "hall_j":
+                name = "Salle j";
+                break;
+            default:
+                name = "error";
+        }
+        return name;
+    }
 }

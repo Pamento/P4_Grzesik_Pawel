@@ -48,12 +48,12 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
     public void onBindViewHolder(@NonNull MeetingsViewHolder holder, int position) {
         final Meeting meeting = mMeetings.get(position);
         // TODO avatar
-        String imgName = meeting.getHall();
+        String hallName = Tools.hallName(meeting.getHall());
 
-        Glide.with(mContext).load(getImage(imgName)).into(holder.mMeetingAvatar);
+        Glide.with(mContext).load(getImage(meeting.getHall())).into(holder.mMeetingAvatar);
         holder.mMeetingTitle.setText(meeting.getTitle());
         holder.mMeetingDate.setText(meeting.getDate());
-        holder.mMeetingHall.setText(meeting.getHall());
+        holder.mMeetingHall.setText(hallName);
         // TODO collapsing list of participants
         String partis = meeting.getParticipants().toString();
         holder.mMeetingParticipants.setText(partis);// initially participants is the List array
