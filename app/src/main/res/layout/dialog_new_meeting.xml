@@ -174,7 +174,6 @@
 
                     <Spinner
                         android:id="@+id/meeting_add_hour_start"
-                        style="@style/Widget.AppCompat.Spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="@string/meeting_hint_hour_from"
@@ -189,21 +188,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
+                        android:layout_marginStart="16dp"
                         android:text="@string/meeting_hour_to"
                         android:textColor="@color/carbonGray"
                         app:layout_constraintBottom_toTopOf="@+id/meeting_add_hour_end"
                         app:layout_constraintStart_toStartOf="@+id/meeting_add_hour_end"
                         app:layout_constraintTop_toBottomOf="@+id/meeting_add_date" />
 
-                    <EditText
+                    <Spinner
                         android:id="@+id/meeting_add_hour_end"
-                        style="@style/Widget.AppCompat.Spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
                         android:hint="@string/meeting_hint_hour_to"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="@+id/meeting_add_hour_start"
                         app:layout_constraintStart_toEndOf="@+id/meeting_add_hour_start" />
