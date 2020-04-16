@@ -39,11 +39,9 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
                 .inflate(R.layout.item_list_meeting,parent,false);
         return new MeetingsViewHolder(view);
     }
-    public int getImage(String imageName) {
+    private int getImage(String imageName) {
 
-        int drawableResourceId = mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName());
-
-        return drawableResourceId;
+        return mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName());
     }
 
     @Override
@@ -53,8 +51,6 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
         String imgName = meeting.getAvatar();
 
         Glide.with(mContext).load(getImage(imgName)).into(holder.mMeetingAvatar);
-        Log.d(TAG, "onBindViewHolder: hallName: "+imgName);
-        //holder.mMeetingAvatar.setBackgroundColor(Color.parseColor("#ce0a24"));
         holder.mMeetingTitle.setText(meeting.getTitle());
         holder.mMeetingDate.setText(meeting.getDate());
         holder.mMeetingHall.setText(meeting.getHall());

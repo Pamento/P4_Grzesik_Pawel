@@ -1,12 +1,18 @@
 package com.pamento.mareu.ui;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,12 +28,11 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     private static final String TAG = "______Date____Dialog___";
 
     private ListMeetingActivity mListMeetingActivity;
-    private List<Fragment> mAddNewMeetingDialog;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mListMeetingActivity = (ListMeetingActivity) getActivity();
-        mAddNewMeetingDialog = getFragmentManager().getFragments();
         // Use the current date as the default date in the picker
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -41,18 +46,30 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-        //TODO the month display 1 month before correct choice
-        // example: I chose 30/04/2020
-        // DatePicker show: 30/03/2020
-        // check if month+1 is enough of wy need add Date.format !
+        //TODO add Date.format !
         view.cancelLongPress();
         Object tag = getTag();
         int action = 0;
 
-        Log.d(TAG, "onDateSet: TAG "+tag.toString());
+        // TODO maybe it is not necessery. Wy need to send data to AddNewMeetingDialog and not to ListMeetingActivity
+        Log.d(TAG, "onDateSet: TAG " + tag.toString());
         if (tag.equals("newMeeting")) action = 1;
-        mListMeetingActivity.checkDateForNextAction(action,dayOfMonth+"/"+month+1+"/"+year);
+        mListMeetingActivity.checkDateForNextAction(action, dayOfMonth + "/" + (month + 1) + "/" + year);
 
+        sendResult(dayOfMonth + "/" + (month + 1) + "/" + year);
+    }
+
+    /**
+     * Transfer/sand date from here to AddNewMeetingDialog
+     * For display them in TextView-AddMeetingDate
+     * @param date
+     */
+    private void sendResult(String date) {
+        if( getTargetFragment() == null ) {
+            return;
+        }
+        Intent intent = AddNewMeetingDialog.newIntent(date);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+        dismiss();
     }
 }
