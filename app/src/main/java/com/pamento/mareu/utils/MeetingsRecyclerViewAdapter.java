@@ -1,8 +1,6 @@
 package com.pamento.mareu.utils;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsViewHolder> {
-    private static final String TAG = "_____RECYCLER_____";
 
     // For data
     private List<Meeting> mMeetings;
@@ -55,7 +52,7 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
         holder.mMeetingDate.setText(meeting.getDate());
         holder.mMeetingHall.setText(hallName);
         // TODO collapsing list of participants
-        String partis = meeting.getParticipants().toString();
+        String partis = meeting.getParticipants();
         holder.mMeetingParticipants.setText(partis);// initially participants is the List array
         holder.mItemListViewHolder.setOnClickListener(new View.OnClickListener() {
             @Override

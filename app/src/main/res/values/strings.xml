@@ -31,12 +31,7 @@
     <string name="meeting_hint_hour_to">10h30</string>
     <string name="meeting_hall">Salle</string>
     <string name="meeting_participants">Participants</string>
-    <string name="meeting_hint_participants">ils:participent@ma:réunion</string>
-    <string name="meeting_participants_test1">
-        Participants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants
-        \nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants\nParticipants
-    </string>
-    <string name="meeting_participants_test2">Participants@Participants Particip@ants Parti@cipan:ts Participants@Participants Participants:Participants@Participants Participants@com:fr</string>
+    <string name="meeting_hint_participants">participant.de@ma.réunion</string>
 
     <!-- List of hours for Spinner hour picker -->
     <string-array name="hours">

@@ -227,18 +227,31 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+                <TextView
+                    android:id="@+id/text_participants"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/meeting_participants"
+                    android:textColor="@color/carbonGray"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_date_hour_hall"
+                    app:layout_constraintBottom_toTopOf="@+id/meeting_add_participants_edit"
+                    app:layout_constraintStart_toStartOf="@+id/meeting_add_participants_edit" />
+
                 <EditText
-                    android:id="@+id/meeting_add_participants"
+                    android:id="@+id/meeting_add_participants_edit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="28dp"
-                    android:hint="@string/meeting_participants"
+                    android:hint="@string/meeting_hint_participants"
                     android:textSize="16sp"
+                    android:inputType="textEmailAddress"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintEnd_toStartOf="@+id/meeting_participants_btn"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/layout_date_hour_hall" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_participants" />
 
                 <ImageButton
                     android:id="@+id/meeting_participants_btn"
@@ -251,9 +264,9 @@
                     android:padding="8dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_group_add_black_36dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/meeting_add_participants"
+                    app:layout_constraintBottom_toBottomOf="@+id/meeting_add_participants_edit"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/meeting_add_participants" />
+                    app:layout_constraintTop_toTopOf="@+id/meeting_add_participants_edit" />
 
                 <LinearLayout
                     android:id="@+id/meeting_participants_L"
@@ -262,7 +275,7 @@
                     android:orientation="vertical"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/meeting_add_participants">
+                    app:layout_constraintTop_toBottomOf="@+id/meeting_add_participants_edit">
 
                     <androidx.core.widget.NestedScrollView
                         android:layout_width="match_parent"
@@ -271,11 +284,11 @@
                         android:paddingStart="8dp">
 
                         <TextView
-                            android:id="@+id/editText"
+                            android:id="@+id/meeting_add_participants"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="start|top"
-                            android:text="@string/meeting_participants_test1" />
+                            android:text="List de participants:" />
                     </androidx.core.widget.NestedScrollView>
 
                 </LinearLayout>

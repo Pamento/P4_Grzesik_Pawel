@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.pamento.mareu.R;
 import com.pamento.mareu.di.DI;
+import com.pamento.mareu.events.RefreshRecyclerView;
 import com.pamento.mareu.model.Meeting;
 import com.pamento.mareu.service.ApiService;
 import com.pamento.mareu.utils.Constants;
@@ -31,6 +31,8 @@ import com.pamento.mareu.utils.newMeetingHallSpinner.HallItem;
 import com.pamento.mareu.utils.newMeetingHallSpinner.HallSpinnerAdapter;
 import com.pamento.mareu.utils.newMeetingHourSpinner.Hour;
 import com.pamento.mareu.utils.newMeetingHourSpinner.HourSpinnerAdapter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -43,28 +45,20 @@ public class AddNewMeetingDialog extends DialogFragment {
     private static final String TAG = "____DiALOG___newMeeting";
 
     // Action Button
-    @BindView(R.id.meeting_add_cancel_btn)
-    ImageButton mCancel;
-    @BindView(R.id.meeting_add_create_btn)
-    ImageButton mSave;
+    @BindView(R.id.meeting_add_cancel_btn) ImageButton mCancel;
+    @BindView(R.id.meeting_add_create_btn) ImageButton mSave;
     // View
-    @BindView(R.id.meeting_add_title)
-    EditText mAddMeetingTitle;
-    @BindView(R.id.meeting_add_date)
-    TextView mAddMeetingDate;
-    @BindView(R.id.meeting_add_hour_start)
-    Spinner mAddMeetingHourStart;
-    @BindView(R.id.meeting_add_hour_end)
-    Spinner mAddMeetingHourEnd;
-    @BindView(R.id.meeting_add_hall)
-    Spinner mAddMeetingHall;
-    @BindView(R.id.meeting_add_participants)
-    EditText mAddMeetingParticipants;
+    @BindView(R.id.meeting_add_title) EditText mAddMeetingTitle;
+    @BindView(R.id.meeting_add_date) TextView mAddMeetingDate;
+    @BindView(R.id.meeting_add_hour_start) Spinner mAddMeetingHourStart;
+    @BindView(R.id.meeting_add_hour_end) Spinner mAddMeetingHourEnd;
+    @BindView(R.id.meeting_add_hall) Spinner mAddMeetingHall;
+    @BindView(R.id.meeting_add_participants) TextView mAddMeetingParticipants;
 
     private ApiService mApiService;
     private Context mContext;
     // Variable to submit
-    String mHall;
+    private String mHall;
     private String mFromHour;
     private String mToHour;
     private String mDate;
@@ -74,7 +68,6 @@ public class AddNewMeetingDialog extends DialogFragment {
     public AddNewMeetingDialog() {
     }
 
-    // AddNewMeetingDialog(DialogFragment) instance with arguments assignment
     public static AddNewMeetingDialog newInstance(String title) {
         AddNewMeetingDialog frag = new AddNewMeetingDialog();
         Bundle args = new Bundle();
@@ -106,19 +99,25 @@ public class AddNewMeetingDialog extends DialogFragment {
 //        Objects.requireNonNull(getDialog()).setTitle(title);
 
         // Show soft keyboard automatically and request focus to field
-        mAddMeetingTitle.requestFocus();
-        Objects.requireNonNull(getDialog().getWindow()).setSoftInputMode(
+//        mAddMeetingTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//
+//            }
+//        });
+        //mAddMeetingTitle.requestFocus();
+        Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         mContext = getContext();
         // Date picker DialogFragment
         configureDatePickerDialog(view);
         // Hall Spinner =========================
-        configureHallPikerSpinner(mContext, view);
+        configureHallPikerSpinner(view);
         // START Hour Spinner =========================
-        configureHourPickerSpinner(mContext, view);
+        configureHourPickerSpinner(view);
         // END Hour Spinner ===========================
-        configureHourEndPickerSpinner(mContext, view);
+        configureHourEndPickerSpinner(view);
     }
 
     @Override
@@ -137,9 +136,9 @@ public class AddNewMeetingDialog extends DialogFragment {
     @OnClick(R.id.meeting_add_cancel_btn)
     void cancelDialog() {
         Log.d(TAG, "dismissDialogNewMeeting: fired");
-        Fragment frgm = getFragmentManager() != null ? getFragmentManager().findFragmentByTag(Constants.NEW_MEETING) : null;
-        if (frgm != null) {
-            DialogFragment df = (DialogFragment) frgm;
+        Fragment fm = getFragmentManager() != null ? getFragmentManager().findFragmentByTag(Constants.NEW_MEETING) : null;
+        if (fm != null) {
+            DialogFragment df = (DialogFragment) fm;
             df.dismiss();
         }
     }
@@ -162,16 +161,14 @@ public class AddNewMeetingDialog extends DialogFragment {
      * @param title of the Dialog
      */
     private void showDatePickerDialog(String title) {
-        Log.d(TAG, "showDatePickerDialog: " + title);
         DatePickerFragment newDatePickerFragment = new DatePickerFragment();
         newDatePickerFragment.setTargetFragment(AddNewMeetingDialog.this, Constants.TARGET_FRAGMENT_REQUEST_CODE);
-
         if (getFragmentManager() != null) {
             newDatePickerFragment.show(getFragmentManager(), title);
         }
     }
 
-    private void configureHallPikerSpinner(Context context, View view) {
+    private void configureHallPikerSpinner(View view) {
         ArrayList<HallItem> hallList = Tools.initHallSpinnerList();
         Spinner spinnerHall = view.findViewById(R.id.meeting_add_hall);
         HallSpinnerAdapter adapter = new HallSpinnerAdapter(mContext, hallList);
@@ -180,11 +177,7 @@ public class AddNewMeetingDialog extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 HallItem clickedHall = (HallItem) parent.getItemAtPosition(position);
-                String clickedHallName = clickedHall.getHallName();
-                // TODO change toast to get data for created a new meeting (hall-choice)
-                Toast.makeText(mContext
-                        , "Hall/Salle: " + clickedHallName, Toast.LENGTH_SHORT).show();
-                mHall = clickedHallName;
+                mHall = clickedHall.getHallName();
             }
 
             @Override
@@ -193,7 +186,7 @@ public class AddNewMeetingDialog extends DialogFragment {
         });
     }
 
-    private void configureHourPickerSpinner(Context context, View view) {
+    private void configureHourPickerSpinner(View view) {
         // TODO change to DI with filters accordingly to possibility of reservation of hall
         ArrayList<Hour> hoursList = Tools.initHourSpinnerList();
 
@@ -204,11 +197,7 @@ public class AddNewMeetingDialog extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Hour clickedHoursRow = (Hour) parent.getItemAtPosition(position);
-                String clickedHour = clickedHoursRow.getHour();
-                // TODO change toast to get data for created a new meeting (hall-choice)
-                Toast.makeText(mContext
-                        , "Start hour: " + clickedHour, Toast.LENGTH_SHORT).show();
-                mFromHour = clickedHour;
+                mFromHour = clickedHoursRow.getHour();
             }
 
             @Override
@@ -217,7 +206,7 @@ public class AddNewMeetingDialog extends DialogFragment {
         });
     }
 
-    private void configureHourEndPickerSpinner(Context context, View view) {
+    private void configureHourEndPickerSpinner(View view) {
         // TODO change to DI with filters accordingly to possibility of reservation of hall
         ArrayList<Hour> hoursList = Tools.initHourSpinnerList();
 
@@ -228,11 +217,7 @@ public class AddNewMeetingDialog extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Hour clickedHoursRow = (Hour) parent.getItemAtPosition(position);
-                String clickedHour = clickedHoursRow.getHour();
-                // TODO change toast to get data for created a new meeting (hall-choice)
-                Toast.makeText(mContext
-                        , "End hour: " + clickedHour, Toast.LENGTH_SHORT).show();
-                mToHour = clickedHour;
+                mToHour = clickedHoursRow.getHour();
             }
 
             @Override
@@ -303,13 +288,7 @@ public class AddNewMeetingDialog extends DialogFragment {
                 mAddMeetingParticipants.getText().toString()
         );
         mApiService.createMeeting(meeting);
-        Log.d(TAG, "createMeeting:_id " + System.currentTimeMillis());
-        Log.d(TAG, "createMeeting:_t " + mAddMeetingTitle.getText().toString());
-        Log.d(TAG, "createMeeting:_d " + mDate);
-        Log.d(TAG, "createMeeting:_s " + mFromHour);
-        Log.d(TAG, "createMeeting:_e " + mToHour);
-        Log.d(TAG, "createMeeting:_hall " + mHall);
-        Log.d(TAG, "createMeeting:_p " + mAddMeetingParticipants.getText().toString());
+        EventBus.getDefault().post(new RefreshRecyclerView(0));
         cancelDialog();
     }
 

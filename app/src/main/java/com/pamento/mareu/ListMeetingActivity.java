@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,12 +12,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pamento.mareu.di.DI;
 import com.pamento.mareu.events.DeleteMeetingEvent;
+import com.pamento.mareu.events.RefreshRecyclerView;
 import com.pamento.mareu.model.Meeting;
 import com.pamento.mareu.service.ApiService;
 import com.pamento.mareu.ui.AddNewMeetingDialog;
@@ -46,18 +43,6 @@ public class ListMeetingActivity extends AppCompatActivity {
     private List<Meeting> mMeetings;
     private ApiService mApiService;
     private ListMeetingActivity mThisActivity;
-    boolean isLargeLayout;
-    // Current result of DataPickerDialog
-//    public static String mDate;
-//
-//    public static String getDate() {
-//        return mDate;
-//    }
-//
-//    public static void setDate(String mDate) {
-//        Log.d(TAG, "day FILTER _day_is: "+mDate);
-//        ListMeetingActivity.mDate = mDate;
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +52,6 @@ public class ListMeetingActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         mApiService = DI.getApiService();
         mThisActivity = this;
-        isLargeLayout = getResources().getBoolean(R.bool.large_layout);
         configureRecyclerView();
     }
 
@@ -168,10 +152,18 @@ public class ListMeetingActivity extends AppCompatActivity {
         Log.d(TAG, "onPause: FIRED");
     }
 
+    /**
+     * OnClick Events: delete meeting from list; refresh list after action; add new Meeting.
+     * @param event in @Subscribe tu EventBus whom pass the data
+     */
     @Subscribe
     public void OnDeleteMeeting(DeleteMeetingEvent event) {
         mApiService.deleteMeeting(event.mMeeting);
-        configureRecyclerView();
+        initList(0);
+    }
+    @Subscribe
+    public void OnRefreshRecyclerView(RefreshRecyclerView event) {
+        initList(event.mActionId);
     }
 
     @OnClick(R.id.activity_list_meeting_fab)
