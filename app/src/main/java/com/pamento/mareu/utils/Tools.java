@@ -7,6 +7,8 @@ import com.pamento.mareu.utils.newMeetingHallSpinner.HallItem;
 import com.pamento.mareu.utils.newMeetingHourSpinner.Hour;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class Tools {
     private static final String TAG = "Tools";
@@ -156,5 +158,15 @@ public abstract class Tools {
                 name = "error";
         }
         return name;
+    }
+
+    public static List<String> removeEmailAddress(List<String> contacts,String contact) {
+        int contactFounded = Collections.binarySearch(contacts, contact, null);
+        if (contactFounded >= 0) {
+            contacts.remove(contactFounded);
+            return contacts;
+        } else {
+            return contacts;
+        }
     }
 }

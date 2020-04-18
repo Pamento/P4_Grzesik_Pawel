@@ -40,6 +40,8 @@ import com.pamento.mareu.utils.newMeetingHourSpinner.HourSpinnerAdapter;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -69,7 +71,8 @@ public class AddNewMeetingDialog extends DialogFragment {
     private String mFromHour;
     private String mToHour;
     private String mDate;
-    private String mParticipants;
+    private List<String> mParticipants;
+    private List<String> newParticipants;
 
     // REQUIRED EMPTY CONSTRUCTOR
     public AddNewMeetingDialog() {
@@ -231,9 +234,17 @@ public class AddNewMeetingDialog extends DialogFragment {
         ChipDrawable chipDrawable = ChipDrawable.createFromResource(getContext(),R.xml.item_chip_participant);
         chip.setChipDrawable(chipDrawable);
         chip.setText(mEditParticipants.getText());
-        chip.setOnCloseIconClickListener(v -> mListParticipants.removeView(chip));
+        chip.setOnCloseIconClickListener(v -> {
+            mListParticipants.removeView(chip);
+            int foundEmail = Collections.binarySearch(mParticipants, chip.getText().toString(), null);
+            if (foundEmail >= 0) mParticipants.remove(foundEmail);
+            //newParticipants = Tools.removeEmailAddress(mParticipants,chip.getText().toString());
+            //mParticipants = newParticipants;
+        });
         chip.setElevation(10.0f);
         mListParticipants.addView(chip);
+        // TODO uncomment this line below to continue add List<Participants> to Meeting.class
+        //mParticipants.add(mEditParticipants.getText());
         // TODO add emails form chips to mParticipants
         mEditParticipants.setText("");
     }
@@ -304,17 +315,17 @@ public class AddNewMeetingDialog extends DialogFragment {
     // TODO participants go to be List<String> or just String ?
     void createMeeting() {
         Log.d(TAG, "createMeeting: ");
-        Meeting meeting = new Meeting(
-                System.currentTimeMillis(),
-                mAddMeetingTitle.getText().toString(),
-                mDate,
-                mFromHour,
-                mToHour,
-                mHall,
-                mParticipants
-        );
-        mApiService.createMeeting(meeting);
-        EventBus.getDefault().post(new RefreshRecyclerView(0));
+//        Meeting meeting = new Meeting(
+//                System.currentTimeMillis(),
+//                mAddMeetingTitle.getText().toString(),
+//                mDate,
+//                mFromHour,
+//                mToHour,
+//                mHall,
+//                mParticipants
+//        );
+//        mApiService.createMeeting(meeting);
+//        EventBus.getDefault().post(new RefreshRecyclerView(0));
         cancelDialog();
     }
 
