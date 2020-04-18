@@ -1,0 +1,10 @@
+<chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chip_item_participant"
+    style="@style/Widget.MaterialComponents.Chip.Entry"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:checkable="false"
+    android:clickable="false"
+    android:orientation="horizontal"
+    app:chipBackgroundColor="@android:color/white" />

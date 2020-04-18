@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class FakeApiServiceGenerator {
+abstract class FakeApiServiceGenerator {
 
     static List<Meeting> generateMeetings() { return new ArrayList<>(FAKE_MEETINGS); }
 

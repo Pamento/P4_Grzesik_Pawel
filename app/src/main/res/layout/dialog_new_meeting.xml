@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -29,7 +28,8 @@
                 android:layout_marginStart="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
-                android:src="@drawable/ic_close_white_24dp" />
+                android:src="@drawable/ic_close_white_24dp"
+                android:contentDescription="@string/app_name" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -58,7 +58,8 @@
                 android:background="?attr/selectableItemBackground"
                 android:padding="8dp"
                 android:src="@drawable/ic_check_white_24dp"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:contentDescription="@string/app_name" />
 
         </RelativeLayout>
 
@@ -131,7 +132,6 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
                     android:orientation="horizontal"
-                    android:paddingEnd="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/meeting_add_title">
 
@@ -248,10 +248,12 @@
                     android:hint="@string/meeting_hint_participants"
                     android:textSize="16sp"
                     android:inputType="textEmailAddress"
+                    android:imeOptions="actionDone"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintEnd_toStartOf="@+id/meeting_participants_btn"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_participants" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_participants"
+                    android:autofillHints="false" />
 
                 <ImageButton
                     android:id="@+id/meeting_participants_btn"
@@ -263,32 +265,38 @@
                     android:background="@android:color/white"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_group_add_black_36dp"
+                    android:src="@drawable/ic_add_circle_red_36dp"
                     app:layout_constraintBottom_toBottomOf="@+id/meeting_add_participants_edit"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/meeting_add_participants_edit" />
+                    app:layout_constraintTop_toTopOf="@+id/meeting_add_participants_edit"
+                    android:contentDescription="@string/app_name" />
 
                 <LinearLayout
                     android:id="@+id/meeting_participants_L"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:minHeight="50dp"
+                    android:layout_marginBottom="24dp"
                     android:orientation="vertical"
                     app:layout_constrainedWidth="true"
+                    app:layout_constrainedHeight="true"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/meeting_add_participants_edit">
 
                     <androidx.core.widget.NestedScrollView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="16dp"
-                        android:paddingStart="8dp">
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp" >
 
-                        <TextView
-                            android:id="@+id/meeting_add_participants"
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/meeting_list_participants"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="start|top"
-                            android:text="List de participants:" />
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:gravity="start|top" />
+
                     </androidx.core.widget.NestedScrollView>
 
                 </LinearLayout>

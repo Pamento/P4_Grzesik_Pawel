@@ -115,31 +115,11 @@ public abstract class Tools {
         hours.add(new Hour("16:30"));
         hours.add(new Hour("16:45"));
         hours.add(new Hour("17:00"));
-        hours.add(new Hour("17:15"));
-        hours.add(new Hour("17:30"));
-        hours.add(new Hour("17:45"));
-        hours.add(new Hour("18:00"));
-        hours.add(new Hour("18:15"));
-        hours.add(new Hour("18:30"));
-        hours.add(new Hour("18:45"));
-        hours.add(new Hour("19:00"));
-        hours.add(new Hour("19:15"));
-        hours.add(new Hour("19:30"));
-        hours.add(new Hour("19:45"));
-        hours.add(new Hour("20:00"));
-        hours.add(new Hour("20:15"));
-        hours.add(new Hour("20:30"));
-        hours.add(new Hour("20:45"));
-        hours.add(new Hour("21:00"));
-        hours.add(new Hour("21:15"));
-        hours.add(new Hour("21:30"));
-        hours.add(new Hour("21:45"));
-        hours.add(new Hour("22:00"));
 
         return hours;
     }
 
-    public static String hallName(String hall) {
+    static String hallName(String hall) {
         String name;
         switch (hall) {
             case "hall_a":

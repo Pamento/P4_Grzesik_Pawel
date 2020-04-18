@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,6 +22,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipDrawable;
+import com.google.android.material.chip.ChipGroup;
 import com.pamento.mareu.R;
 import com.pamento.mareu.di.DI;
 import com.pamento.mareu.events.RefreshRecyclerView;
@@ -47,13 +52,15 @@ public class AddNewMeetingDialog extends DialogFragment {
     // Action Button
     @BindView(R.id.meeting_add_cancel_btn) ImageButton mCancel;
     @BindView(R.id.meeting_add_create_btn) ImageButton mSave;
+    //@BindView(R.id.meeting_participants_btn) ImageButton mAddParticipant;
     // View
     @BindView(R.id.meeting_add_title) EditText mAddMeetingTitle;
     @BindView(R.id.meeting_add_date) TextView mAddMeetingDate;
     @BindView(R.id.meeting_add_hour_start) Spinner mAddMeetingHourStart;
     @BindView(R.id.meeting_add_hour_end) Spinner mAddMeetingHourEnd;
     @BindView(R.id.meeting_add_hall) Spinner mAddMeetingHall;
-    @BindView(R.id.meeting_add_participants) TextView mAddMeetingParticipants;
+    @BindView(R.id.meeting_add_participants_edit) EditText mEditParticipants;
+    @BindView(R.id.meeting_list_participants) ChipGroup mListParticipants;
 
     private ApiService mApiService;
     private Context mContext;
@@ -62,7 +69,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     private String mFromHour;
     private String mToHour;
     private String mDate;
-
+    private String mParticipants;
 
     // REQUIRED EMPTY CONSTRUCTOR
     public AddNewMeetingDialog() {
@@ -107,22 +114,24 @@ public class AddNewMeetingDialog extends DialogFragment {
 //        });
         //mAddMeetingTitle.requestFocus();
         Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         mContext = getContext();
         // Date picker DialogFragment
-        configureDatePickerDialog(view);
+        configureDatePickerDialog();
         // Hall Spinner =========================
         configureHallPikerSpinner(view);
         // START Hour Spinner =========================
         configureHourPickerSpinner(view);
         // END Hour Spinner ===========================
         configureHourEndPickerSpinner(view);
+        // Listen mEditorParticipant
+        //mEditParticipants.setOnEditorActionListener(editorListener);
     }
 
     @Override
     public void onResume() {
-        // Get existing layout params for the window
+        // Get existing layout params for the window to resize the Dialog view to full screen
         WindowManager.LayoutParams params = Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).getAttributes();
         // Assign window properties to fill the parent
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -143,16 +152,8 @@ public class AddNewMeetingDialog extends DialogFragment {
         }
     }
 
-    private void configureDatePickerDialog(View view) {
-        // Display DataPicker
-        TextView addDate = view.findViewById(R.id.meeting_add_date);
-        addDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: ____DatePicker");
-                showDatePickerDialog(Constants.NEW_MEETING);
-            }
-        });
+    private void configureDatePickerDialog() {
+        mAddMeetingDate.setOnClickListener(v -> showDatePickerDialog(Constants.NEW_MEETING));
     }
 
     /**
@@ -170,10 +171,9 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     private void configureHallPikerSpinner(View view) {
         ArrayList<HallItem> hallList = Tools.initHallSpinnerList();
-        Spinner spinnerHall = view.findViewById(R.id.meeting_add_hall);
         HallSpinnerAdapter adapter = new HallSpinnerAdapter(mContext, hallList);
-        spinnerHall.setAdapter(adapter);
-        spinnerHall.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mAddMeetingHall.setAdapter(adapter);
+        mAddMeetingHall.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 HallItem clickedHall = (HallItem) parent.getItemAtPosition(position);
@@ -190,10 +190,9 @@ public class AddNewMeetingDialog extends DialogFragment {
         // TODO change to DI with filters accordingly to possibility of reservation of hall
         ArrayList<Hour> hoursList = Tools.initHourSpinnerList();
 
-        Spinner spinnerHour = view.findViewById(R.id.meeting_add_hour_start);
         HourSpinnerAdapter hoursAdapter = new HourSpinnerAdapter(mContext, hoursList);
-        spinnerHour.setAdapter(hoursAdapter);
-        spinnerHour.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mAddMeetingHourStart.setAdapter(hoursAdapter);
+        mAddMeetingHourStart.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Hour clickedHoursRow = (Hour) parent.getItemAtPosition(position);
@@ -226,6 +225,19 @@ public class AddNewMeetingDialog extends DialogFragment {
         });
     }
 
+    @OnClick(R.id.meeting_participants_btn)
+    void addChip() {
+        final Chip chip = new Chip(Objects.requireNonNull(getContext()));
+        ChipDrawable chipDrawable = ChipDrawable.createFromResource(getContext(),R.xml.item_chip_participant);
+        chip.setChipDrawable(chipDrawable);
+        chip.setText(mEditParticipants.getText());
+        chip.setOnCloseIconClickListener(v -> mListParticipants.removeView(chip));
+        chip.setElevation(10.0f);
+        mListParticipants.addView(chip);
+        // TODO add emails form chips to mParticipants
+        mEditParticipants.setText("");
+    }
+
     /**
      * Method to retrieve the date from {@link DatePickerFragment}
      * with use of newIntent method.
@@ -253,6 +265,19 @@ public class AddNewMeetingDialog extends DialogFragment {
         return intent;
     }
 
+//    private TextView.OnEditorActionListener editorListener = new TextView.OnEditorActionListener() {
+//        @Override
+//        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//            switch (actionId){
+//                case EditorInfo.IME_ACTION_GO:
+//                    addChip(mEditParticipants.getText().toString());
+//                    Log.d(TAG, "onEditorAction: "+mEditParticipants.getText().toString());
+//                    break;
+//            }
+//            return false;
+//        }
+//    };
+
     /**
      * TODO
      * before save hew meeting:
@@ -276,6 +301,7 @@ public class AddNewMeetingDialog extends DialogFragment {
      * Or check if whole form is valid (?)
      */
     @OnClick(R.id.meeting_add_create_btn)
+    // TODO participants go to be List<String> or just String ?
     void createMeeting() {
         Log.d(TAG, "createMeeting: ");
         Meeting meeting = new Meeting(
@@ -285,7 +311,7 @@ public class AddNewMeetingDialog extends DialogFragment {
                 mFromHour,
                 mToHour,
                 mHall,
-                mAddMeetingParticipants.getText().toString()
+                mParticipants
         );
         mApiService.createMeeting(meeting);
         EventBus.getDefault().post(new RefreshRecyclerView(0));
