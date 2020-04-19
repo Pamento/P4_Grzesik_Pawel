@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MeetingsViewHolder extends RecyclerView.ViewHolder {
+class MeetingsViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.item_list_meeting_avatar) CircleImageView mMeetingAvatar;
     @BindView(R.id.item_list_meeting_title) TextView mMeetingTitle;
@@ -27,7 +27,7 @@ public class MeetingsViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.item_list_delete_button) ImageButton mDeleteMeetingButton;
     @BindView(R.id.item_list_view_holder) ConstraintLayout mItemListViewHolder;
 
-    public MeetingsViewHolder(@NonNull View itemView) {
+    MeetingsViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this,itemView);
     }

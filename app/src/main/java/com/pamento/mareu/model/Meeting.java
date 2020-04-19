@@ -26,9 +26,9 @@ public class Meeting {
     private String hall;
 
     /** List of participants */
-    private String participants;
+    private List<String> participants;
 
-    public Meeting(long id, String title, String date, String hourStart, String hourEnd, String hall, String participants) {
+    public Meeting(long id, String title, String date, String hourStart, String hourEnd, String hall, List<String> participants) {
         this.id = id;
         this.title = title;
         this.date = date;
@@ -86,11 +86,11 @@ public class Meeting {
         this.hall = hall;
     }
 
-    public String getParticipants() {
+    public List<String> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(String participants) {
+    public void setParticipants(List<String> participants) {
         this.participants = participants;
     }
 

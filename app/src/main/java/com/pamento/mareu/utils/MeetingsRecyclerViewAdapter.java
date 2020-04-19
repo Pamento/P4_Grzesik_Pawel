@@ -33,9 +33,10 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
     @Override
     public MeetingsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_list_meeting,parent,false);
+                .inflate(R.layout.item_list_meeting, parent, false);
         return new MeetingsViewHolder(view);
     }
+
     private int getImage(String imageName) {
 
         return mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName());
@@ -52,8 +53,12 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
         holder.mMeetingDate.setText(meeting.getDate());
         holder.mMeetingHall.setText(hallName);
         // TODO collapsing list of participants
-        String partis = meeting.getParticipants();
-        holder.mMeetingParticipants.setText(partis);// initially participants is the List array
+        List<String> parts = meeting.getParticipants();
+        StringBuilder participants = new StringBuilder();
+        for (String part: parts) {
+            participants.append(part).append("\n");
+        }
+        holder.mMeetingParticipants.setText(participants.toString());// initially participants is the List array
         holder.mItemListViewHolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +70,7 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
             @Override
             public void onClick(View v) {
                 EventBus.getDefault().post(new DeleteMeetingEvent(meeting));
-                Toast.makeText(mContext,"Delete button fired.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Delete button fired.", Toast.LENGTH_SHORT).show();
             }
         });
     }
