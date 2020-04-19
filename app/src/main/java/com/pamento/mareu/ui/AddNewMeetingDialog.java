@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,9 +36,11 @@ import com.pamento.mareu.utils.newMeetingHourSpinner.HourSpinnerAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -49,12 +48,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AddNewMeetingDialog extends DialogFragment {
-    private static final String TAG = "____DiALOG___newMeeting";
 
     // Action Button
     @BindView(R.id.meeting_add_cancel_btn) ImageButton mCancel;
     @BindView(R.id.meeting_add_create_btn) ImageButton mSave;
-    //@BindView(R.id.meeting_participants_btn) ImageButton mAddParticipant;
     // View
     @BindView(R.id.meeting_add_title) EditText mAddMeetingTitle;
     @BindView(R.id.meeting_add_date) TextView mAddMeetingDate;
@@ -71,8 +68,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     private String mFromHour;
     private String mToHour;
     private String mDate;
-    private List<String> mParticipants;
-    private List<String> newParticipants;
+    private List<String> mParticipants = new ArrayList<>();
 
     // REQUIRED EMPTY CONSTRUCTOR
     public AddNewMeetingDialog() {
@@ -119,13 +115,16 @@ public class AddNewMeetingDialog extends DialogFragment {
         Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        mAddMeetingDate.setText(sdf.format(new Date()));
+
         mContext = getContext();
         // Date picker DialogFragment
         configureDatePickerDialog();
         // Hall Spinner =========================
-        configureHallPikerSpinner(view);
+        configureHallPikerSpinner();
         // START Hour Spinner =========================
-        configureHourPickerSpinner(view);
+        configureHourPickerSpinner();
         // END Hour Spinner ===========================
         configureHourEndPickerSpinner(view);
         // Listen mEditorParticipant
@@ -147,7 +146,6 @@ public class AddNewMeetingDialog extends DialogFragment {
     // Dismiss dialog
     @OnClick(R.id.meeting_add_cancel_btn)
     void cancelDialog() {
-        Log.d(TAG, "dismissDialogNewMeeting: fired");
         Fragment fm = getFragmentManager() != null ? getFragmentManager().findFragmentByTag(Constants.NEW_MEETING) : null;
         if (fm != null) {
             DialogFragment df = (DialogFragment) fm;
@@ -172,7 +170,7 @@ public class AddNewMeetingDialog extends DialogFragment {
         }
     }
 
-    private void configureHallPikerSpinner(View view) {
+    private void configureHallPikerSpinner() {
         ArrayList<HallItem> hallList = Tools.initHallSpinnerList();
         HallSpinnerAdapter adapter = new HallSpinnerAdapter(mContext, hallList);
         mAddMeetingHall.setAdapter(adapter);
@@ -189,7 +187,7 @@ public class AddNewMeetingDialog extends DialogFragment {
         });
     }
 
-    private void configureHourPickerSpinner(View view) {
+    private void configureHourPickerSpinner() {
         // TODO change to DI with filters accordingly to possibility of reservation of hall
         ArrayList<Hour> hoursList = Tools.initHourSpinnerList();
 
@@ -230,22 +228,18 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     @OnClick(R.id.meeting_participants_btn)
     void addChip() {
+        mParticipants.add(mEditParticipants.getText().toString());
         final Chip chip = new Chip(Objects.requireNonNull(getContext()));
         ChipDrawable chipDrawable = ChipDrawable.createFromResource(getContext(),R.xml.item_chip_participant);
         chip.setChipDrawable(chipDrawable);
         chip.setText(mEditParticipants.getText());
         chip.setOnCloseIconClickListener(v -> {
             mListParticipants.removeView(chip);
-            int foundEmail = Collections.binarySearch(mParticipants, chip.getText().toString(), null);
-            if (foundEmail >= 0) mParticipants.remove(foundEmail);
-            //newParticipants = Tools.removeEmailAddress(mParticipants,chip.getText().toString());
-            //mParticipants = newParticipants;
+            int pos = mParticipants.indexOf(chip.getText().toString());
+            if (pos >= 0) mParticipants.remove(pos);
         });
         chip.setElevation(10.0f);
         mListParticipants.addView(chip);
-        // TODO uncomment this line below to continue add List<Participants> to Meeting.class
-        //mParticipants.add(mEditParticipants.getText());
-        // TODO add emails form chips to mParticipants
         mEditParticipants.setText("");
     }
 
@@ -314,18 +308,17 @@ public class AddNewMeetingDialog extends DialogFragment {
     @OnClick(R.id.meeting_add_create_btn)
     // TODO participants go to be List<String> or just String ?
     void createMeeting() {
-        Log.d(TAG, "createMeeting: ");
-//        Meeting meeting = new Meeting(
-//                System.currentTimeMillis(),
-//                mAddMeetingTitle.getText().toString(),
-//                mDate,
-//                mFromHour,
-//                mToHour,
-//                mHall,
-//                mParticipants
-//        );
-//        mApiService.createMeeting(meeting);
-//        EventBus.getDefault().post(new RefreshRecyclerView(0));
+        Meeting meeting = new Meeting(
+                System.currentTimeMillis(),
+                mAddMeetingTitle.getText().toString(),
+                mDate,
+                mFromHour,
+                mToHour,
+                mHall,
+                mParticipants
+        );
+        mApiService.createMeeting(meeting);
+        EventBus.getDefault().post(new RefreshRecyclerView(0));
         cancelDialog();
     }
 

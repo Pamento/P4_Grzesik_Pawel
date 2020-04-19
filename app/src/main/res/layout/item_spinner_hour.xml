@@ -9,11 +9,11 @@
         android:id="@+id/spinner_display_hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="08:00"
-        android:textSize="16sp"/>
+        android:layout_marginStart="@dimen/mDistance"
+        android:layout_marginTop="@dimen/sDistance"
+        android:layout_marginEnd="@dimen/mDistance"
+        android:layout_marginBottom="@dimen/sDistance"
+        android:text="@string/meeting_hint_hour_from"
+        android:textSize="@dimen/mText"/>
 
 </LinearLayout>

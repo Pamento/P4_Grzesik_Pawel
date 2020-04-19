@@ -12,13 +12,13 @@
     <androidx.cardview.widget.CardView
         style="@style/Widget.MaterialComponents.CardView"
         android:id="@+id/spinner_cv_hall"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="14dp"
+        android:layout_width="@dimen/img_square"
+        android:layout_height="@dimen/img_square"
+        android:layout_marginTop="@dimen/mDistance"
+        android:layout_marginStart="@dimen/mDistance"
+        android:layout_marginEnd="@dimen/mDistance"
+        app:cardElevation="@dimen/mElevation"
+        app:cardCornerRadius="@dimen/nDistance"
         app:cardPreventCornerOverlap="false">
 
         <LinearLayout

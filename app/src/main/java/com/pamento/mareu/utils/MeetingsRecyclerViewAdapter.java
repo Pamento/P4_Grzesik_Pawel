@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,9 +17,9 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
+
 public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsViewHolder> {
 
-    // For data
     private List<Meeting> mMeetings;
     private Context mContext;
 
@@ -37,42 +36,51 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
         return new MeetingsViewHolder(view);
     }
 
+    /**
+     * The helper for Glide plugin.
+     *
+     * @param imageName the name of hall for the meeting
+     * @return image from resource to display in avatar
+     */
     private int getImage(String imageName) {
-
         return mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName());
     }
 
     @Override
     public void onBindViewHolder(@NonNull MeetingsViewHolder holder, int position) {
+        final boolean[] participantsIsVisible = {false};
         final Meeting meeting = mMeetings.get(position);
-        // TODO avatar
         String hallName = Tools.hallName(meeting.getHall());
 
         Glide.with(mContext).load(getImage(meeting.getHall())).into(holder.mMeetingAvatar);
         holder.mMeetingTitle.setText(meeting.getTitle());
         holder.mMeetingDate.setText(meeting.getDate());
+        holder.mMeetingHourStart.setText(meeting.getHourStart());
+        String hourEndOfMeeting = holder.itemView.getContext().getString(R.string.hour_end, meeting.getHourEnd());
+        holder.mMeetingHourEnd.setText(hourEndOfMeeting);
         holder.mMeetingHall.setText(hallName);
-        // TODO collapsing list of participants
+        // collapsing list of participants
         List<String> parts = meeting.getParticipants();
         StringBuilder participants = new StringBuilder();
-        for (String part: parts) {
-            participants.append(part).append("\n");
+        for (int i = 0; i < parts.size(); i++) {
+            participants.append(parts.get(i)).append("\n");
         }
-        holder.mMeetingParticipants.setText(participants.toString());// initially participants is the List array
-        holder.mItemListViewHolder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, meeting.getTitle(), Toast.LENGTH_SHORT).show();
+        holder.mMeetingParticipants.setText(participants.toString());
+        holder.mDeleteMeetingButton.setOnClickListener(v -> EventBus.getDefault().post(new DeleteMeetingEvent(meeting)));
+        holder.mMeetingParticipantsCollapsible.setOnClickListener(v -> {
+            if (participantsIsVisible[0]) {
+                holder.mMeetingParticipants.setVisibility(View.GONE);
+                holder.mMeetingParticipantsCollapsible
+                        .setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_black_24dp, 0);
+                participantsIsVisible[0] = false;
+            } else {
+                holder.mMeetingParticipants.setVisibility(View.VISIBLE);
+                holder.mMeetingParticipantsCollapsible
+                        .setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_up_black_24dp, 0);
+                participantsIsVisible[0] = true;
             }
         });
-        // OnClickListener set on button 'Delete'
-        holder.mDeleteMeetingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().post(new DeleteMeetingEvent(meeting));
-                Toast.makeText(mContext, "Delete button fired.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        holder.mMeetingParticipants.setVisibility(View.GONE);
     }
 
     @Override
