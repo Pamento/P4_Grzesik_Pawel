@@ -160,6 +160,7 @@ public abstract class Tools {
         return name;
     }
 
+    // TODO if first method works fine, this function is to delete.
     public static List<String> removeEmailAddress(List<String> contacts,String contact) {
         int contactFounded = Collections.binarySearch(contacts, contact, null);
         if (contactFounded >= 0) {
