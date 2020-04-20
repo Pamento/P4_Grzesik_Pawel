@@ -12,11 +12,11 @@ import androidx.annotation.Nullable;
 
 import com.pamento.mareu.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class HourSpinnerAdapter extends ArrayAdapter<Hour> {
 
-    public HourSpinnerAdapter(Context context, ArrayList<Hour> HourList) {
+    public HourSpinnerAdapter(Context context, List<Hour> HourList) {
         super(context,0,HourList);
     }
 

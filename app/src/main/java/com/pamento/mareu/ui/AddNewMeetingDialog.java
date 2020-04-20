@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
@@ -36,11 +37,8 @@ import com.pamento.mareu.utils.newMeetingHourSpinner.HourSpinnerAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -49,25 +47,36 @@ import butterknife.OnClick;
 
 public class AddNewMeetingDialog extends DialogFragment {
 
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout mCoordinatorLayout;
     // Action Button
-    @BindView(R.id.meeting_add_cancel_btn) ImageButton mCancel;
-    @BindView(R.id.meeting_add_create_btn) ImageButton mSave;
+    @BindView(R.id.meeting_add_cancel_btn)
+    ImageButton mCancel;
+    @BindView(R.id.meeting_add_create_btn)
+    ImageButton mSave;
     // View
-    @BindView(R.id.meeting_add_title) EditText mAddMeetingTitle;
-    @BindView(R.id.meeting_add_date) TextView mAddMeetingDate;
-    @BindView(R.id.meeting_add_hour_start) Spinner mAddMeetingHourStart;
-    @BindView(R.id.meeting_add_hour_end) Spinner mAddMeetingHourEnd;
-    @BindView(R.id.meeting_add_hall) Spinner mAddMeetingHall;
-    @BindView(R.id.meeting_add_participants_edit) EditText mEditParticipants;
-    @BindView(R.id.meeting_list_participants) ChipGroup mListParticipants;
+    @BindView(R.id.meeting_add_title)
+    EditText mAddMeetingTitle;
+    @BindView(R.id.meeting_add_date)
+    TextView mAddMeetingDate;
+    @BindView(R.id.meeting_add_hour_start)
+    Spinner mAddMeetingHourStart;
+    @BindView(R.id.meeting_add_hour_end)
+    Spinner mAddMeetingHourEnd;
+    @BindView(R.id.meeting_add_hall)
+    Spinner mAddMeetingHall;
+    @BindView(R.id.meeting_add_participants_edit)
+    EditText mEditParticipants;
+    @BindView(R.id.meeting_list_participants)
+    ChipGroup mListParticipants;
 
     private ApiService mApiService;
     private Context mContext;
     // Variable to submit
-    private String mHall;
-    private String mFromHour;
-    private String mToHour;
-    private String mDate;
+    private String mHall = "";
+    private String mFromHour = "";
+    private String mToHour = "";
+    private String mDate = "";
     private List<String> mParticipants = new ArrayList<>();
 
     // REQUIRED EMPTY CONSTRUCTOR
@@ -115,20 +124,12 @@ public class AddNewMeetingDialog extends DialogFragment {
         Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
-        mAddMeetingDate.setText(sdf.format(new Date()));
-
         mContext = getContext();
         // Date picker DialogFragment
         configureDatePickerDialog();
-        // Hall Spinner =========================
         configureHallPikerSpinner();
-        // START Hour Spinner =========================
         configureHourPickerSpinner();
-        // END Hour Spinner ===========================
-        configureHourEndPickerSpinner(view);
-        // Listen mEditorParticipant
-        //mEditParticipants.setOnEditorActionListener(editorListener);
+        configureHourEndPickerSpinner();
     }
 
     @Override
@@ -171,7 +172,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     }
 
     private void configureHallPikerSpinner() {
-        ArrayList<HallItem> hallList = Tools.initHallSpinnerList();
+        List<HallItem> hallList = Tools.initHallSpinnerList();
         HallSpinnerAdapter adapter = new HallSpinnerAdapter(mContext, hallList);
         mAddMeetingHall.setAdapter(adapter);
         mAddMeetingHall.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -189,7 +190,7 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     private void configureHourPickerSpinner() {
         // TODO change to DI with filters accordingly to possibility of reservation of hall
-        ArrayList<Hour> hoursList = Tools.initHourSpinnerList();
+        List<Hour> hoursList = Tools.initHourSpinnerList();
 
         HourSpinnerAdapter hoursAdapter = new HourSpinnerAdapter(mContext, hoursList);
         mAddMeetingHourStart.setAdapter(hoursAdapter);
@@ -206,14 +207,13 @@ public class AddNewMeetingDialog extends DialogFragment {
         });
     }
 
-    private void configureHourEndPickerSpinner(View view) {
+    private void configureHourEndPickerSpinner() {
         // TODO change to DI with filters accordingly to possibility of reservation of hall
-        ArrayList<Hour> hoursList = Tools.initHourSpinnerList();
+        List<Hour> hoursList = Tools.initHourSpinnerList();
 
-        Spinner spinnerHour = view.findViewById(R.id.meeting_add_hour_end);
         HourSpinnerAdapter hoursAdapter = new HourSpinnerAdapter(mContext, hoursList);
-        spinnerHour.setAdapter(hoursAdapter);
-        spinnerHour.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mAddMeetingHourEnd.setAdapter(hoursAdapter);
+        mAddMeetingHourEnd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Hour clickedHoursRow = (Hour) parent.getItemAtPosition(position);
@@ -228,9 +228,9 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     @OnClick(R.id.meeting_participants_btn)
     void addChip() {
-        mParticipants.add(mEditParticipants.getText().toString());
+        mParticipants.add(mEditParticipants.getText().toString().trim());
         final Chip chip = new Chip(Objects.requireNonNull(getContext()));
-        ChipDrawable chipDrawable = ChipDrawable.createFromResource(getContext(),R.xml.item_chip_participant);
+        ChipDrawable chipDrawable = ChipDrawable.createFromResource(getContext(), R.xml.item_chip_participant);
         chip.setChipDrawable(chipDrawable);
         chip.setText(mEditParticipants.getText());
         chip.setOnCloseIconClickListener(v -> {
@@ -246,6 +246,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     /**
      * Method to retrieve the date from {@link DatePickerFragment}
      * with use of newIntent method.
+     *
      * @param requestCode requestCode
      * @param resultCode  resultCode
      * @param data        object with data(the date)
@@ -270,44 +271,53 @@ public class AddNewMeetingDialog extends DialogFragment {
         return intent;
     }
 
-//    private TextView.OnEditorActionListener editorListener = new TextView.OnEditorActionListener() {
-//        @Override
-//        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//            switch (actionId){
-//                case EditorInfo.IME_ACTION_GO:
-//                    addChip(mEditParticipants.getText().toString());
-//                    Log.d(TAG, "onEditorAction: "+mEditParticipants.getText().toString());
-//                    break;
-//            }
-//            return false;
-//        }
-//    };
-
     /**
-     * TODO
-     * before save hew meeting:
-     * example to set 'save' button disable:
-     *     private void init() {
-     *         mNeighbourImage = randomImage();
-     *         Glide.with(this).load(mNeighbourImage).placeholder(R.drawable.ic_account)
-     *                 .apply(RequestOptions.circleCropTransform()).into(avatar);
-     *         Objects.requireNonNull(nameInput.getEditText()).addTextChangedListener(new TextWatcher() {
-     *             @Override
-     *             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-     *             @Override
-     *             public void onTextChanged(CharSequence s, int start, int before, int count) { }
-     *             @Override
-     *             public void afterTextChanged(Editable s) {
-     *                 addButton.setEnabled(s.length() > 0);
-     *             }
-     *         });
-     *
-     *     }
-     * Or check if whole form is valid (?)
+     * Check the validity of form.
      */
     @OnClick(R.id.meeting_add_create_btn)
-    // TODO participants go to be List<String> or just String ?
-    void createMeeting() {
+    void checkRequiredFormFields() {
+        // recover last participant written by the user in EditText and not submit
+        if (!mEditParticipants.getText().toString().trim().equals(""))
+            if (!mParticipants.contains(mEditParticipants.getText().toString().trim()))
+                mParticipants.add(mEditParticipants.getText().toString().trim());
+
+        int count = 0;
+        StringBuilder message = new StringBuilder();
+        if (mAddMeetingTitle.getText().toString().equals("")) {
+            count++;
+            message.append(" sujet");
+        }
+        if (mDate.equals("")) {
+            count++;
+            message.append(message.length() == 0 ? " date" : " ,date");
+        }
+        if (mFromHour.equals("l'heur")) {
+            count++;
+            message.append(message.length() == 0 ? " le début" : " ,le début");
+        }
+        if (mToHour.equals("l'heur")) {
+            count++;
+            message.append(message.length() == 0 ? " la fin" : " ,la fin");
+        }
+        if (mHall.equals("hall_0")) {
+            count++;
+            message.append(message.length() == 0 ? " la salle" : " ,la salle");
+        }
+        if (mParticipants.size() <= 1) {
+            count++;
+            message.append(message.length() == 0 ? " les participants" : " ,les participants");
+        }
+        if (count > 3) Tools.showSnackBar(
+                1,
+                mCoordinatorLayout,
+                "Il reste: " + count + " champs à renseigner."
+        );
+        else if (count == 0 && mFromHour.equals(mToHour)) Tools.showSnackBar(1,mCoordinatorLayout,"Les heurs sont identiques. C'est normal?.");
+        else if (count > 0) Tools.showSnackBar(1, mCoordinatorLayout, "Il manque: " + message+ ".");
+        else createMeeting();
+    }
+
+    private void createMeeting() {
         Meeting meeting = new Meeting(
                 System.currentTimeMillis(),
                 mAddMeetingTitle.getText().toString(),
@@ -321,6 +331,4 @@ public class AddNewMeetingDialog extends DialogFragment {
         EventBus.getDefault().post(new RefreshRecyclerView(0));
         cancelDialog();
     }
-
-
 }

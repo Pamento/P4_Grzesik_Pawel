@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -152,7 +153,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/mDistance"
                         android:layout_marginStart="@dimen/mDistance"
-                        android:hint="@string/meeting_hint_date"
+                        android:hint="@string/meeting_date"
                         android:paddingTop="@dimen/sDistance"
                         android:paddingBottom="@dimen/sDistance"
                         android:textColor="@android:color/black"
@@ -233,7 +234,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/tDistance"
-                    android:layout_marginTop="@dimen/bDistance"
+                    android:layout_marginTop="@dimen/lDistance"
                     android:text="@string/meeting_participants"
                     android:textColor="@color/carbonGray"
                     app:layout_constraintTop_toBottomOf="@+id/layout_date_hour_hall"
@@ -309,4 +310,4 @@
 
     </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,20 +1,23 @@
 package com.pamento.mareu.utils;
 
-import android.util.Log;
+import android.graphics.Color;
+import android.view.View;
+import android.widget.TextView;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.pamento.mareu.R;
 import com.pamento.mareu.utils.newMeetingHallSpinner.HallItem;
 import com.pamento.mareu.utils.newMeetingHourSpinner.Hour;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class Tools {
-    private static final String TAG = "Tools";
 
     public static int switchMenuActions(int actionId) {
-        Log.d(TAG, "switchMenuActions: " + actionId);
         int filterId;
         switch (actionId) {
             case R.id.filter_post_all:
@@ -57,69 +60,69 @@ public abstract class Tools {
                 filterId = -1;
                 break;
         }
-        Log.d(TAG, "switchMenuActions: filterId " + filterId);
         return filterId;
     }
 
-    public static ArrayList<HallItem> initHallSpinnerList() {
-        ArrayList<HallItem> hallItems = new ArrayList<>();
-        hallItems.add(new HallItem("hall_0", R.drawable.hall_0));
-        hallItems.add(new HallItem("hall_a", R.drawable.hall_a));
-        hallItems.add(new HallItem("hall_b", R.drawable.hall_b));
-        hallItems.add(new HallItem("hall_c", R.drawable.hall_c));
-        hallItems.add(new HallItem("hall_d", R.drawable.hall_d));
-        hallItems.add(new HallItem("hall_e", R.drawable.hall_e));
-        hallItems.add(new HallItem("hall_f", R.drawable.hall_f));
-        hallItems.add(new HallItem("hall_g", R.drawable.hall_g));
-        hallItems.add(new HallItem("hall_h", R.drawable.hall_h));
-        hallItems.add(new HallItem("hall_i", R.drawable.hall_i));
-        hallItems.add(new HallItem("hall_j", R.drawable.hall_j));
+    public static List<HallItem> initHallSpinnerList() { return new ArrayList<>(HALL_LIST); }
 
-        return hallItems;
+    private static List<HallItem> HALL_LIST = Arrays.asList(
+            new HallItem("hall_0", R.drawable.hall_0),
+            new HallItem("hall_a", R.drawable.hall_a),
+            new HallItem("hall_b", R.drawable.hall_b),
+            new HallItem("hall_c", R.drawable.hall_c),
+            new HallItem("hall_d", R.drawable.hall_d),
+            new HallItem("hall_e", R.drawable.hall_e),
+            new HallItem("hall_f", R.drawable.hall_f),
+            new HallItem("hall_g", R.drawable.hall_g),
+            new HallItem("hall_h", R.drawable.hall_h),
+            new HallItem("hall_i", R.drawable.hall_i),
+            new HallItem("hall_j", R.drawable.hall_j)
+    );
+
+    public static List<Hour> initHourSpinnerList() {
+        return new ArrayList<>(HOUR_LIST);
     }
 
-    public static ArrayList<Hour> initHourSpinnerList() {
-        ArrayList<Hour> hours = new ArrayList<>();
-        hours.add(new Hour("08:00"));
-        hours.add(new Hour("08:15"));
-        hours.add(new Hour("08:30"));
-        hours.add(new Hour("08:45"));
-        hours.add(new Hour("09:00"));
-        hours.add(new Hour("09:15"));
-        hours.add(new Hour("09:30"));
-        hours.add(new Hour("09:45"));
-        hours.add(new Hour("10:00"));
-        hours.add(new Hour("10:15"));
-        hours.add(new Hour("10:30"));
-        hours.add(new Hour("10:45"));
-        hours.add(new Hour("11:00"));
-        hours.add(new Hour("11:15"));
-        hours.add(new Hour("11:30"));
-        hours.add(new Hour("11:45"));
-        hours.add(new Hour("12:00"));
-        hours.add(new Hour("12:15"));
-        hours.add(new Hour("12:30"));
-        hours.add(new Hour("12:45"));
-        hours.add(new Hour("13:00"));
-        hours.add(new Hour("13:15"));
-        hours.add(new Hour("13:30"));
-        hours.add(new Hour("13:45"));
-        hours.add(new Hour("14:00"));
-        hours.add(new Hour("14:15"));
-        hours.add(new Hour("14:30"));
-        hours.add(new Hour("14:45"));
-        hours.add(new Hour("15:00"));
-        hours.add(new Hour("15:15"));
-        hours.add(new Hour("15:30"));
-        hours.add(new Hour("15:45"));
-        hours.add(new Hour("16:00"));
-        hours.add(new Hour("16:15"));
-        hours.add(new Hour("16:30"));
-        hours.add(new Hour("16:45"));
-        hours.add(new Hour("17:00"));
-
-        return hours;
-    }
+    private static List<Hour> HOUR_LIST = Arrays.asList(
+            new Hour("l'heur"),
+            new Hour("08:00"),
+            new Hour("08:15"),
+            new Hour("08:30"),
+            new Hour("08:45"),
+            new Hour("09:00"),
+            new Hour("09:15"),
+            new Hour("09:30"),
+            new Hour("09:45"),
+            new Hour("10:00"),
+            new Hour("10:15"),
+            new Hour("10:30"),
+            new Hour("10:45"),
+            new Hour("11:00"),
+            new Hour("11:15"),
+            new Hour("11:30"),
+            new Hour("11:45"),
+            new Hour("12:00"),
+            new Hour("12:15"),
+            new Hour("12:30"),
+            new Hour("12:45"),
+            new Hour("13:00"),
+            new Hour("13:15"),
+            new Hour("13:30"),
+            new Hour("13:45"),
+            new Hour("14:00"),
+            new Hour("14:15"),
+            new Hour("14:30"),
+            new Hour("14:45"),
+            new Hour("15:00"),
+            new Hour("15:15"),
+            new Hour("15:30"),
+            new Hour("15:45"),
+            new Hour("16:00"),
+            new Hour("16:15"),
+            new Hour("16:30"),
+            new Hour("16:45"),
+            new Hour("17:00")
+    );
 
     static String hallName(String hall) {
         String name;
@@ -158,5 +161,34 @@ public abstract class Tools {
                 name = "error";
         }
         return name;
+    }
+
+    /**
+     * @param actionID          1 for warning; 0 for info message
+     * @param coordinatorLayout View for which snackbar must by applied
+     * @param message           String of content of message
+     */
+    public static void showSnackBar(int actionID, CoordinatorLayout coordinatorLayout, String message) {
+
+        if (actionID == 1) {
+
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, message, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.snack_action_btn, v -> {
+                        Snackbar snackBarError = Snackbar.make(coordinatorLayout, R.string.thanks, Snackbar.LENGTH_SHORT);
+                        snackBarError.show();
+                    })
+                    .setActionTextColor(Color.WHITE);
+
+            View snackView = snackbar.getView();
+            TextView textView = snackView.findViewById(com.google.android.material.R.id.snackbar_text);
+            textView.setTextColor(Color.YELLOW);
+
+            snackbar.show();
+
+        } else {
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
     }
 }
