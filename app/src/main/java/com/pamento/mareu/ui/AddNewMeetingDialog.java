@@ -72,6 +72,7 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     private ApiService mApiService;
     private Context mContext;
+    boolean isLargeLayout;
     // Variable to submit
     private String mHall = "";
     private String mFromHour = "";
@@ -95,6 +96,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mApiService = DI.getApiService();
+        isLargeLayout = getResources().getBoolean(R.bool.large_layout);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
     }
 
@@ -134,12 +136,15 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     @Override
     public void onResume() {
-        // Get existing layout params for the window to resize the Dialog view to full screen
-        WindowManager.LayoutParams params = Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).getAttributes();
-        // Assign window properties to fill the parent
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        Objects.requireNonNull(getDialog().getWindow()).setAttributes(params);
+        // Display the DialogFragment in mode FullScreen only if window is small.
+        if (!isLargeLayout) {
+            // Get existing layout params for the window to resize the Dialog view to full screen
+            WindowManager.LayoutParams params = Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).getAttributes();
+            // Assign window properties to fill the parent
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+            params.height = WindowManager.LayoutParams.MATCH_PARENT;
+            Objects.requireNonNull(getDialog().getWindow()).setAttributes(params);
+        }
         // Call super onResume after sizing
         super.onResume();
     }
