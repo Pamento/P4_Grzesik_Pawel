@@ -24,7 +24,7 @@
     <string name="meeting_hint_title">Sujet de la réunion</string>
     <string name="meeting_date">Date</string>
     <string name="meeting_hint_date">30/04/2020</string>
-    <string name="meeting_hour">L\'heur</string>
+    <string name="meeting_hour">l\'heure</string>
     <string name="meeting_hour_from">De</string>
     <string name="meeting_hint_hour_from">9:30</string>
     <string name="meeting_hour_to">A</string>

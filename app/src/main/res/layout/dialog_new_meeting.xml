@@ -129,6 +129,7 @@
                     android:id="@+id/layout_date_hour_hall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxWidth="400dp"
                     android:layout_marginStart="@dimen/mDistance"
                     android:layout_marginTop="@dimen/lDistance"
                     android:layout_marginEnd="@dimen/mDistance"
