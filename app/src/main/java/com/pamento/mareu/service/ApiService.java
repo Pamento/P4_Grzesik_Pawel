@@ -23,4 +23,17 @@ public interface ApiService {
      * @param meeting new object according to model: Meeting
      */
     void createMeeting(Meeting meeting);
+
+    /**
+     * Filter for meeting by day chosen by user
+     * @param date of the day.
+     * @return
+     */
+    List<Meeting> getMeetingsForOneDay(String date);
+
+    /**
+     * Filter for meeting by hall chosen by user
+     * @param hallName name of hall.
+     */
+    List<Meeting> getMeetingsForOneHall(String hallName);
 }

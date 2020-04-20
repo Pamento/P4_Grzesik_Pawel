@@ -42,7 +42,5 @@
     <!-- The message to communicate to user -->
     <string name="thanks">Merci</string>
     <string name="meeting_success_save">La réunion a bien été enregistrée.</string>
-    <string name="no_meeting_at_date">Il n\'y a pas des réunions à cette date.</string>
-    <string name="no_meeting_at_hall">Il n\'y a pas des réunions sans cette salle.</string>
 
 </resources>

@@ -124,7 +124,7 @@ public abstract class Tools {
             new Hour("17:00")
     );
 
-    static String hallName(String hall) {
+    public static String hallName(String hall) {
         String name;
         switch (hall) {
             case "hall_a":
@@ -155,7 +155,37 @@ public abstract class Tools {
                 name = "Salle I";
                 break;
             case "hall_j":
-                name = "Salle j";
+                name = "Salle J";
+                break;
+            case "Salle A":
+                name = "hall_a";
+                break;
+            case "Salle B":
+                name = "hall_b";
+                break;
+            case "Salle C":
+                name = "hall_c";
+                break;
+            case "Salle D":
+                name = "hall_d";
+                break;
+            case "Salle E":
+                name = "hall_e";
+                break;
+            case "Salle F":
+                name = "hall_f";
+                break;
+            case "Salle G":
+                name = "hall_g";
+                break;
+            case "Salle H":
+                name = "hall_h";
+                break;
+            case "":
+                name = "hall_i";
+                break;
+            case "Salle J":
+                name = "hall_j";
                 break;
             default:
                 name = "error";
@@ -165,17 +195,17 @@ public abstract class Tools {
 
     /**
      * @param actionID          1 for warning; 0 for info message
-     * @param coordinatorLayout View for which snackbar must by applied
-     * @param message           String of content of message
+     * @param view for which snackbar must by applied
+     * @param message String of content of message.
      */
-    public static void showSnackBar(int actionID, CoordinatorLayout coordinatorLayout, String message) {
+    public static void showSnackBar(int actionID, View view, String message) {
 
         if (actionID == 1) {
 
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, message, Snackbar.LENGTH_INDEFINITE)
+                    .make(view, message, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.snack_action_btn, v -> {
-                        Snackbar snackBarError = Snackbar.make(coordinatorLayout, R.string.thanks, Snackbar.LENGTH_SHORT);
+                        Snackbar snackBarError = Snackbar.make(view, R.string.thanks, Snackbar.LENGTH_SHORT);
                         snackBarError.show();
                     })
                     .setActionTextColor(Color.WHITE);
@@ -187,7 +217,7 @@ public abstract class Tools {
             snackbar.show();
 
         } else {
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
             snackbar.show();
         }
     }
