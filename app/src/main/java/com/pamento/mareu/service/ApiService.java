@@ -36,4 +36,5 @@ public interface ApiService {
      * @param hallName name of hall.
      */
     List<Meeting> getMeetingsForOneHall(String hallName);
+    void setMeetings();
 }

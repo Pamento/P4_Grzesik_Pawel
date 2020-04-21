@@ -41,6 +41,5 @@
 
     <!-- The message to communicate to user -->
     <string name="thanks">Merci</string>
-    <string name="meeting_success_save">La réunion a bien été enregistrée.</string>
 
 </resources>

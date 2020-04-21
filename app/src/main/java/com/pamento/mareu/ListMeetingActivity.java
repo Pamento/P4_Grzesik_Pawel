@@ -10,10 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.pamento.mareu.di.DI;
 import com.pamento.mareu.events.DeleteMeetingEvent;
@@ -37,14 +35,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ListMeetingActivity extends AppCompatActivity {
-    private static final String TAG = "______DiALOG_______";
 
-    @BindView(R.id.activity_main_meetings_recyclerView)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.activity_main_toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.wholeView)
-    ConstraintLayout mPageView;
+    @BindView(R.id.activity_main_meetings_recyclerView) RecyclerView mRecyclerView;
+    @BindView(R.id.activity_main_toolbar) Toolbar mToolbar;
+    @BindView(R.id.wholeView) ConstraintLayout mPageView;
     private List<Meeting> mMeetings;
     private ApiService mApiService;
     private ListMeetingActivity mThisActivity;
@@ -65,29 +59,6 @@ public class ListMeetingActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
-//
-//    /**
-//     * To manage the eventually changes on/in the menu View.
-//     * https://developer.android.com/reference/android/app/Activity#onPrepareOptionsMenu(android.view.Menu)
-//     *
-//     * @param menu existing menu content
-//     * @return boolean
-//     */
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        return super.onPrepareOptionsMenu(menu);
-//        // TODO for manage the actions inside menu after is created
-//    }
-
-    public void checkDateForNextAction(int action, String date) {
-        if (action == 0) {
-            Log.d(TAG, "_________Next_0 filter__Action: " + date);
-            initList(1, date);
-        } else {
-            Log.d(TAG, "_________Next_ 1 newMeeting__Action: " + date);
-            Toast.makeText(this, "Chosen date is: " + date, Toast.LENGTH_SHORT).show();
-        }
-    }
 
     /**
      * Function intermediary between menu of main page (filters list the of meetings)
@@ -98,7 +69,6 @@ public class ListMeetingActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Log.d(TAG, "onOptionsItemSelected: ######__fired__###### " + item.getItemId());
         if (Tools.switchMenuActions(item.getItemId()) >= 0) {
             initList(Tools.switchMenuActions(item.getItemId()), Tools.hallName(item.getTitle().toString()));
             return true;
@@ -122,30 +92,25 @@ public class ListMeetingActivity extends AppCompatActivity {
      * @param filterId meetings by: 0 - all meetings   1 - day    2-11 - hall
      */
     public void initList(int filterId, String filterValue) {
-        Log.d(TAG, "initList: filter " + filterId);
         if (filterId == 0) mMeetings = mApiService.getMeetings();
         else if (filterId == 1) {
             if (filterValue != null) {
                 mMeetings = mApiService.getMeetingsForOneDay(filterValue);
-                Log.d(TAG, "initList: +++++++++++++++++++++++meetings.SIZE( " + mMeetings.size() + " )");
                 if (mMeetings.size() == 0) {
                     Tools.showSnackBar(0, mPageView, Constants.NO_MEETING_AT_DATE + filterValue);
                     mMeetings = mApiService.getMeetings();
                 }
             }
-
         } else if (filterId == -1) {
-            Tools.showSnackBar(0, mPageView, "Un error est parvenu. Essayez à nouveau.");
+            Tools.showSnackBar(0, mPageView, Constants.ERROR_MESSAGE);
         } else {
             if (filterValue != null) {
                 mMeetings = mApiService.getMeetingsForOneHall(filterValue);
-                Log.d(TAG, "initList: ++++++++++++++++++++++++meetings.SIZE( " + mMeetings.size() + " )");
                 if (mMeetings.size() == 0) {
                     Tools.showSnackBar(0, mPageView, Constants.NO_MEETING_IN_HALL + Tools.hallName(filterValue) + ".");
                     mMeetings = mApiService.getMeetings();
                 }
             }
-
         }
         mRecyclerView.setAdapter(new MeetingsRecyclerViewAdapter(mMeetings, mThisActivity));
     }
@@ -153,8 +118,7 @@ public class ListMeetingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // TODO check how this works with filters
-        // TODO check if here wy need reset mMeetings
+        mApiService.setMeetings();
         initList(0, null);
     }
 
@@ -168,12 +132,6 @@ public class ListMeetingActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: FIRED");
     }
 
     /**
@@ -204,7 +162,6 @@ public class ListMeetingActivity extends AppCompatActivity {
      * @param item of main menu
      */
     public void showDatePickerDialog(MenuItem item) {
-        Log.d(TAG, "filter ");
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), Constants.FILTER);
     }

@@ -1,31 +1,23 @@
 package com.pamento.mareu.ui;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.DatePicker;
 
 import com.pamento.mareu.ListMeetingActivity;
 
 import java.util.Calendar;
-import java.util.List;
 import java.util.Objects;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    private static final String TAG = "______Date____Dialog___";
 
     private ListMeetingActivity mListMeetingActivity;
 
@@ -46,26 +38,24 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        //TODO add Date.format !
         view.cancelLongPress();
         Object tag = getTag();
-        int action = 0;
-
-        // TODO maybe it is not necessery. Wy need to send data to AddNewMeetingDialog and not to ListMeetingActivity
-        Log.d(TAG, "onDateSet: TAG " + tag.toString());
-        if (tag.equals("newMeeting")) action = 1;
-        mListMeetingActivity.checkDateForNextAction(action, dayOfMonth + "/" + (month + 1) + "/" + year);
-
-        sendResult(dayOfMonth + "/" + (month + 1) + "/" + year);
+        if (tag != null) {
+            if (tag.equals("newMeeting"))
+                sendResult(dayOfMonth + "/" + (month + 1) + "/" + year);
+            else
+                mListMeetingActivity.initList(1, dayOfMonth + "/" + (month + 1) + "/" + year);
+        }
     }
 
     /**
      * Transfer/sand date from here to AddNewMeetingDialog
      * For display them in TextView-AddMeetingDate
-     * @param date
+     *
+     * @param date to send to AddNewMeetingDialog
      */
     private void sendResult(String date) {
-        if( getTargetFragment() == null ) {
+        if (getTargetFragment() == null) {
             return;
         }
         Intent intent = AddNewMeetingDialog.newIntent(date);

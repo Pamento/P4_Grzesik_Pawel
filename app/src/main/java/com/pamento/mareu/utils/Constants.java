@@ -12,4 +12,7 @@ public abstract class Constants {
      */
     public static final String NO_MEETING_AT_DATE = "Il n'y a pas des réunions le ";
     public static final String NO_MEETING_IN_HALL  = "Il n'y a pas des réunions dans la salle: ";
+    public static final String SUCCESS_ADD_MEETING = "La réunion a bien été enregistrée.";
+    public static final String WARNING_SAME_HOURS = "Les heurs sont identiques. C'est normal?.";
+    public static final String ERROR_MESSAGE = "Un error est parvenu. Essayez à nouveau.";
 }

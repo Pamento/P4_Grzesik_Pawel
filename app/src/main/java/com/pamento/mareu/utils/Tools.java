@@ -181,7 +181,7 @@ public abstract class Tools {
             case "Salle H":
                 name = "hall_h";
                 break;
-            case "":
+            case "Salle I":
                 name = "hall_i";
                 break;
             case "Salle J":

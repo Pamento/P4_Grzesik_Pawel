@@ -47,32 +47,22 @@ import butterknife.OnClick;
 
 public class AddNewMeetingDialog extends DialogFragment {
 
-    @BindView(R.id.coordinatorLayout)
-    CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.coordinatorLayout) CoordinatorLayout mCoordinatorLayout;
     // Action Button
-    @BindView(R.id.meeting_add_cancel_btn)
-    ImageButton mCancel;
-    @BindView(R.id.meeting_add_create_btn)
-    ImageButton mSave;
+    @BindView(R.id.meeting_add_cancel_btn) ImageButton mCancel;
+    @BindView(R.id.meeting_add_create_btn) ImageButton mSave;
     // View
-    @BindView(R.id.meeting_add_title)
-    EditText mAddMeetingTitle;
-    @BindView(R.id.meeting_add_date)
-    TextView mAddMeetingDate;
-    @BindView(R.id.meeting_add_hour_start)
-    Spinner mAddMeetingHourStart;
-    @BindView(R.id.meeting_add_hour_end)
-    Spinner mAddMeetingHourEnd;
-    @BindView(R.id.meeting_add_hall)
-    Spinner mAddMeetingHall;
-    @BindView(R.id.meeting_add_participants_edit)
-    EditText mEditParticipants;
-    @BindView(R.id.meeting_list_participants)
-    ChipGroup mListParticipants;
+    @BindView(R.id.meeting_add_title) EditText mAddMeetingTitle;
+    @BindView(R.id.meeting_add_date) TextView mAddMeetingDate;
+    @BindView(R.id.meeting_add_hour_start) Spinner mAddMeetingHourStart;
+    @BindView(R.id.meeting_add_hour_end) Spinner mAddMeetingHourEnd;
+    @BindView(R.id.meeting_add_hall) Spinner mAddMeetingHall;
+    @BindView(R.id.meeting_add_participants_edit) EditText mEditParticipants;
+    @BindView(R.id.meeting_list_participants) ChipGroup mListParticipants;
 
     private ApiService mApiService;
     private Context mContext;
-    boolean isLargeLayout;
+    private boolean isLargeLayout;
     // Variable to submit
     private String mHall = "";
     private String mFromHour = "";
@@ -80,9 +70,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     private String mDate = "";
     private List<String> mParticipants = new ArrayList<>();
 
-    // REQUIRED EMPTY CONSTRUCTOR
-    public AddNewMeetingDialog() {
-    }
+    public AddNewMeetingDialog() { }// REQUIRED EMPTY CONSTRUCTOR
 
     public static AddNewMeetingDialog newInstance(String title) {
         AddNewMeetingDialog frag = new AddNewMeetingDialog();
@@ -111,18 +99,6 @@ public class AddNewMeetingDialog extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Fetch arguments from bundle and set title
-//        String title = getArguments() != null ? getArguments().getString("title", "Enter Name") : null;
-//        Objects.requireNonNull(getDialog()).setTitle(title);
-
-        // Show soft keyboard automatically and request focus to field
-//        mAddMeetingTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//
-//            }
-//        });
-        //mAddMeetingTitle.requestFocus();
         Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
@@ -160,19 +136,18 @@ public class AddNewMeetingDialog extends DialogFragment {
     }
 
     private void configureDatePickerDialog() {
-        mAddMeetingDate.setOnClickListener(v -> showDatePickerDialog(Constants.NEW_MEETING));
+        mAddMeetingDate.setOnClickListener(v -> showDatePickerDialog());
     }
 
     /**
      * Display and pick user choice for date of meeting.
      *
-     * @param title of the Dialog
      */
-    private void showDatePickerDialog(String title) {
+    private void showDatePickerDialog() {
         DatePickerFragment newDatePickerFragment = new DatePickerFragment();
         newDatePickerFragment.setTargetFragment(AddNewMeetingDialog.this, Constants.TARGET_FRAGMENT_REQUEST_CODE);
         if (getFragmentManager() != null) {
-            newDatePickerFragment.show(getFragmentManager(), title);
+            newDatePickerFragment.show(getFragmentManager(), Constants.NEW_MEETING);
         }
     }
 
@@ -262,11 +237,10 @@ public class AddNewMeetingDialog extends DialogFragment {
             return;
         }
         if (requestCode == Constants.TARGET_FRAGMENT_REQUEST_CODE) {
-            // TODO in place of null if condition is false: make an static class showMessage with SnackBar+message
-            // ex.: snackBarMessage(int typeMessage:[error,info],String message)
-            String date = data != null ? data.getStringExtra(Constants.EXTRA_DATE_PICKER_DIALOG) : null;
-            mAddMeetingDate.setText(date);
-            mDate = date;
+            String sDate = data != null ? data.getStringExtra(Constants.EXTRA_DATE_PICKER_DIALOG) : null;
+            if (sDate != null) mAddMeetingDate.setText(sDate);
+            else Tools.showSnackBar(0,mCoordinatorLayout,Constants.ERROR_MESSAGE);
+            mDate = sDate;
         }
     }
 
@@ -288,10 +262,7 @@ public class AddNewMeetingDialog extends DialogFragment {
 
         int count = 0;
         StringBuilder message = new StringBuilder();
-        if (mAddMeetingTitle.getText().toString().equals("")) {
-            count++;
-            message.append(" sujet");
-        }
+        if (mAddMeetingTitle.getText().toString().equals("")) { count++; message.append(" sujet");}
         if (mDate.equals("")) {
             count++;
             message.append(message.length() == 0 ? " date" : " ,date");
@@ -317,7 +288,7 @@ public class AddNewMeetingDialog extends DialogFragment {
                 mCoordinatorLayout,
                 "Il reste: " + count + " champs à renseigner."
         );
-        else if (count == 0 && mFromHour.equals(mToHour)) Tools.showSnackBar(1,mCoordinatorLayout,"Les heurs sont identiques. C'est normal?.");
+        else if (count == 0 && mFromHour.equals(mToHour)) Tools.showSnackBar(1,mCoordinatorLayout,Constants.WARNING_SAME_HOURS);
         else if (count > 0) Tools.showSnackBar(1, mCoordinatorLayout, "Il manque: " + message+ ".");
         else createMeeting();
     }
@@ -334,6 +305,7 @@ public class AddNewMeetingDialog extends DialogFragment {
         );
         mApiService.createMeeting(meeting);
         EventBus.getDefault().post(new RefreshRecyclerView(0));
+        Tools.showSnackBar(0, mCoordinatorLayout,Constants.SUCCESS_ADD_MEETING);
         cancelDialog();
     }
 }
