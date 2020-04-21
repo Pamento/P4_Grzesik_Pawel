@@ -28,6 +28,7 @@ import com.pamento.mareu.di.DI;
 import com.pamento.mareu.events.RefreshRecyclerView;
 import com.pamento.mareu.model.Meeting;
 import com.pamento.mareu.service.ApiService;
+import com.pamento.mareu.service.Resources;
 import com.pamento.mareu.utils.Constants;
 import com.pamento.mareu.utils.Tools;
 import com.pamento.mareu.utils.newMeetingHallSpinner.HallItem;
@@ -152,7 +153,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     }
 
     private void configureHallPikerSpinner() {
-        List<HallItem> hallList = Tools.initHallSpinnerList();
+        List<HallItem> hallList = Resources.initHallSpinnerList();
         HallSpinnerAdapter adapter = new HallSpinnerAdapter(mContext, hallList);
         mAddMeetingHall.setAdapter(adapter);
         mAddMeetingHall.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -170,7 +171,7 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     private void configureHourPickerSpinner() {
         // TODO change to DI with filters accordingly to possibility of reservation of hall
-        List<Hour> hoursList = Tools.initHourSpinnerList();
+        List<Hour> hoursList = Resources.initHourSpinnerList();
 
         HourSpinnerAdapter hoursAdapter = new HourSpinnerAdapter(mContext, hoursList);
         mAddMeetingHourStart.setAdapter(hoursAdapter);
@@ -189,7 +190,7 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     private void configureHourEndPickerSpinner() {
         // TODO change to DI with filters accordingly to possibility of reservation of hall
-        List<Hour> hoursList = Tools.initHourSpinnerList();
+        List<Hour> hoursList = Resources.initHourSpinnerList();
 
         HourSpinnerAdapter hoursAdapter = new HourSpinnerAdapter(mContext, hoursList);
         mAddMeetingHourEnd.setAdapter(hoursAdapter);

@@ -1,7 +1,6 @@
 package com.pamento.mareu.service;
 
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -25,6 +24,14 @@ public class FakeApiService implements ApiService {
 
     @Override
     public List<Meeting> getMeetings() {
+        if (mMeetingsByDate != null) {
+            mMeetingsByDate.clear();
+            mMeetingsByDate = null;
+        }
+        if (mMeetingsByHall != null) {
+            mMeetingsByHall.clear();
+            mMeetingsByHall = null;
+        }
         return mMeetings;
     }
 
@@ -50,16 +57,12 @@ public class FakeApiService implements ApiService {
         return mMeetingsByDate;
     }
 
-    private static final String TAG = "FakeApiService";
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public List<Meeting> getMeetingsForOneHall(String hallName) {
-        Log.d(TAG, "getMeetingsForOneHall: "+hallName);
         if (mMeetingsByDate != null) {
-            Log.d(TAG, "___if____getMeetingsForOneHall: "+hallName);
             return mMeetingsByDate.stream().filter(Meeting -> hallName.equals(Meeting.getHall())).collect(Collectors.toList());
         } else {
-            Log.d(TAG, "____else____getMeetingsForOneHall: "+hallName);
             mMeetingsByHall = mMeetings.stream().filter(Meeting -> hallName.equals(Meeting.getHall())).collect(Collectors.toList());
         }
         return mMeetingsByHall;

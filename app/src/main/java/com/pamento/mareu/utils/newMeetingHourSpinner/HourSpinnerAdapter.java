@@ -17,7 +17,7 @@ import java.util.List;
 public class HourSpinnerAdapter extends ArrayAdapter<Hour> {
 
     public HourSpinnerAdapter(Context context, List<Hour> HourList) {
-        super(context,0,HourList);
+        super(context, 0, HourList);
     }
 
     @NonNull
@@ -38,9 +38,7 @@ public class HourSpinnerAdapter extends ArrayAdapter<Hour> {
             );
         }
         TextView mHourTestView = convertView.findViewById(R.id.spinner_display_hour);
-
         Hour currentHour = getItem(position);
-
         if (currentHour != null) {
             mHourTestView.setText(currentHour.getHour());
         }
