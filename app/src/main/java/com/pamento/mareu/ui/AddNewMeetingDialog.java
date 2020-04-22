@@ -49,10 +49,8 @@ import butterknife.OnClick;
 public class AddNewMeetingDialog extends DialogFragment {
 
     @BindView(R.id.coordinatorLayout) CoordinatorLayout mCoordinatorLayout;
-    // Action Button
     @BindView(R.id.meeting_add_cancel_btn) ImageButton mCancel;
     @BindView(R.id.meeting_add_create_btn) ImageButton mSave;
-    // View
     @BindView(R.id.meeting_add_title) EditText mAddMeetingTitle;
     @BindView(R.id.meeting_add_date) TextView mAddMeetingDate;
     @BindView(R.id.meeting_add_hour_start) Spinner mAddMeetingHourStart;
@@ -64,11 +62,7 @@ public class AddNewMeetingDialog extends DialogFragment {
     private ApiService mApiService;
     private Context mContext;
     private boolean isLargeLayout;
-    // Variable to submit
-    private String mHall = "";
-    private String mFromHour = "";
-    private String mToHour = "";
-    private String mDate = "";
+    private String mHall = "", mFromHour = "", mToHour = "", mDate = "";
     private List<String> mParticipants = new ArrayList<>();
 
     public AddNewMeetingDialog() { }// REQUIRED EMPTY CONSTRUCTOR
@@ -104,7 +98,6 @@ public class AddNewMeetingDialog extends DialogFragment {
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         mContext = getContext();
-        // Date picker DialogFragment
         configureDatePickerDialog();
         configureHallPikerSpinner();
         configureHourPickerSpinner();
@@ -142,7 +135,6 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     /**
      * Display and pick user choice for date of meeting.
-     *
      */
     private void showDatePickerDialog() {
         DatePickerFragment newDatePickerFragment = new DatePickerFragment();
@@ -162,7 +154,6 @@ public class AddNewMeetingDialog extends DialogFragment {
                 HallItem clickedHall = (HallItem) parent.getItemAtPosition(position);
                 mHall = clickedHall.getHallName();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -234,9 +225,7 @@ public class AddNewMeetingDialog extends DialogFragment {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
+        if (resultCode != Activity.RESULT_OK) { return; }
         if (requestCode == Constants.TARGET_FRAGMENT_REQUEST_CODE) {
             String sDate = data != null ? data.getStringExtra(Constants.EXTRA_DATE_PICKER_DIALOG) : null;
             if (sDate != null) mAddMeetingDate.setText(sDate);
@@ -251,9 +240,6 @@ public class AddNewMeetingDialog extends DialogFragment {
         return intent;
     }
 
-    /**
-     * Check the validity of form.
-     */
     @OnClick(R.id.meeting_add_create_btn)
     void checkRequiredFormFields() {
         // recover last participant written by the user in EditText and not submit
@@ -261,36 +247,23 @@ public class AddNewMeetingDialog extends DialogFragment {
             if (!mParticipants.contains(mEditParticipants.getText().toString().trim()))
                 mParticipants.add(mEditParticipants.getText().toString().trim());
 
-        int count = 0;
         StringBuilder message = new StringBuilder();
-        if (mAddMeetingTitle.getText().toString().equals("")) { count++; message.append(" sujet");}
-        if (mDate.equals("")) {
-            count++;
-            message.append(message.length() == 0 ? " date" : " ,date");
-        }
+        if (mAddMeetingTitle.getText().toString().equals("")) { message.append(" sujet");}
+        if (mDate.equals("")) { message.append(message.length() == 0 ? " date" : " ,date"); }
         if (mFromHour.equals("l'heur")) {
-            count++;
             message.append(message.length() == 0 ? " le début" : " ,le début");
         }
         if (mToHour.equals("l'heur")) {
-            count++;
             message.append(message.length() == 0 ? " la fin" : " ,la fin");
         }
         if (mHall.equals("hall_0")) {
-            count++;
             message.append(message.length() == 0 ? " la salle" : " ,la salle");
         }
         if (mParticipants.size() <= 1) {
-            count++;
             message.append(message.length() == 0 ? " les participants" : " ,les participants");
         }
-        if (count > 3) Tools.showSnackBar(
-                1,
-                mCoordinatorLayout,
-                "Il reste: " + count + " champs à renseigner."
-        );
-        else if (count == 0 && mFromHour.equals(mToHour)) Tools.showSnackBar(1,mCoordinatorLayout,Constants.WARNING_SAME_HOURS);
-        else if (count > 0) Tools.showSnackBar(1, mCoordinatorLayout, "Il manque: " + message+ ".");
+        if (mFromHour.equals(mToHour)) Tools.showSnackBar(1,mCoordinatorLayout,Constants.WARNING_SAME_HOURS);
+        else if (message.length() != 0) Tools.showSnackBar(1, mCoordinatorLayout, "Il manque: " + message+ ".");
         else createMeeting();
     }
 

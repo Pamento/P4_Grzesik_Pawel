@@ -3,7 +3,7 @@
     <string name="delete_button">Delete button for meetings list</string>
 
     <!--Filters names-->
-    <string name="filter_title">Tout les réunions</string>
+    <string name="filter_title">Toutes les réunions</string>
     <string name="filter_by_day">Dans une journée</string>
     <string name="filter_by_hall">Dans une salle</string>
 
