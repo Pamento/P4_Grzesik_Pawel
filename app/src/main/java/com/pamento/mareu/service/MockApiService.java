@@ -18,7 +18,7 @@ public class MockApiService implements ApiService {
     private List<Meeting> mMeetingsByHall;
 
     @Override
-    public void setMeetings() {
+    public void resetMeetings() {
         mMeetings = mockingMeetings();
     }
 

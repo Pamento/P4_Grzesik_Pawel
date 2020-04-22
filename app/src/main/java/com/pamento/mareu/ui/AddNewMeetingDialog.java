@@ -160,7 +160,6 @@ public class AddNewMeetingDialog extends DialogFragment {
     }
 
     private void configureHourPickerSpinner() {
-        // TODO change to DI with filters accordingly to possibility of reservation of hall
         List<Hour> hoursList = Resources.initHourSpinnerList();
         HourSpinnerAdapter hoursAdapter = new HourSpinnerAdapter(mContext, hoursList);
         mAddMeetingHourStart.setAdapter(hoursAdapter);
@@ -176,7 +175,6 @@ public class AddNewMeetingDialog extends DialogFragment {
     }
 
     private void configureHourEndPickerSpinner() {
-        // TODO change to DI with filters accordingly to possibility of reservation of hall
         List<Hour> hoursList = Resources.initHourSpinnerList();
         HourSpinnerAdapter hoursAdapter = new HourSpinnerAdapter(mContext, hoursList);
         mAddMeetingHourEnd.setAdapter(hoursAdapter);

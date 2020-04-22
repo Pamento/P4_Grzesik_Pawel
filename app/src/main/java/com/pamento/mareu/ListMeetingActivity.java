@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -60,7 +59,6 @@ public class ListMeetingActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
-
     /**
      * Function intermediary between menu of main page (filters list the of meetings)
      * and RecyclerView of meetings
@@ -73,11 +71,9 @@ public class ListMeetingActivity extends AppCompatActivity {
         if (Tools.switchMenuActions(item.getItemId()) >= 0) {
             initList(Tools.switchMenuActions(item.getItemId()), Tools.hallName(item.getTitle().toString()));
             return true;
-        } else {
+        } else
             return super.onOptionsItemSelected(item);
-        }
     }
-
     /**
      * Basic call for instantiate the RecyclerView
      */
@@ -86,8 +82,6 @@ public class ListMeetingActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(this), DividerItemDecoration.VERTICAL));
         initList(0, null);
     }
-
-    private static final String TAG = "MockApiService";
     /**
      * Init and refresh RecyclerView ich time the change has been detected
      *
@@ -98,10 +92,8 @@ public class ListMeetingActivity extends AppCompatActivity {
         else if (filterId == 1) {
             if (filterValue != null) {
                 mMeetings = mApiService.getMeetingsForOneDay(filterValue);
-                Log.d(TAG, "initList: day "+filterValue);
                 if (mMeetings.size() == 0) {
                     Tools.showSnackBar(0, mPageView, Constants.NO_MEETING_AT_DATE + filterValue);
-                    Log.d(TAG, "initList: day__ "+filterValue);
                     mMeetings = mApiService.getMeetings();
                 }
             }
@@ -109,10 +101,8 @@ public class ListMeetingActivity extends AppCompatActivity {
             Tools.showSnackBar(0, mPageView, Constants.ERROR_MESSAGE);
         } else {
             if (filterValue != null) {
-                Log.d(TAG, "initList: hall "+filterValue);
                 mMeetings = mApiService.getMeetingsForOneHall(filterValue);
                 if (mMeetings.size() == 0) {
-                    Log.d(TAG, "initList: hall "+filterValue);
                     Tools.showSnackBar(0, mPageView, Constants.NO_MEETING_IN_HALL + Tools.hallName(filterValue) + ".");
                     mMeetings = mApiService.getMeetings();
                 }
@@ -124,7 +114,7 @@ public class ListMeetingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mApiService.setMeetings();
+        mApiService.resetMeetings();
         initList(0, null);
     }
 

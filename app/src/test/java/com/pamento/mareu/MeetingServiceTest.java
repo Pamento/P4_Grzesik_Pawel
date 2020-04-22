@@ -17,23 +17,16 @@ import java.util.Objects;
 
 import static org.junit.Assert.*;
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
 @RunWith(JUnit4.class)
 public class MeetingServiceTest {
 
     private ApiService service;
     private String getMeetingsFromThisDate = "13/05/2020";
     private String getGetMeetingsInThisHall = "hall_a";
-    private int MEETINGS_NUMBER;
 
     @Before
     public void setup() {
         service = DI.getNewInstanceApiService();
-        MEETINGS_NUMBER = service.getMeetings().size();
     }
 
     @Test

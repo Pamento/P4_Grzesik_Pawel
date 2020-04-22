@@ -42,5 +42,5 @@ public interface ApiService {
      */
     List<Meeting> getMeetingsForOneHall(String hallName);
 
-    void setMeetings();
+    void resetMeetings();
 }

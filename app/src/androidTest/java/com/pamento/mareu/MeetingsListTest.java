@@ -1,58 +1,36 @@
 package com.pamento.mareu;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.Menu;
 import android.widget.DatePicker;
 
-import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
-import com.google.android.material.chip.Chip;
 import com.pamento.mareu.di.DI;
-import com.pamento.mareu.model.Meeting;
 import com.pamento.mareu.service.ApiService;
 import com.pamento.mareu.utils.DeleteViewAction;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.List;
-
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.hasLinks;
 import static androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.pamento.mareu.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.hasToString;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.hamcrest.core.StringContains.containsString;
-import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.junit.Assert.*;
 
 /**
@@ -69,7 +47,6 @@ public class MeetingsListTest {
      * The {@link androidx.recyclerview.widget.RecyclerView} resource id.
      */
     private final int recyclerViewID = R.id.activity_main_meetings_recyclerView;
-    private List<Meeting> mMeetings;
 
     @Rule
     public ActivityTestRule<ListMeetingActivity> mActivityRule = new ActivityTestRule<>(ListMeetingActivity.class);
@@ -152,6 +129,5 @@ public class MeetingsListTest {
         // RecyclerView should display 16/ITEM_COUNT row/Meetings.
         onView(allOf(withId(recyclerViewID), isDisplayed()))
                 .check(withItemCount(ITEMS_COUNT));
-
     }
 }
