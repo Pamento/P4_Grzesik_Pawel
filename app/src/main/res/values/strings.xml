@@ -6,6 +6,7 @@
     <string name="filter_title">Tout les réunions</string>
     <string name="filter_by_day">Dans une journée</string>
     <string name="filter_by_hall">Dans une salle</string>
+
     <!--Filters halls-->
     <string name="h1">Salle A</string>
     <string name="h2">Salle B</string>
@@ -21,7 +22,6 @@
     <!--Full-Screen Dialog add new meeting-->
     <string name="meeting_card_title">Planifier la réunion</string>
     <string name="meeting_title">Sujet</string>
-    <string name="meeting_hint_title">Sujet de la réunion</string>
     <string name="meeting_date">Date</string>
     <string name="meeting_hint_date">30/04/2020</string>
     <string name="meeting_hour">l\'heure</string>

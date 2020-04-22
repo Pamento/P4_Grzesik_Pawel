@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-abstract class FakeApiServiceGenerator {
+public abstract class FakeApiServiceGenerator {
 
     static List<Meeting> generateMeetings() { return new ArrayList<>(FAKE_MEETINGS); }
 
-    private static List<Meeting> FAKE_MEETINGS = Arrays.asList(
+    public static List<Meeting> FAKE_MEETINGS = Arrays.asList(
             new Meeting(100,"Accueil","14/5/2020", "16:00", "17:00","hall_a", Arrays.asList("one@lamzone.com","two@lamzone.com","tree@lamzone.com")),
             new Meeting(200,"Messages","14/5/2020", "16:00", "17:00","hall_f", Arrays.asList("one@lamzone.com","two@lamzone.com","tree@lamzone.com")),
             new Meeting(300,"Management","13/5/2020", "16:00", "17:00","hall_g", Arrays.asList("one@lamzone.com","two@lamzone.com","tree@lamzone.com")),
