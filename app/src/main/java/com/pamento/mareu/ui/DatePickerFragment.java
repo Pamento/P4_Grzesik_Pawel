@@ -39,12 +39,14 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         view.cancelLongPress();
+        month++;
+        String toFrenchMoth = month > 9 ? ""+month : "0"+month;
         Object tag = getTag();
         if (tag != null) {
             if (tag.equals("newMeeting"))
-                sendResult(dayOfMonth + "/" + (month + 1) + "/" + year);
+                sendResult(dayOfMonth + "/" + toFrenchMoth + "/" + year);
             else
-                mListMeetingActivity.initList(1, dayOfMonth + "/" + (month + 1) + "/" + year);
+                mListMeetingActivity.initList(1, dayOfMonth + "/" + toFrenchMoth + "/" + year);
         }
     }
 

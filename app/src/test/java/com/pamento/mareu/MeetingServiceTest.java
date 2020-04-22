@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
 public class MeetingServiceTest {
 
     private ApiService service;
-    private String getMeetingsFromThisDate = "13/5/2020";
+    private String getMeetingsFromThisDate = "13/05/2020";
     private String getGetMeetingsInThisHall = "hall_a";
     private int MEETINGS_NUMBER;
 
@@ -56,7 +56,7 @@ public class MeetingServiceTest {
         Meeting newMeeting = new Meeting(
                 System.currentTimeMillis(),
                 "Title",
-                "30/4/2020",
+                "30/04/2020",
                 "08:00",
                 "08:30",
                 "hall_a",

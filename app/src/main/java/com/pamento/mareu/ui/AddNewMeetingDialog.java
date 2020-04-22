@@ -155,15 +155,13 @@ public class AddNewMeetingDialog extends DialogFragment {
                 mHall = clickedHall.getHallName();
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) { /**/ }
         });
     }
 
     private void configureHourPickerSpinner() {
         // TODO change to DI with filters accordingly to possibility of reservation of hall
         List<Hour> hoursList = Resources.initHourSpinnerList();
-
         HourSpinnerAdapter hoursAdapter = new HourSpinnerAdapter(mContext, hoursList);
         mAddMeetingHourStart.setAdapter(hoursAdapter);
         mAddMeetingHourStart.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -172,17 +170,14 @@ public class AddNewMeetingDialog extends DialogFragment {
                 Hour clickedHoursRow = (Hour) parent.getItemAtPosition(position);
                 mFromHour = clickedHoursRow.getHour();
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) { /**/ }
         });
     }
 
     private void configureHourEndPickerSpinner() {
         // TODO change to DI with filters accordingly to possibility of reservation of hall
         List<Hour> hoursList = Resources.initHourSpinnerList();
-
         HourSpinnerAdapter hoursAdapter = new HourSpinnerAdapter(mContext, hoursList);
         mAddMeetingHourEnd.setAdapter(hoursAdapter);
         mAddMeetingHourEnd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -191,10 +186,8 @@ public class AddNewMeetingDialog extends DialogFragment {
                 Hour clickedHoursRow = (Hour) parent.getItemAtPosition(position);
                 mToHour = clickedHoursRow.getHour();
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) { /**/ }
         });
     }
 
