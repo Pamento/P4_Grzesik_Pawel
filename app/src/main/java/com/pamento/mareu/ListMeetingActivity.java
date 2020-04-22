@@ -87,7 +87,7 @@ public class ListMeetingActivity extends AppCompatActivity {
         initList(0, null);
     }
 
-    private static final String TAG = "FakeApiService";
+    private static final String TAG = "MockApiService";
     /**
      * Init and refresh RecyclerView ich time the change has been detected
      *

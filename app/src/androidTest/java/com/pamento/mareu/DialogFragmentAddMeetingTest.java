@@ -8,17 +8,15 @@ import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.rule.ActivityTestRule;
 
 import com.pamento.mareu.di.DI;
-import com.pamento.mareu.model.Meeting;
 import com.pamento.mareu.service.ApiService;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.List;
-
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -36,12 +34,6 @@ import static org.junit.Assert.assertThat;
 public class DialogFragmentAddMeetingTest {
 
     private int ITEMS_COUNT;
-
-    /**
-     * The {@link androidx.recyclerview.widget.RecyclerView} resource id.
-     */
-    private final int recyclerViewID = R.id.activity_main_meetings_recyclerView;
-    private List<Meeting> mMeetings;
 
     @Rule
     public ActivityTestRule<ListMeetingActivity> mActivityRule = new ActivityTestRule<>(ListMeetingActivity.class);
@@ -106,8 +98,21 @@ public class DialogFragmentAddMeetingTest {
 
         onView(withId(R.id.meeting_add_create_btn)).perform(ViewActions.click());
         // Then go back to RecyclerView and his count should be one on more.
-        onView(allOf(withId(recyclerViewID), isDisplayed()))
+        onView(allOf(withId(R.id.activity_main_meetings_recyclerView), isDisplayed()))
                 .check(withItemCount(ITEMS_COUNT + 1));
 
+
+        // Check if filter by hall work for new add of meeting
+        // Perform click on menu
+        openActionBarOverflowOrOptionsMenu(mActivityRule.getActivity());
+        // From menu select option filter by hall
+        onView(withText("Dans une salle")).perform(ViewActions.click());
+        // chose the day by date
+        onView(withText("Salle A")).perform(ViewActions.click());
+        // Submit the date choice
+        //onView(withId(android.R.id.button1)).perform(ViewActions.click());
+        // RecyclerView should display 2 row/Meetings.
+        onView(allOf(withId(R.id.activity_main_meetings_recyclerView), isDisplayed()))
+                .check(withItemCount(2));
     }
 }

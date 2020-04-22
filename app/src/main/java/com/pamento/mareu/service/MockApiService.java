@@ -9,17 +9,17 @@ import com.pamento.mareu.model.Meeting;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.pamento.mareu.service.FakeApiServiceGenerator.generateMeetings;
+import static com.pamento.mareu.service.Resources.mockingMeetings;
 
-public class FakeApiService implements ApiService {
+public class MockApiService implements ApiService {
 
-    private List<Meeting> mMeetings = generateMeetings();
+    private List<Meeting> mMeetings = mockingMeetings();
     private List<Meeting> mMeetingsByDate;
     private List<Meeting> mMeetingsByHall;
 
     @Override
     public void setMeetings() {
-        mMeetings = generateMeetings();
+        mMeetings = mockingMeetings();
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.pamento.mareu;
 import com.pamento.mareu.di.DI;
 import com.pamento.mareu.model.Meeting;
 import com.pamento.mareu.service.ApiService;
-import com.pamento.mareu.service.FakeApiServiceGenerator;
+import com.pamento.mareu.service.Resources;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Before;
@@ -39,7 +39,7 @@ public class MeetingServiceTest {
     @Test
     public void getMeetings_success() {
         List<Meeting> meetings = service.getMeetings();
-        List<Meeting> expectedMeetings = FakeApiServiceGenerator.FAKE_MEETINGS;
+        List<Meeting> expectedMeetings = Resources.MOCKS_MEETINGS;
         assertThat(meetings, IsIterableContainingInAnyOrder.containsInAnyOrder(Objects.requireNonNull(expectedMeetings.toArray())));
     }
 
@@ -68,14 +68,14 @@ public class MeetingServiceTest {
     @Test
     public void getMeetingByDate_success() {
         List<Meeting> meetingsFromOneDay = service.getMeetingsForOneDay(getMeetingsFromThisDate);
-        assertThat(meetingsFromOneDay, IsIterableContainingInAnyOrder.containsInAnyOrder(FakeApiServiceGenerator.FAKE_MEETINGS.stream()
+        assertThat(meetingsFromOneDay, IsIterableContainingInAnyOrder.containsInAnyOrder(Resources.MOCKS_MEETINGS.stream()
         .filter(Meeting->getMeetingsFromThisDate.equals(Meeting.getDate())).toArray()));
     }
 
     @Test
     public void getMeetingsByHall_success() {
         List<Meeting> meetingsInOneHall = service.getMeetingsForOneHall(getGetMeetingsInThisHall);
-        assertThat(meetingsInOneHall, IsIterableContainingInAnyOrder.containsInAnyOrder(FakeApiServiceGenerator.FAKE_MEETINGS.stream()
+        assertThat(meetingsInOneHall, IsIterableContainingInAnyOrder.containsInAnyOrder(Resources.MOCKS_MEETINGS.stream()
         .filter(Meeting->getGetMeetingsInThisHall.equals(Meeting.getHall())).toArray()));
     }
 }
