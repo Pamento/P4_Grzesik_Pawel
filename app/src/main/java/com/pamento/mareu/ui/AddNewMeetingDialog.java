@@ -193,18 +193,20 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     @OnClick(R.id.meeting_participants_btn)
     void addChip() {
-        mParticipants.add(mEditParticipants.getText().toString().trim());
-        final Chip chip = new Chip(Objects.requireNonNull(getContext()));
-        ChipDrawable chipDrawable = ChipDrawable.createFromResource(getContext(), R.xml.item_chip_participant);
-        chip.setChipDrawable(chipDrawable);
-        chip.setText(mEditParticipants.getText());
-        chip.setOnCloseIconClickListener(v -> {
-            mListParticipants.removeView(chip);
-            int pos = mParticipants.indexOf(chip.getText().toString());
-            if (pos >= 0) mParticipants.remove(pos);
-        });
-        chip.setElevation(10.0f);
-        mListParticipants.addView(chip);
+        if (!mEditParticipants.getText().toString().trim().equals("")){
+            mParticipants.add(mEditParticipants.getText().toString().trim());
+            final Chip chip = new Chip(Objects.requireNonNull(getContext()));
+            ChipDrawable chipDrawable = ChipDrawable.createFromResource(getContext(), R.xml.item_chip_participant);
+            chip.setChipDrawable(chipDrawable);
+            chip.setText(mEditParticipants.getText());
+            chip.setOnCloseIconClickListener(v -> {
+                mListParticipants.removeView(chip);
+                int pos = mParticipants.indexOf(chip.getText().toString());
+                if (pos >= 0) mParticipants.remove(pos);
+            });
+            chip.setElevation(10.0f);
+            mListParticipants.addView(chip);
+        }
         mEditParticipants.setText("");
     }
 
@@ -242,21 +244,23 @@ public class AddNewMeetingDialog extends DialogFragment {
 
         StringBuilder message = new StringBuilder();
         if (mAddMeetingTitle.getText().toString().equals("")) { message.append(" sujet");}
-        if (mDate.equals("")) { message.append(message.length() == 0 ? " date" : " ,date"); }
+        if (mDate.equals("")) { message.append(message.length() == 0 ? " date" : ", date"); }
         if (mFromHour.equals("l'heur")) {
-            message.append(message.length() == 0 ? " le début" : " ,le début");
+            message.append(message.length() == 0 ? " le début" : ", le début");
         }
         if (mToHour.equals("l'heur")) {
-            message.append(message.length() == 0 ? " la fin" : " ,la fin");
+            message.append(message.length() == 0 ? " la fin" : ", la fin");
         }
         if (mHall.equals("hall_0")) {
-            message.append(message.length() == 0 ? " la salle" : " ,la salle");
+            message.append(message.length() == 0 ? " la salle" : ", la salle");
         }
         if (mParticipants.size() <= 1) {
-            message.append(message.length() == 0 ? " les participants" : " ,les participants");
+            message.append(message.length() == 0 ? " les participants" : ", les participants");
         }
-        if (mFromHour.equals(mToHour)) Tools.showSnackBar(1,mCoordinatorLayout,Constants.WARNING_SAME_HOURS);
-        else if (message.length() != 0) Tools.showSnackBar(1, mCoordinatorLayout, "Il manque: " + message+ ".");
+        if (!mFromHour.equals("l'heur") && !mToHour.equals("l'heur") && mFromHour.equals(mToHour))
+            Tools.showSnackBar(1,mCoordinatorLayout,Constants.WARNING_SAME_HOURS);
+        else if (message.length() != 0)
+            Tools.showSnackBar(1, mCoordinatorLayout, "Il manque: " + message+ ".");
         else createMeeting();
     }
 
