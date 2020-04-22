@@ -2,11 +2,11 @@
 
 
 This project was generated with :
-* [Android Studio](https://developer.android.com/studio) 3.6.1 ([Install](https://developer.android.com/studio/install) it if You need.)
+* [Android Studio](https://developer.android.com/studio) 3.6.2 ([Install](https://developer.android.com/studio/install) it if You need.)
 * [Gradle](https://gradle.org/) version 5.6.4
 * [Gradle plugin]() version 3.6.1
 (You can check [on this link the compatibility](https://developer.android.com/studio/releases/gradle-plugin.html#updating-gradle) between Gradle and Gradle plugin). 
-* You can find the remote repository at this address [https://github.com/Pamento/P3_grzesik_pawel](https://github.com/Pamento/P3_grzesik_pawel)
+* You can find the remote repository at this address [https://github.com/Pamento/P4_grzesik_pawel](https://github.com/Pamento/P4_grzesik_pawel)
 
 ## Get the project on your computer ...
 
