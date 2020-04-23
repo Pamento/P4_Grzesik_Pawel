@@ -53,7 +53,7 @@ public abstract class Resources {
     }
 
     private static List<Hour> HOUR_LIST = Arrays.asList(
-            new Hour("l'heur"),
+            new Hour("l'heure"),
             new Hour("08:00"),
             new Hour("08:15"),
             new Hour("08:30"),
