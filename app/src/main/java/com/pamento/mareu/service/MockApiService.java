@@ -49,11 +49,15 @@ public class MockApiService implements ApiService {
     @Override
     public List<Meeting> getMeetingsForOneDay(String date) {
         if (mMeetingsByHall != null) {
-            return mMeetingsByHall.stream()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                return mMeetingsByHall.stream()
+                        .filter(Meeting -> date.equals(Meeting.getDate())).collect(Collectors.toList());
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mMeetingsByDate = mMeetings.stream()
                     .filter(Meeting -> date.equals(Meeting.getDate())).collect(Collectors.toList());
         }
-        mMeetingsByDate = mMeetings.stream()
-                .filter(Meeting -> date.equals(Meeting.getDate())).collect(Collectors.toList());
         return mMeetingsByDate;
     }
 
