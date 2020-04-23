@@ -5,11 +5,9 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.pamento.mareu.model.Meeting;
-import com.pamento.mareu.utils.FilterMeetingBy;
+import com.pamento.mareu.utils.FilterMeeting;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.pamento.mareu.service.Resources.mockingMeetings;
 
@@ -51,36 +49,11 @@ public class MockApiService implements ApiService {
     @Override
     public List<Meeting> getMeetingsForOneDay(String date) {
         if (mMeetingsByHall != null) {
-            mMeetingsByHall = FilterMeetingBy.byValue(mMeetingsByHall,date);
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                return mMeetingsByHall.stream()
-//                        .filter(Meeting -> date.equals(Meeting.getDate())).collect(Collectors.toList());
-//            } else {
-//                List<Meeting> result = new ArrayList<>();
-//                for (Meeting meeting : mMeetingsByHall) {
-//                    if (meeting.getDate().equals(date)) {
-//                        result.add(meeting);
-//                    }
-//                }
-//                mMeetingsByHall = result;
-//            }
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                mMeetingsByDate = mMeetings.stream()
-                        .filter(Meeting -> date.equals(Meeting.getDate())).collect(Collectors.toList());
-            }
-
+            mMeetingsByDate = FilterMeeting.byValue(mMeetingsByHall, date);
+            return mMeetingsByDate;
         }
-        //else {
-            List<Meeting> result = new ArrayList<>();
-            for (Meeting meeting : mMeetings) {
-                if (meeting.getDate().equals(date)) {
-                    result.add(meeting);
-                }
-            }
-            mMeetingsByDate = result;
-
-        //}
+        else
+            mMeetingsByDate = FilterMeeting.byValue(mMeetings, date);
         return mMeetingsByDate;
     }
 
@@ -88,34 +61,11 @@ public class MockApiService implements ApiService {
     @Override
     public List<Meeting> getMeetingsForOneHall(String hallName) {
         if (mMeetingsByDate != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                return mMeetingsByDate.stream().filter(Meeting -> hallName.equals(Meeting.getHall())).collect(Collectors.toList());
-
-            } else {
-
-                List<Meeting> result = new ArrayList<>();
-                for (Meeting meeting : mMeetingsByDate) {
-                    if (meeting.getHall().equals(hallName)) {
-                        result.add(meeting);
-                    }
-                }
-                mMeetingsByDate = result;
-            }
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                mMeetingsByHall = mMeetings.stream().filter(Meeting -> hallName.equals(Meeting.getHall())).collect(Collectors.toList());
-
-            } else {
-
-                List<Meeting> result = new ArrayList<>();
-                for (Meeting meeting : mMeetings) {
-                    if (meeting.getHall().equals(hallName)) {
-                        result.add(meeting);
-                    }
-                }
-                mMeetingsByHall = result;
-            }
+            mMeetingsByHall = FilterMeeting.byValue(mMeetingsByDate, hallName);
+            return mMeetingsByHall;
         }
+        else
+            mMeetingsByHall = FilterMeeting.byValue(mMeetings, hallName);
         return mMeetingsByHall;
     }
 }
