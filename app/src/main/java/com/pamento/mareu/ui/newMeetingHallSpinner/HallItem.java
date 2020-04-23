@@ -1,4 +1,4 @@
-package com.pamento.mareu.utils.newMeetingHallSpinner;
+package com.pamento.mareu.ui.newMeetingHallSpinner;
 
 public class HallItem {
     private int mHallImage;

@@ -9,6 +9,7 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.pamento.mareu.di.DI;
 import com.pamento.mareu.service.ApiService;
+import com.pamento.mareu.ui.ListMeetingActivity;
 
 import org.junit.Before;
 import org.junit.Rule;

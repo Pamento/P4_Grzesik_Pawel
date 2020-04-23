@@ -1,4 +1,4 @@
-package com.pamento.mareu.utils;
+package com.pamento.mareu.ui;
 
 import android.view.View;
 import android.widget.ImageButton;

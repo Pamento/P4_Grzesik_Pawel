@@ -5,9 +5,9 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.pamento.mareu.model.Meeting;
+import com.pamento.mareu.utils.FilterMeeting;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.pamento.mareu.service.Resources.mockingMeetings;
 
@@ -49,11 +49,11 @@ public class MockApiService implements ApiService {
     @Override
     public List<Meeting> getMeetingsForOneDay(String date) {
         if (mMeetingsByHall != null) {
-            return mMeetingsByHall.stream()
-                    .filter(Meeting -> date.equals(Meeting.getDate())).collect(Collectors.toList());
+            mMeetingsByDate = FilterMeeting.byValue(mMeetingsByHall, date);
+            return mMeetingsByDate;
         }
-        mMeetingsByDate = mMeetings.stream()
-                .filter(Meeting -> date.equals(Meeting.getDate())).collect(Collectors.toList());
+        else
+            mMeetingsByDate = FilterMeeting.byValue(mMeetings, date);
         return mMeetingsByDate;
     }
 
@@ -61,10 +61,11 @@ public class MockApiService implements ApiService {
     @Override
     public List<Meeting> getMeetingsForOneHall(String hallName) {
         if (mMeetingsByDate != null) {
-            return mMeetingsByDate.stream().filter(Meeting -> hallName.equals(Meeting.getHall())).collect(Collectors.toList());
-        } else {
-            mMeetingsByHall = mMeetings.stream().filter(Meeting -> hallName.equals(Meeting.getHall())).collect(Collectors.toList());
+            mMeetingsByHall = FilterMeeting.byValue(mMeetingsByDate, hallName);
+            return mMeetingsByHall;
         }
+        else
+            mMeetingsByHall = FilterMeeting.byValue(mMeetings, hallName);
         return mMeetingsByHall;
     }
 }

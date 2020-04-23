@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="@dimen/sDistance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/meeting_add_cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/sDistance"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/sDistance"
+                android:src="@drawable/ic_close_white_24dp"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/mDistance"
+                android:layout_marginTop="@dimen/addMeeting_toolbar_top"
+                android:layout_marginEnd="@dimen/mDistance"
+                android:layout_marginBottom="@dimen/mDistance"
+                android:layout_toStartOf="@+id/meeting_add_create_btn"
+                android:layout_toEndOf="@id/meeting_add_cancel_btn"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/bText" />
+
+            <ImageButton
+                android:id="@+id/meeting_add_create_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/sDistance"
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/sDistance"
+                android:src="@drawable/ic_check_white_24dp"
+                android:textColor="@android:color/white"
+                android:contentDescription="@string/app_name" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
+        android:fillViewport="true">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/sDistance"
+            android:layout_marginTop="@dimen/sDistance"
+            android:layout_marginEnd="@dimen/sDistance"
+            android:layout_marginBottom="@dimen/sDistance"
+            app:cardCornerRadius="@dimen/sDistance"
+            app:cardElevation="@dimen/mElevation">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_L"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/meeting_card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mDistance"
+                    android:layout_marginBottom="@dimen/mDistance"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/meeting_card_title"
+                    android:textColor="@color/carbonGray"
+                    android:textSize="@dimen/bText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/sDistance"
+                    android:background="@color/colorPrimaryDark"
+                    app:layout_constraintTop_toBottomOf="@+id/meeting_card_title" />
+
+                <EditText
+                    android:id="@+id/meeting_add_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/mDistance"
+                    android:layout_marginTop="@dimen/bDistance"
+                    android:layout_marginEnd="@dimen/mDistance"
+                    android:autofillHints="nothing"
+                    android:hint="@string/meeting_title"
+                    android:inputType="text"
+                    android:textSize="@dimen/bText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_date_hour_hall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="400dp"
+                    android:layout_marginStart="@dimen/mDistance"
+                    android:layout_marginTop="@dimen/lDistance"
+                    android:layout_marginEnd="@dimen/mDistance"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/meeting_add_title">
+
+                    <TextView
+                        android:id="@+id/text_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/meeting_date"
+                        android:textColor="@color/carbonGray"
+                        app:layout_constraintBottom_toTopOf="@+id/meeting_add_date"
+                        app:layout_constraintStart_toStartOf="@+id/meeting_add_date"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/meeting_add_date"
+                        style="@android:style/Widget.Holo.Light.Spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/mDistance"
+                        android:layout_marginStart="@dimen/mDistance"
+                        android:hint="@string/meeting_date"
+                        android:paddingTop="@dimen/sDistance"
+                        android:paddingBottom="@dimen/sDistance"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/mText"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_date" />
+
+                    <TextView
+                        android:id="@+id/text_hour_from"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/bDistance"
+                        android:layout_marginStart="@dimen/mDistance"
+                        android:text="@string/meeting_hour_from"
+                        android:textColor="@color/carbonGray"
+                        app:layout_constraintBottom_toTopOf="@+id/meeting_add_hour_start"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/meeting_add_date" />
+
+                    <Spinner
+                        android:id="@+id/meeting_add_hour_start"
+                        style="@android:style/Widget.Holo.Light.Spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/meeting_hint_hour_from"
+                        android:textSize="@dimen/mText"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/meeting_add_hour_end"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/text_hour_to"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/bDistance"
+                        android:layout_marginStart="@dimen/mDistance"
+                        android:text="@string/meeting_hour_to"
+                        android:textColor="@color/carbonGray"
+                        app:layout_constraintBottom_toTopOf="@+id/meeting_add_hour_end"
+                        app:layout_constraintStart_toStartOf="@+id/meeting_add_hour_end"
+                        app:layout_constraintTop_toBottomOf="@+id/meeting_add_date" />
+
+                    <Spinner
+                        android:id="@+id/meeting_add_hour_end"
+                        style="@android:style/Widget.Holo.Light.Spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/meeting_hint_hour_to"
+                        android:textSize="@dimen/mText"
+                        app:layout_constraintBottom_toBottomOf="@+id/meeting_add_hour_start"
+                        app:layout_constraintStart_toEndOf="@+id/meeting_add_hour_start" />
+
+
+                    <TextView
+                        android:id="@+id/text_hall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/mDistance"
+                        android:text="@string/meeting_hall"
+                        android:textColor="@color/carbonGray"
+                        app:layout_constraintStart_toStartOf="@+id/meeting_add_hall"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Spinner
+                        android:id="@+id/meeting_add_hall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="@dimen/sText"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <TextView
+                    android:id="@+id/text_participants"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tDistance"
+                    android:layout_marginTop="@dimen/lDistance"
+                    android:text="@string/meeting_participants"
+                    android:textColor="@color/carbonGray"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_date_hour_hall"
+                    app:layout_constraintBottom_toTopOf="@+id/meeting_add_participants_edit"
+                    app:layout_constraintStart_toStartOf="@+id/meeting_add_participants_edit" />
+
+                <EditText
+                    android:id="@+id/meeting_add_participants_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/mDistance"
+                    android:hint="@string/meeting_hint_participants"
+                    android:textSize="@dimen/mText"
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionDone"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toStartOf="@+id/meeting_participants_btn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_participants"
+                    android:autofillHints="false" />
+
+                <ImageButton
+                    android:id="@+id/meeting_participants_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/mDistance"
+                    android:layout_marginEnd="@dimen/mDistance"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/white"
+                    android:padding="@dimen/tDistance"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_add_circle_red_36dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/meeting_add_participants_edit"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/meeting_add_participants_edit"
+                    android:contentDescription="@string/app_name" />
+
+                <LinearLayout
+                    android:id="@+id/meeting_participants_L"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/participants_height_layout"
+                    android:layout_marginBottom="@dimen/bDistance"
+                    android:paddingBottom="@dimen/mDistance"
+                    android:orientation="vertical"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/meeting_add_participants_edit">
+
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/mDistance"
+                        android:layout_marginEnd="@dimen/mDistance" >
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/meeting_list_participants"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/sDistance"
+                            android:paddingEnd="@dimen/sDistance"
+                            android:gravity="start|top" />
+
+                    </androidx.core.widget.NestedScrollView>
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

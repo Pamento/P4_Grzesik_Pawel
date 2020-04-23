@@ -12,8 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
-import com.pamento.mareu.ListMeetingActivity;
-
 import java.util.Calendar;
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package com.pamento.mareu.utils;
+package com.pamento.mareu.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.pamento.mareu.R;
 import com.pamento.mareu.events.DeleteMeetingEvent;
 import com.pamento.mareu.model.Meeting;
+import com.pamento.mareu.utils.Tools;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -23,7 +24,7 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
     private List<Meeting> mMeetings;
     private Context mContext;
 
-    public MeetingsRecyclerViewAdapter(List<Meeting> meetings, Context context) {
+    MeetingsRecyclerViewAdapter(List<Meeting> meetings, Context context) {
         mMeetings = meetings;
         mContext = context;
     }
