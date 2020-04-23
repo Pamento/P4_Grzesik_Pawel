@@ -1,4 +1,4 @@
-package com.pamento.mareu;
+package com.pamento.mareu.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,15 +13,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.pamento.mareu.R;
 import com.pamento.mareu.di.DI;
 import com.pamento.mareu.events.DeleteMeetingEvent;
 import com.pamento.mareu.events.RefreshRecyclerView;
 import com.pamento.mareu.model.Meeting;
 import com.pamento.mareu.service.ApiService;
-import com.pamento.mareu.ui.AddNewMeetingDialog;
-import com.pamento.mareu.ui.DatePickerFragment;
 import com.pamento.mareu.utils.Constants;
-import com.pamento.mareu.utils.MeetingsRecyclerViewAdapter;
 import com.pamento.mareu.utils.Tools;
 
 import org.greenrobot.eventbus.EventBus;
@@ -148,7 +146,7 @@ public class ListMeetingActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_list_meeting_fab)
     void addMeeting() {
-        AddNewMeetingDialog addMeeting = AddNewMeetingDialog.newInstance(Constants.ADD_MEETING);
+        AddNewMeetingDialog addMeeting = AddNewMeetingDialog.newInstance();
         addMeeting.show(getSupportFragmentManager(), Constants.NEW_MEETING);
     }
 

@@ -31,10 +31,10 @@ import com.pamento.mareu.service.ApiService;
 import com.pamento.mareu.service.Resources;
 import com.pamento.mareu.utils.Constants;
 import com.pamento.mareu.utils.Tools;
-import com.pamento.mareu.utils.newMeetingHallSpinner.HallItem;
-import com.pamento.mareu.utils.newMeetingHallSpinner.HallSpinnerAdapter;
-import com.pamento.mareu.utils.newMeetingHourSpinner.Hour;
-import com.pamento.mareu.utils.newMeetingHourSpinner.HourSpinnerAdapter;
+import com.pamento.mareu.ui.newMeetingHallSpinner.HallItem;
+import com.pamento.mareu.ui.newMeetingHallSpinner.HallSpinnerAdapter;
+import com.pamento.mareu.ui.newMeetingHourSpinner.Hour;
+import com.pamento.mareu.ui.newMeetingHourSpinner.HourSpinnerAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -67,10 +67,10 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     public AddNewMeetingDialog() { }// REQUIRED EMPTY CONSTRUCTOR
 
-    public static AddNewMeetingDialog newInstance(String title) {
+    static AddNewMeetingDialog newInstance() {
         AddNewMeetingDialog frag = new AddNewMeetingDialog();
         Bundle args = new Bundle();
-        args.putString("title", title);
+        args.putString("title", Constants.ADD_MEETING);
         frag.setArguments(args);
         return frag;
     }

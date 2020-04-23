@@ -12,6 +12,7 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.pamento.mareu.di.DI;
 import com.pamento.mareu.service.ApiService;
+import com.pamento.mareu.ui.ListMeetingActivity;
 import com.pamento.mareu.utils.DeleteViewAction;
 
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package com.pamento.mareu.utils.newMeetingHourSpinner;
+package com.pamento.mareu.ui.newMeetingHourSpinner;
 
 public class Hour {
     private String mHour;

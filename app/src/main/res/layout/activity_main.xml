@@ -5,7 +5,7 @@
     android:id="@+id/wholeView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListMeetingActivity">
+    tools:context=".ui.ListMeetingActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/activity_main_app_bar_layout"

@@ -2,8 +2,8 @@ package com.pamento.mareu.service;
 
 import com.pamento.mareu.R;
 import com.pamento.mareu.model.Meeting;
-import com.pamento.mareu.utils.newMeetingHallSpinner.HallItem;
-import com.pamento.mareu.utils.newMeetingHourSpinner.Hour;
+import com.pamento.mareu.ui.newMeetingHallSpinner.HallItem;
+import com.pamento.mareu.ui.newMeetingHourSpinner.Hour;
 
 import java.util.ArrayList;
 import java.util.Arrays;
