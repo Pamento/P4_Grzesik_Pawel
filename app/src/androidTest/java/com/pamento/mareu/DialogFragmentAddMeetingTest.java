@@ -23,11 +23,13 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.pamento.mareu.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.junit.Assert.assertThat;
 
@@ -70,9 +72,11 @@ public class DialogFragmentAddMeetingTest {
         // 3. Set hours start
         onView(withId(R.id.meeting_add_hour_start)).perform(ViewActions.click());
         onData(anything()).inRoot(RootMatchers.isPlatformPopup()).atPosition(1).perform(ViewActions.click());
+        onView(allOf(withId(R.id.spinner_display_hour), withText("08:00"))).check(matches(isDisplayed()));
         // 4. Set hours end
         onView(withId(R.id.meeting_add_hour_end)).perform(ViewActions.click());
         onData(anything()).inRoot(RootMatchers.isPlatformPopup()).atPosition(2).perform(ViewActions.click());
+        onView(allOf(withId(R.id.spinner_display_hour), withText("08:15"))).check(matches(isDisplayed()));
         // 5. Set hall
         onView(withId(R.id.meeting_add_hall)).perform(ViewActions.click());
         onData(anything()).inRoot(RootMatchers.isPlatformPopup()).atPosition(1).perform(ViewActions.click());
