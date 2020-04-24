@@ -45,7 +45,6 @@ public class MockApiService implements ApiService {
         mMeetings.add(meeting);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public List<Meeting> getMeetingsForOneDay(String date) {
         if (mMeetingsByHall != null) {
@@ -57,7 +56,6 @@ public class MockApiService implements ApiService {
         return mMeetingsByDate;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public List<Meeting> getMeetingsForOneHall(String hallName) {
         if (mMeetingsByDate != null) {
