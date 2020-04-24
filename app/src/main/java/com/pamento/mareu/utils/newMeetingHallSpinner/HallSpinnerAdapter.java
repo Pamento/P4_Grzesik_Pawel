@@ -43,9 +43,10 @@ public class HallSpinnerAdapter extends ArrayAdapter<HallItem> {
         ImageView mImageHall = convertView.findViewById(R.id.spinner_image_hall);
 
         HallItem currentHall = getItem(position);
-
         if (currentHall != null) {
+            String tagName = currentHall.getHallName();
             mImageHall.setImageResource(currentHall.getHallImage());
+            mImageHall.setTag(tagName);
         }
         return convertView;
     }
