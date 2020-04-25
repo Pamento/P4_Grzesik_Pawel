@@ -28,6 +28,8 @@ public class Meeting {
     /** List of participants */
     private List<String> participants;
 
+    public Meeting() { }
+
     public Meeting(long id, String title, String date, String hourStart, String hourEnd, String hall, List<String> participants) {
         this.id = id;
         this.title = title;

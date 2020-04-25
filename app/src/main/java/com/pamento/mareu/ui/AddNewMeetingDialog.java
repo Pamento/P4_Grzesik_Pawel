@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,7 +28,6 @@ import com.google.android.material.chip.ChipGroup;
 import com.pamento.mareu.R;
 import com.pamento.mareu.di.DI;
 import com.pamento.mareu.events.RefreshRecyclerView;
-import com.pamento.mareu.model.Meeting;
 import com.pamento.mareu.service.ApiService;
 import com.pamento.mareu.service.Resources;
 import com.pamento.mareu.utils.Constants;
@@ -72,7 +73,6 @@ public class AddNewMeetingDialog extends DialogFragment {
     private ApiService mApiService;
     private Context mContext;
     private boolean isLargeLayout;
-    private String mHall = "", mFromHour = "", mToHour = "", mDate = "";
     private List<String> mParticipants = new ArrayList<>();
 
     public AddNewMeetingDialog() {
@@ -113,6 +113,7 @@ public class AddNewMeetingDialog extends DialogFragment {
         configureHallPikerSpinner();
         configureHourPickerSpinner();
         configureHourEndPickerSpinner();
+        mEditParticipants.setOnEditorActionListener(editorListener);
     }
 
     @Override
@@ -163,7 +164,7 @@ public class AddNewMeetingDialog extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 HallItem clickedHall = (HallItem) parent.getItemAtPosition(position);
-                mHall = clickedHall.getHallName();
+                Tools.meeting.setHall(clickedHall.getHallName());
             }
 
             @Override
@@ -179,7 +180,7 @@ public class AddNewMeetingDialog extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Hour clickedHoursRow = (Hour) parent.getItemAtPosition(position);
-                mFromHour = clickedHoursRow.getHour();
+                Tools.meeting.setHourStart(clickedHoursRow.getHour());
             }
 
             @Override
@@ -195,7 +196,7 @@ public class AddNewMeetingDialog extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Hour clickedHoursRow = (Hour) parent.getItemAtPosition(position);
-                mToHour = clickedHoursRow.getHour();
+                Tools.meeting.setHourEnd(clickedHoursRow.getHour());
             }
 
             @Override
@@ -243,7 +244,7 @@ public class AddNewMeetingDialog extends DialogFragment {
             String sDate = data != null ? data.getStringExtra(Constants.EXTRA_DATE_PICKER_DIALOG) : null;
             if (sDate != null) mAddMeetingDate.setText(sDate);
             else Tools.showSnackBar(0, mCoordinatorLayout, Constants.ERROR_MESSAGE);
-            mDate = sDate;
+            Tools.meeting.setDate(sDate);
         }
     }
 
@@ -253,54 +254,28 @@ public class AddNewMeetingDialog extends DialogFragment {
         return intent;
     }
 
+    private TextView.OnEditorActionListener editorListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (Tools.editParticipant(mCoordinatorLayout, mEditParticipants.getText().toString().trim()))
+                    mParticipants.add(mEditParticipants.getText().toString().trim());
+                return true;
+            }
+            return false;
+        }
+    };
+
     @OnClick(R.id.meeting_add_create_btn)
     void checkRequiredFormFields() {
-        // recover last participant written by the user in EditText and not submit
-        if (!mEditParticipants.getText().toString().trim().equals(""))
-            if (Tools.isEmailValid(mEditParticipants.getText().toString())) {
-                if (!mParticipants.contains(mEditParticipants.getText().toString().trim()))
-                    mParticipants.add(mEditParticipants.getText().toString().trim());
-            } else {
-                Tools.showSnackBar(1, mCoordinatorLayout, Constants.ERROR_INVALID_EMAIL);
-            }
-
-        StringBuilder message = new StringBuilder();
-        if (mAddMeetingTitle.getText().toString().equals("")) {
-            message.append(" sujet");
-        }
-        if (mDate.equals("")) {
-            message.append(message.length() == 0 ? " date" : ", date");
-        }
-        if (mFromHour.equals("l'heure")) {
-            message.append(message.length() == 0 ? " le début" : ", le début");
-        }
-        if (mToHour.equals("l'heure")) {
-            message.append(message.length() == 0 ? " la fin" : ", la fin");
-        }
-        if (mHall.equals("hall_0")) {
-            message.append(message.length() == 0 ? " la salle" : ", la salle");
-        }
-        if (mParticipants.size() <= 1) {
-            message.append(message.length() == 0 ? " les participants" : ", les participants");
-        }
-        if (!mFromHour.equals("l'heure") && !mToHour.equals("l'heure") && mFromHour.equals(mToHour))
-            Tools.showSnackBar(1, mCoordinatorLayout, Constants.WARNING_SAME_HOURS);
-        else if (message.length() != 0)
-            Tools.showSnackBar(1, mCoordinatorLayout, "Il manque: " + message + ".");
-        else createMeeting();
+        String participantInput = mEditParticipants.getText().toString().trim();
+        if (Tools.isFormValid(mCoordinatorLayout,participantInput))
+            createMeeting();
     }
 
     private void createMeeting() {
-        Meeting meeting = new Meeting(
-                System.currentTimeMillis(),
-                mAddMeetingTitle.getText().toString(),
-                mDate,
-                mFromHour,
-                mToHour,
-                mHall,
-                mParticipants
-        );
-        mApiService.createMeeting(meeting);
+        Tools.meeting.setParticipants(mParticipants);
+        mApiService.createMeeting(Tools.meeting);
         EventBus.getDefault().post(new RefreshRecyclerView(0));
         Tools.showSnackBar(0, mCoordinatorLayout, Constants.SUCCESS_ADD_MEETING);
         cancelDialog();
