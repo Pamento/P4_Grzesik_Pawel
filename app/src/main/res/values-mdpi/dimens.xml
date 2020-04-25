@@ -9,21 +9,22 @@
     <dimen name="lDistance">32dp</dimen>
 
     <!-- Text -->
-    <dimen name="tText">8sp</dimen>
-    <dimen name="sText">14sp</dimen>
-    <dimen name="mText">16sp</dimen>
-    <dimen name="bText">22sp</dimen>
-    <dimen name="lText">24sp</dimen>
+    <dimen name="tText">6sp</dimen>
+    <dimen name="sText">12sp</dimen>
+    <dimen name="mText">14sp</dimen>
+    <dimen name="bText">20sp</dimen>
+    <dimen name="lText">22sp</dimen>
 
     <!-- item_spinner_hall -->
     <dimen name="img_square">96dp</dimen>
 
-    <!-- Dimens for different image and element -->
+    <!-- Dimens for different image and element -8 -->
+    <dimen name="avatar_margin_horizontal">24dp</dimen>
     <dimen name="fab_margin">42dp</dimen>
     <dimen name="fab_ic_size">32dp</dimen>
-    <dimen name="avatar">64dp</dimen>
+    <dimen name="avatar">60dp</dimen>
     <dimen name="addMeeting_toolbar_top">14dp</dimen>
-    <dimen name="sElevation">6dp</dimen>
-    <dimen name="mElevation">10dp</dimen>
+    <dimen name="sElevation">4dp</dimen>
+    <dimen name="mElevation">8dp</dimen>
     <dimen name="participants_height_layout">50dp</dimen>
 </resources>
