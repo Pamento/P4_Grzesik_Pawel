@@ -72,12 +72,14 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsVi
             if (participantsIsVisible[0]) {
                 holder.mMeetingParticipants.setVisibility(View.GONE);
                 holder.mMeetingParticipantsCollapsible
-                        .setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_black_24dp, 0);
+                        .setCompoundDrawablesRelativeWithIntrinsicBounds(
+                                0, 0, R.drawable.ic_arrow_drop_down_black_24dp, 0);
                 participantsIsVisible[0] = false;
             } else {
                 holder.mMeetingParticipants.setVisibility(View.VISIBLE);
                 holder.mMeetingParticipantsCollapsible
-                        .setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_up_black_24dp, 0);
+                        .setCompoundDrawablesRelativeWithIntrinsicBounds(
+                                0, 0, R.drawable.ic_arrow_drop_up_black_24dp, 0);
                 participantsIsVisible[0] = true;
             }
         });

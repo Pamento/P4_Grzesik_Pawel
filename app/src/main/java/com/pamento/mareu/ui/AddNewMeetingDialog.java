@@ -48,16 +48,26 @@ import butterknife.OnClick;
 
 public class AddNewMeetingDialog extends DialogFragment {
 
-    @BindView(R.id.coordinatorLayout) CoordinatorLayout mCoordinatorLayout;
-    @BindView(R.id.meeting_add_cancel_btn) ImageButton mCancel;
-    @BindView(R.id.meeting_add_create_btn) ImageButton mSave;
-    @BindView(R.id.meeting_add_title) EditText mAddMeetingTitle;
-    @BindView(R.id.meeting_add_date) TextView mAddMeetingDate;
-    @BindView(R.id.meeting_add_hour_start) Spinner mAddMeetingHourStart;
-    @BindView(R.id.meeting_add_hour_end) Spinner mAddMeetingHourEnd;
-    @BindView(R.id.meeting_add_hall) Spinner mAddMeetingHall;
-    @BindView(R.id.meeting_add_participants_edit) EditText mEditParticipants;
-    @BindView(R.id.meeting_list_participants) ChipGroup mListParticipants;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.meeting_add_cancel_btn)
+    ImageButton mCancel;
+    @BindView(R.id.meeting_add_create_btn)
+    ImageButton mSave;
+    @BindView(R.id.meeting_add_title)
+    EditText mAddMeetingTitle;
+    @BindView(R.id.meeting_add_date)
+    TextView mAddMeetingDate;
+    @BindView(R.id.meeting_add_hour_start)
+    Spinner mAddMeetingHourStart;
+    @BindView(R.id.meeting_add_hour_end)
+    Spinner mAddMeetingHourEnd;
+    @BindView(R.id.meeting_add_hall)
+    Spinner mAddMeetingHall;
+    @BindView(R.id.meeting_add_participants_edit)
+    EditText mEditParticipants;
+    @BindView(R.id.meeting_list_participants)
+    ChipGroup mListParticipants;
 
     private ApiService mApiService;
     private Context mContext;
@@ -65,7 +75,8 @@ public class AddNewMeetingDialog extends DialogFragment {
     private String mHall = "", mFromHour = "", mToHour = "", mDate = "";
     private List<String> mParticipants = new ArrayList<>();
 
-    public AddNewMeetingDialog() { }// REQUIRED EMPTY CONSTRUCTOR
+    public AddNewMeetingDialog() {
+    }// REQUIRED EMPTY CONSTRUCTOR
 
     static AddNewMeetingDialog newInstance() {
         AddNewMeetingDialog frag = new AddNewMeetingDialog();
@@ -154,6 +165,7 @@ public class AddNewMeetingDialog extends DialogFragment {
                 HallItem clickedHall = (HallItem) parent.getItemAtPosition(position);
                 mHall = clickedHall.getHallName();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) { /**/ }
         });
@@ -169,6 +181,7 @@ public class AddNewMeetingDialog extends DialogFragment {
                 Hour clickedHoursRow = (Hour) parent.getItemAtPosition(position);
                 mFromHour = clickedHoursRow.getHour();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) { /**/ }
         });
@@ -184,6 +197,7 @@ public class AddNewMeetingDialog extends DialogFragment {
                 Hour clickedHoursRow = (Hour) parent.getItemAtPosition(position);
                 mToHour = clickedHoursRow.getHour();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) { /**/ }
         });
@@ -191,19 +205,23 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     @OnClick(R.id.meeting_participants_btn)
     void addChip() {
-        if (!mEditParticipants.getText().toString().trim().equals("")){
-            mParticipants.add(mEditParticipants.getText().toString().trim());
-            final Chip chip = new Chip(Objects.requireNonNull(getContext()));
-            ChipDrawable chipDrawable = ChipDrawable.createFromResource(getContext(), R.xml.item_chip_participant);
-            chip.setChipDrawable(chipDrawable);
-            chip.setText(mEditParticipants.getText());
-            chip.setOnCloseIconClickListener(v -> {
-                mListParticipants.removeView(chip);
-                int pos = mParticipants.indexOf(chip.getText().toString());
-                if (pos >= 0) mParticipants.remove(pos);
-            });
-            chip.setElevation(4.0f);
-            mListParticipants.addView(chip);
+        if (!mEditParticipants.getText().toString().trim().equals("")) {
+            if (Tools.isEmailValid(mEditParticipants.getText().toString())) {
+                mParticipants.add(mEditParticipants.getText().toString().trim());
+                final Chip chip = new Chip(Objects.requireNonNull(getContext()));
+                ChipDrawable chipDrawable = ChipDrawable.createFromResource(getContext(), R.xml.item_chip_participant);
+                chip.setChipDrawable(chipDrawable);
+                chip.setText(mEditParticipants.getText());
+                chip.setOnCloseIconClickListener(v -> {
+                    mListParticipants.removeView(chip);
+                    int pos = mParticipants.indexOf(chip.getText().toString());
+                    if (pos >= 0) mParticipants.remove(pos);
+                });
+                chip.setElevation(4.0f);
+                mListParticipants.addView(chip);
+            } else {
+                Tools.showSnackBar(1, mCoordinatorLayout, Constants.ERROR_INVALID_EMAIL);
+            }
         }
         mEditParticipants.setText("");
     }
@@ -218,11 +236,13 @@ public class AddNewMeetingDialog extends DialogFragment {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (resultCode != Activity.RESULT_OK) { return; }
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
         if (requestCode == Constants.TARGET_FRAGMENT_REQUEST_CODE) {
             String sDate = data != null ? data.getStringExtra(Constants.EXTRA_DATE_PICKER_DIALOG) : null;
             if (sDate != null) mAddMeetingDate.setText(sDate);
-            else Tools.showSnackBar(0,mCoordinatorLayout,Constants.ERROR_MESSAGE);
+            else Tools.showSnackBar(0, mCoordinatorLayout, Constants.ERROR_MESSAGE);
             mDate = sDate;
         }
     }
@@ -237,12 +257,20 @@ public class AddNewMeetingDialog extends DialogFragment {
     void checkRequiredFormFields() {
         // recover last participant written by the user in EditText and not submit
         if (!mEditParticipants.getText().toString().trim().equals(""))
-            if (!mParticipants.contains(mEditParticipants.getText().toString().trim()))
-                mParticipants.add(mEditParticipants.getText().toString().trim());
+            if (Tools.isEmailValid(mEditParticipants.getText().toString())) {
+                if (!mParticipants.contains(mEditParticipants.getText().toString().trim()))
+                    mParticipants.add(mEditParticipants.getText().toString().trim());
+            } else {
+                Tools.showSnackBar(1, mCoordinatorLayout, Constants.ERROR_INVALID_EMAIL);
+            }
 
         StringBuilder message = new StringBuilder();
-        if (mAddMeetingTitle.getText().toString().equals("")) { message.append(" sujet");}
-        if (mDate.equals("")) { message.append(message.length() == 0 ? " date" : ", date"); }
+        if (mAddMeetingTitle.getText().toString().equals("")) {
+            message.append(" sujet");
+        }
+        if (mDate.equals("")) {
+            message.append(message.length() == 0 ? " date" : ", date");
+        }
         if (mFromHour.equals("l'heure")) {
             message.append(message.length() == 0 ? " le début" : ", le début");
         }
@@ -256,9 +284,9 @@ public class AddNewMeetingDialog extends DialogFragment {
             message.append(message.length() == 0 ? " les participants" : ", les participants");
         }
         if (!mFromHour.equals("l'heure") && !mToHour.equals("l'heure") && mFromHour.equals(mToHour))
-            Tools.showSnackBar(1,mCoordinatorLayout,Constants.WARNING_SAME_HOURS);
+            Tools.showSnackBar(1, mCoordinatorLayout, Constants.WARNING_SAME_HOURS);
         else if (message.length() != 0)
-            Tools.showSnackBar(1, mCoordinatorLayout, "Il manque: " + message+ ".");
+            Tools.showSnackBar(1, mCoordinatorLayout, "Il manque: " + message + ".");
         else createMeeting();
     }
 
@@ -274,7 +302,7 @@ public class AddNewMeetingDialog extends DialogFragment {
         );
         mApiService.createMeeting(meeting);
         EventBus.getDefault().post(new RefreshRecyclerView(0));
-        Tools.showSnackBar(0, mCoordinatorLayout,Constants.SUCCESS_ADD_MEETING);
+        Tools.showSnackBar(0, mCoordinatorLayout, Constants.SUCCESS_ADD_MEETING);
         cancelDialog();
     }
 }

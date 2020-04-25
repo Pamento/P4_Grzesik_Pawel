@@ -15,4 +15,5 @@ public abstract class Constants {
     public static final String SUCCESS_ADD_MEETING = "La réunion a bien été enregistrée.";
     public static final String WARNING_SAME_HOURS = "Les heures sont identiques. C'est normal?.";
     public static final String ERROR_MESSAGE = "Une erreur est survenue. Essayez à nouveau.";
+    public static final String ERROR_INVALID_EMAIL = "La forme d'e-mail n'est pas valid.";
 }

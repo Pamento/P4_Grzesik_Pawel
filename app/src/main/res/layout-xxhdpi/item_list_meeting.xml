@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_list_view_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/item_list_meeting_avatar"
+        android:layout_width="@dimen/avatar"
+        android:layout_height="@dimen/avatar"
+        android:layout_marginStart="@dimen/avatar_margin_horizontal"
+        android:layout_marginTop="@dimen/mDistance"
+        android:layout_marginEnd="@dimen/avatar_margin_horizontal"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/hall_f"
+        app:layout_constraintEnd_toStartOf="@+id/item_list_meeting_text_linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_list_meeting_hall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/sDistance"
+        android:text="@string/meeting_hall"
+        app:layout_constraintEnd_toStartOf="@+id/item_list_meeting_text_linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_list_meeting_avatar" />
+
+    <LinearLayout
+        android:id="@+id/item_list_meeting_text_linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/avatar_margin_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_list_meeting_avatar"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/item_list_meeting_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="@dimen/mDistance"
+            android:layout_marginBottom="@dimen/sDistance"
+            android:gravity="start"
+            android:textSize="@dimen/bText"
+            android:text="@string/meeting_card_title"
+            android:textStyle="bold"
+            app:autoSizeMinTextSize="@dimen/lText" />
+
+        <LinearLayout
+            android:id="@+id/item_list_meeting_date_hall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/tDistance">
+
+            <TextView
+                android:id="@+id/item_list_meeting_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/mDistance"
+                android:text="@string/meeting_hint_date" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/item_list_meeting_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/tDistance"
+                    android:text="@string/meeting_hint_hour_from" />
+                <TextView
+                    android:id="@+id/item_list_meeting_hour_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/mDistance"
+                    android:text="@string/meeting_hint_hour_to" />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item_list_meeting_participants_L"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/tDistance"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_list_meeting_participants_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/meeting_participants"
+                android:textStyle="italic"
+                android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"/>
+
+            <TextView
+                android:id="@+id/item_list_meeting_participants"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="@dimen/sDistance"
+                android:text="@string/meeting_hint_participants" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/item_list_delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/mDistance"
+        android:layout_marginEnd="@dimen/mDistance"
+        android:background="@null"
+        android:contentDescription="@string/delete_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_delete_black_24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

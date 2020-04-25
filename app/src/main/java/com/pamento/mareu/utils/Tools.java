@@ -7,6 +7,9 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import com.pamento.mareu.R;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public abstract class Tools {
 
     public static int switchMenuActions(int actionId) {
@@ -151,5 +154,20 @@ public abstract class Tools {
             Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
             snackbar.show();
         }
+    }
+
+    public static boolean isEmailValid(String email) {
+        String regExp =
+                "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                        + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                        + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                        + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+
+        Pattern pattern = Pattern.compile(regExp, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
     }
 }
