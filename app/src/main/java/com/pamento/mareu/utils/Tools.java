@@ -6,8 +6,22 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.pamento.mareu.R;
+import com.pamento.mareu.model.Meeting;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class Tools {
+
+    private static String title;
+    private static String date;
+    private static String fromHour;
+    private static String mToHour;
+    private static String mHall;
+    private static List<String> mParticipants;
 
     public static int switchMenuActions(int actionId) {
         int filterId;
@@ -150,6 +164,73 @@ public abstract class Tools {
         } else {
             Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
             snackbar.show();
+        }
+    }
+
+    public static boolean isEmailValid(String email) {
+        String regExp =
+                "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                        + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                        + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                        + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+
+        Pattern pattern = Pattern.compile(regExp, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
+    }
+
+    public static boolean editParticipant(View view, String input) {
+        if (isEmailValid(input)) {
+            if (meeting.getParticipants().contains(input))
+                meeting.setParticipants(Collections.singletonList(input));
+            return true;
+        } else {
+            Tools.showSnackBar(1, view, Constants.ERROR_INVALID_EMAIL);
+            return false;
+        }
+    }
+
+    public static Meeting meeting = new Meeting(
+            System.currentTimeMillis(),
+            title = "",
+            date = "",
+            fromHour = "",
+            mToHour = "",
+            mHall = "",
+            mParticipants = new ArrayList<>()
+    );
+
+    public static boolean isFormValid(View view) {
+        StringBuilder message = new StringBuilder();
+        if (meeting.getTitle().equals("")) {
+            message.append(" sujet");
+        }
+        if (meeting.getDate().equals("")) {
+            message.append(message.length() == 0 ? " date" : ", date");
+        }
+        if (meeting.getHourStart().equals("l'heure")) {
+            message.append(message.length() == 0 ? " le début" : ", le début");
+        }
+        if (meeting.getHourEnd().equals("l'heure")) {
+            message.append(message.length() == 0 ? " la fin" : ", la fin");
+        }
+        if (meeting.getHall().equals("hall_0")) {
+            message.append(message.length() == 0 ? " la salle" : ", la salle");
+        }
+        if (meeting.getParticipants().size() <= 1) {
+            message.append(message.length() == 0 ? " les participants" : ", les participants");
+        }
+        if (!meeting.getHourStart().equals("l'heure") && !meeting.getHourEnd().equals("l'heure") && meeting.getHourStart().equals(meeting.getHourEnd())) {
+            Tools.showSnackBar(1, view, Constants.WARNING_SAME_HOURS);
+            return false;
+        } else if (message.length() != 0) {
+            Tools.showSnackBar(1, view, "Il manque: " + message + ".");
+            return false;
+        } else {
+            return true;
         }
     }
 }
