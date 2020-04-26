@@ -203,10 +203,7 @@ public abstract class Tools {
             mParticipants = new ArrayList<>()
     );
 
-    public static boolean isFormValid(View view, String value) {
-        if (editParticipant(view, value))
-            mParticipants.add(value);
-
+    public static boolean isFormValid(View view) {
         StringBuilder message = new StringBuilder();
         if (meeting.getTitle().equals("")) {
             message.append(" sujet");

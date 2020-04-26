@@ -49,26 +49,16 @@ import butterknife.OnClick;
 
 public class AddNewMeetingDialog extends DialogFragment {
 
-    @BindView(R.id.coordinatorLayout)
-    CoordinatorLayout mCoordinatorLayout;
-    @BindView(R.id.meeting_add_cancel_btn)
-    ImageButton mCancel;
-    @BindView(R.id.meeting_add_create_btn)
-    ImageButton mSave;
-    @BindView(R.id.meeting_add_title)
-    EditText mAddMeetingTitle;
-    @BindView(R.id.meeting_add_date)
-    TextView mAddMeetingDate;
-    @BindView(R.id.meeting_add_hour_start)
-    Spinner mAddMeetingHourStart;
-    @BindView(R.id.meeting_add_hour_end)
-    Spinner mAddMeetingHourEnd;
-    @BindView(R.id.meeting_add_hall)
-    Spinner mAddMeetingHall;
-    @BindView(R.id.meeting_add_participants_edit)
-    EditText mEditParticipants;
-    @BindView(R.id.meeting_list_participants)
-    ChipGroup mListParticipants;
+    @BindView(R.id.coordinatorLayout) CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.meeting_add_cancel_btn) ImageButton mCancel;
+    @BindView(R.id.meeting_add_create_btn) ImageButton mSave;
+    @BindView(R.id.meeting_add_title) EditText mAddMeetingTitle;
+    @BindView(R.id.meeting_add_date) TextView mAddMeetingDate;
+    @BindView(R.id.meeting_add_hour_start) Spinner mAddMeetingHourStart;
+    @BindView(R.id.meeting_add_hour_end) Spinner mAddMeetingHourEnd;
+    @BindView(R.id.meeting_add_hall) Spinner mAddMeetingHall;
+    @BindView(R.id.meeting_add_participants_edit) EditText mEditParticipants;
+    @BindView(R.id.meeting_list_participants) ChipGroup mListParticipants;
 
     private ApiService mApiService;
     private Context mContext;
@@ -107,7 +97,6 @@ public class AddNewMeetingDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
         mContext = getContext();
         configureDatePickerDialog();
         configureHallPikerSpinner();
@@ -166,7 +155,6 @@ public class AddNewMeetingDialog extends DialogFragment {
                 HallItem clickedHall = (HallItem) parent.getItemAtPosition(position);
                 Tools.meeting.setHall(clickedHall.getHallName());
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) { /**/ }
         });
@@ -182,7 +170,6 @@ public class AddNewMeetingDialog extends DialogFragment {
                 Hour clickedHoursRow = (Hour) parent.getItemAtPosition(position);
                 Tools.meeting.setHourStart(clickedHoursRow.getHour());
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) { /**/ }
         });
@@ -258,8 +245,12 @@ public class AddNewMeetingDialog extends DialogFragment {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (Tools.editParticipant(mCoordinatorLayout, mEditParticipants.getText().toString().trim()))
-                    mParticipants.add(mEditParticipants.getText().toString().trim());
+                if (!mEditParticipants.getText().toString().trim().equals(""))
+                    if (!mParticipants.contains(mEditParticipants.getText().toString().trim()))
+                        if (Tools.editParticipant(mCoordinatorLayout, mEditParticipants.getText().toString().trim())){
+                            mParticipants.add(mEditParticipants.getText().toString().trim());
+                            mEditParticipants.setText("");
+                        }
                 return true;
             }
             return false;
@@ -268,13 +259,19 @@ public class AddNewMeetingDialog extends DialogFragment {
 
     @OnClick(R.id.meeting_add_create_btn)
     void checkRequiredFormFields() {
-        String participantInput = mEditParticipants.getText().toString().trim();
-        if (Tools.isFormValid(mCoordinatorLayout,participantInput))
+        if (!mEditParticipants.getText().toString().trim().equals("")) {
+            if (Tools.editParticipant(mCoordinatorLayout, mEditParticipants.getText().toString().trim()))
+                mParticipants.add(mEditParticipants.getText().toString());
+        }
+        if (!mAddMeetingTitle.getText().toString().trim().equals("")) {
+            Tools.meeting.setTitle(mAddMeetingTitle.getText().toString().trim());
+        }
+        Tools.meeting.setParticipants(mParticipants);
+        if (Tools.isFormValid(mCoordinatorLayout))
             createMeeting();
     }
 
     private void createMeeting() {
-        Tools.meeting.setParticipants(mParticipants);
         mApiService.createMeeting(Tools.meeting);
         EventBus.getDefault().post(new RefreshRecyclerView(0));
         Tools.showSnackBar(0, mCoordinatorLayout, Constants.SUCCESS_ADD_MEETING);
