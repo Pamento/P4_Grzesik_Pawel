@@ -80,7 +80,7 @@ public class DialogFragmentAddMeetingTest {
         // 5. Set hall
         onView(withId(R.id.meeting_add_hall)).perform(ViewActions.click());
         onData(anything()).inRoot(RootMatchers.isPlatformPopup()).atPosition(1).perform(ViewActions.click());
-        onView(allOf(withId(R.id.spinner_image_hall), withTagValue(is((String) "hall_a")))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.spinner_image_hall), withTagValue(is("hall_a")))).check(matches(isDisplayed()));
 //        try {
 //            Thread.sleep(500);
 //            //onView(isRoot()).wait();
